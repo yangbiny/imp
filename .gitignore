@@ -1,2 +1,4 @@
 /.idea/
 /imp.iml
+/imp-registry/target/
+/imp-server/target/

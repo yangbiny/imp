@@ -9,9 +9,9 @@ import lombok.Getter;
 public class BaseServiceConfig {
 
 
-  private ProtocolConfig protocolConfig;
+  protected ProtocolConfig protocolConfig;
 
-  private ApplicationConfig applicationConfig;
+  protected ApplicationConfig applicationConfig;
 
   public void setProtocolConfig(ProtocolConfig protocol) {
     this.protocolConfig = protocol;
