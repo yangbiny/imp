@@ -19,10 +19,15 @@ public class ImpProtocol implements Protocol {
       return;
     }
     InvokerWrapper<T> invokerWrapper = (InvokerWrapper<T>) invoker;
+    openService(invokerWrapper.getUrl());
     registry(invokerWrapper);
   }
 
-  public <T> void registry(InvokerWrapper<T> invokerWrapper) {
+  private <T> void openService(Url url) {
+
+  }
+
+  private  <T> void registry(InvokerWrapper<T> invokerWrapper) {
     final Url url = invokerWrapper.getUrl();
     if (!url.getRegister()) {
       return;
