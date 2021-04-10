@@ -1,4 +1,4 @@
-package com.impassive.imp.protocol;
+package com.impassive.imp.invoker;
 
 /** @author impassivey */
 public interface Result {

@@ -1,4 +1,6 @@
-package com.impassive.imp.protocol;
+package com.impassive.imp.proxy;
+
+import com.impassive.imp.invoker.Invoker;
 
 /** @author impassivey */
 public interface ProxyFactory {

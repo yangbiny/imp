@@ -2,13 +2,12 @@ package com.impassive.imp.api;
 
 import com.impassive.imp.config.BaseServiceConfig;
 import com.impassive.imp.protocol.ImpProtocol;
-import com.impassive.imp.protocol.Invoker;
-import com.impassive.imp.protocol.InvokerWrapper;
-import com.impassive.imp.protocol.JdkProxyFactory;
+import com.impassive.imp.invoker.Invoker;
+import com.impassive.imp.invoker.InvokerWrapper;
+import com.impassive.imp.proxy.JdkProxyFactory;
 import com.impassive.imp.protocol.Protocol;
-import com.impassive.imp.protocol.ProxyFactory;
+import com.impassive.imp.proxy.ProxyFactory;
 import com.impassive.imp.protocol.Url;
-import java.util.Calendar;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 
@@ -70,6 +69,9 @@ public class ServiceConfig<T> extends BaseServiceConfig {
     if (protocolConfig == null) {
       throw new IllegalArgumentException("protocolConfig can not be null");
     }
+    if (registryConfig == null) {
+      throw new IllegalArgumentException("registryConfig can not be null");
+    }
     if (StringUtils.isEmpty(groupName)) {
       throw new IllegalArgumentException("groupName can not be null");
     }
@@ -104,6 +106,10 @@ public class ServiceConfig<T> extends BaseServiceConfig {
     url.setApplicationName(applicationConfig.getApplicationName());
     url.setInterfaceName(this.interfaceName);
     url.setProtocol(protocolConfig.getProtocol());
+    url.setRegistryIp(registryConfig.registryIp());
+    url.setRegistryPort(registryConfig.getRegistryPort());
+    url.setRegistryType(registryConfig.getRegistryType());
+    url.setRegister(registryConfig.getRegister());
     return new InvokerWrapper<>(invoker, url);
   }
 }

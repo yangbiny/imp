@@ -1,4 +1,6 @@
-package com.impassive.imp.protocol;
+package com.impassive.imp.invoker;
+
+import com.impassive.imp.protocol.Invocation;
 
 /** @author impassivey */
 public abstract class AbstractInvoker<T> implements Invoker<T> {

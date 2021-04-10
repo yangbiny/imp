@@ -1,4 +1,6 @@
-package com.impassive.imp.protocol;
+package com.impassive.imp.invoker;
+
+import com.impassive.imp.protocol.Invocation;
 
 /** @author impassivey */
 public interface Invoker<T> {
@@ -15,6 +17,7 @@ public interface Invoker<T> {
    *
    * @param invocation 需要执行的对象
    * @return 执行结果
+   * @throws Throwable 异常信息
    */
   Result invoke(Invocation invocation) throws Throwable;
 }

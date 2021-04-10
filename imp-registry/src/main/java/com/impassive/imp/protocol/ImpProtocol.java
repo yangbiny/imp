@@ -1,5 +1,11 @@
 package com.impassive.imp.protocol;
 
+import com.impassive.imp.invoker.Invoker;
+import com.impassive.imp.invoker.InvokerWrapper;
+import com.impassive.imp.registry.AbstractRegistryFactory;
+import com.impassive.imp.registry.Registry;
+import com.impassive.imp.registry.RegistryFactory;
+
 /** @author impassivey */
 public class ImpProtocol implements Protocol {
 
@@ -12,8 +18,18 @@ public class ImpProtocol implements Protocol {
     if (!(invoker instanceof InvokerWrapper)) {
       return;
     }
-    System.out.println(invoker);
+    InvokerWrapper<T> invokerWrapper = (InvokerWrapper<T>) invoker;
+    registry(invokerWrapper);
   }
 
-  public void registry() {}
+  public <T> void registry(InvokerWrapper<T> invokerWrapper) {
+    final Url url = invokerWrapper.getUrl();
+    if (!url.getRegister()) {
+      return;
+    }
+    final RegistryFactory registryFactory =
+        AbstractRegistryFactory.getRegistryFactory(url.getRegistryType());
+    final Registry registry = registryFactory.getRegistry(url);
+    registry.registry(url);
+  }
 }

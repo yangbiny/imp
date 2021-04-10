@@ -1,5 +1,6 @@
 package com.impassive.imp.protocol;
 
+import com.impassive.imp.registry.RegistryType;
 import lombok.Data;
 
 /**
@@ -24,5 +25,16 @@ public class Url {
 
   private String protocol;
 
+  private RegistryType registryType;
 
+  private String registryIp;
+
+  private Integer registryPort;
+
+  private Boolean register;
+
+  public String buildRegistryKey(String formatTpl) {
+    return String.format(
+        formatTpl, this.registryType.name().toLowerCase(), this.registryIp, this.registryPort);
+  }
 }

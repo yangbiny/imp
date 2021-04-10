@@ -19,10 +19,10 @@ public class ProtocolConfig {
     if (StringUtils.isEmpty(host)) {
       changeHost();
     }
-    return StringUtils.isNotEmpty(host) && port != null;
+    return StringUtils.isNoneEmpty(host, protocol) && port != null;
   }
 
-  public void setProtocol(String protocol){
+  public void setProtocol(String protocol) {
     this.protocol = protocol;
   }
 

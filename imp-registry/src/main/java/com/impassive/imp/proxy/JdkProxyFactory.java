@@ -1,5 +1,7 @@
-package com.impassive.imp.protocol;
+package com.impassive.imp.proxy;
 
+import com.impassive.imp.invoker.AbstractInvoker;
+import com.impassive.imp.invoker.Invoker;
 import java.lang.reflect.Method;
 
 /** @author impassivey */
