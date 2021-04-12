@@ -2,6 +2,8 @@ package com.impassive.imp.protocol;
 
 import com.impassive.imp.invoker.Invoker;
 import com.impassive.imp.invoker.InvokerWrapper;
+import com.impassive.imp.net.DecodeChannel;
+import com.impassive.imp.net.NettyChannelHandler;
 import com.impassive.imp.registry.AbstractRegistryFactory;
 import com.impassive.imp.registry.Registry;
 import com.impassive.imp.registry.RegistryFactory;
@@ -24,7 +26,7 @@ public class ImpProtocol implements Protocol {
   }
 
   private <T> void openService(Url url) {
-
+    new NettyChannelHandler(url,new DecodeChannel());
   }
 
   private  <T> void registry(InvokerWrapper<T> invokerWrapper) {
