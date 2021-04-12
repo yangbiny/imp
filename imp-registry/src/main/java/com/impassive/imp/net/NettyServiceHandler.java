@@ -50,23 +50,15 @@ public class NettyServiceHandler extends ChannelDuplexHandler {
   }
 
   @Override
-  public void read(ChannelHandlerContext ctx) throws Exception {
-    final NettyChannel nettyChannel =
-        NettyChannel.getOrAddNetChannel(ctx.channel(), url, channelHandler);
-
-  }
-
-  @Override
   public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise)
       throws Exception {
     super.write(ctx, msg, promise);
   }
 
   @Override
-  public void flush(ChannelHandlerContext ctx) throws Exception {
-    super.flush(ctx);
+  public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+    final NettyChannel nettyChannel =
+        NettyChannel.getOrAddNetChannel(ctx.channel(), url, channelHandler);
+    channelHandler.receive(nettyChannel, msg);
   }
-
-  @Override
-  public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {}
 }
