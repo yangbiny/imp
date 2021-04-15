@@ -7,6 +7,7 @@ import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.data.Stat;
 
 /** @author impassivey */
 public class ZookeeperRegistry extends AbstractRegistry {
@@ -46,6 +47,10 @@ public class ZookeeperRegistry extends AbstractRegistry {
     if (i > 0) {
       final String substring = path.substring(0, i);
       createPath(substring, substring);
+    }
+    final Stat exists = zooKeeperClient.exists(path, false);
+    if (exists != null) {
+      return;
     }
     zooKeeperClient.create(
         path, data.getBytes(StandardCharsets.UTF_8), Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);

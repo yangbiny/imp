@@ -2,6 +2,7 @@ package com.impassive.imp.net;
 
 import com.impassive.imp.protocol.Url;
 import io.netty.channel.Channel;
+import java.net.InetSocketAddress;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -10,10 +11,11 @@ public class NettyChannel extends AbstractChannel {
 
   private static final Map<Channel, NettyChannel> CHANNEL_MAP = new ConcurrentHashMap<>();
 
-  private Channel channel;
+  private final Channel channel;
 
   private NettyChannel(Channel channel, Url url, ChannelHandler channelHandler) {
     super(url, channelHandler);
+    this.channel = channel;
   }
 
   public static NettyChannel getOrAddNetChannel(
@@ -33,5 +35,11 @@ public class NettyChannel extends AbstractChannel {
       }
     }
     return nettyChannel;
+  }
+
+  @Override
+  public InetSocketAddress getRemoteAddress() {
+   return (InetSocketAddress) channel.remoteAddress();
+
   }
 }

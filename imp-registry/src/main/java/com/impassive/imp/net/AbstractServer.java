@@ -7,6 +7,7 @@ public abstract class AbstractServer extends AbstractChannelHandler {
 
   public AbstractServer(Url url, ChannelHandler handler) {
     super(url, handler);
+    doOpen();
   }
 
   /** 打开连接的方式 */

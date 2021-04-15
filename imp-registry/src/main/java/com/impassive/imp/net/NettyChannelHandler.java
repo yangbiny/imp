@@ -21,7 +21,7 @@ public class NettyChannelHandler extends AbstractServer {
   }
 
   @Override
-  public void doOpen() {
+  protected void doOpen() {
     bootstrap = new ServerBootstrap();
     boss = new NioEventLoopGroup();
     worker = new NioEventLoopGroup();

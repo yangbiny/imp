@@ -2,6 +2,7 @@ package com.impassive.imp.protocol;
 
 import com.impassive.imp.registry.RegistryType;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 封装了最终的所有的参数信息
@@ -33,8 +34,17 @@ public class Url {
 
   private Boolean register;
 
+  private String address;
+
   public String buildRegistryKey(String formatTpl) {
     return String.format(
         formatTpl, this.registryType.name().toLowerCase(), this.registryIp, this.registryPort);
+  }
+
+  public String address() {
+    if (StringUtils.isNotEmpty(address)) {
+      return address;
+    }
+    return host + ":" + port;
   }
 }
