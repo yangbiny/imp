@@ -1,7 +1,6 @@
 package com.impassive.imp.protocol;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import com.impassive.imp.net.NetUtils;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 
@@ -31,12 +30,6 @@ public class ProtocolConfig {
   }
 
   public void changeHost() {
-    final InetAddress localHost;
-    try {
-      localHost = InetAddress.getLocalHost();
-    } catch (UnknownHostException e) {
-      throw new RuntimeException(e);
-    }
-    this.host = localHost.getHostAddress();
+    this.host = NetUtils.getAddress();
   }
 }

@@ -37,6 +37,11 @@
       <artifactId>netty-all</artifactId>
       <version>4.1.63.Final</version>
     </dependency>
+    <dependency>
+      <groupId>com.impassive</groupId>
+      <artifactId>imp-common</artifactId>
+      <version>${project.version}</version>
+    </dependency>
 
   </dependencies>
 

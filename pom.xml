@@ -12,6 +12,8 @@
     <module>imp-client</module>
     <module>imp-server</module>
     <module>imp-registry</module>
+    <module>imp-test</module>
+    <module>imp-common</module>
   </modules>
 
   <properties>
