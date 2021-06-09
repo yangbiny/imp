@@ -1,0 +1,39 @@
+package com.impassive.imp.test.consumer;
+
+import com.impassive.imp.api.ConsumerBean;
+import com.impassive.imp.application.ApplicationConfig;
+import com.impassive.imp.protocol.ProtocolConfig;
+import com.impassive.imp.registry.RegistryConfig;
+import com.impassive.imp.test.TestRpc;
+
+/** @author impassivey */
+public class ConsumerBeanTest {
+
+  private static ConsumerBean<TestRpc> consumerBean;
+
+  public static void main(String[] args) {
+    TestRpc bean = consumerBean.getBean();
+    System.out.println(bean.test("test"));
+  }
+
+  private static void init() {
+    consumerBean = new ConsumerBean<>();
+
+    ApplicationConfig applicationConfig = new ApplicationConfig();
+    applicationConfig.setApplicationName("test");
+
+    ProtocolConfig protocolConfig = new ProtocolConfig();
+    protocolConfig.setExportPort(11222);
+
+    RegistryConfig registryConfig = new RegistryConfig();
+    registryConfig.setRegistryAddress("impassive.com:2181");
+    registryConfig.setRegistryType("zookeeper");
+    registryConfig.setRegister(true);
+
+    consumerBean.setApplicationConfig(applicationConfig);
+    consumerBean.setProtocolConfig(protocolConfig);
+    consumerBean.setRegistryConfig(registryConfig);
+    consumerBean.setGroupName("test_group");
+    consumerBean.setClassType(TestRpc.class);
+  }
+}

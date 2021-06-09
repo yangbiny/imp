@@ -20,6 +20,15 @@ public class ImpProtocol implements Protocol {
     doExport(invoker);
   }
 
+  @Override
+  public <T> Invoker<T> refer(Class<T> interfaceClass, Url url) {
+    return doRefer(interfaceClass, url);
+  }
+
+  private <T> Invoker<T> doRefer(Class<T> interfaceClass, Url url) {
+    return null;
+  }
+
   private <T> void doExport(Invoker<T> invoker) {
     if (!(invoker instanceof InvokerWrapper)) {
       return;

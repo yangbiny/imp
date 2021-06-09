@@ -13,6 +13,7 @@ public class ConsumerBean<T> extends ConsumerConfig<T> {
     if (ref != null) {
       return ref;
     }
-    return null;
+    // 创建代理对象
+    return refer();
   }
 }
