@@ -1,12 +1,19 @@
 package com.impassive.imp.invoker;
 
-/**
- * @author impassivey
- */
+import com.impassive.imp.net.ExchangeClient;
+import com.impassive.imp.protocol.Url;
+
+/** @author impassivey */
 public class ImpInvoker<T> extends AbstractInvoker<T> {
 
-  public ImpInvoker(T reference, Class<T> classType) {
-    super(reference, classType);
+  private ExchangeClient[] exchangeClients;
+
+  private Url url;
+
+  public ImpInvoker(Class<T> interfaceClass, ExchangeClient[] clients, Url url) {
+    super(interfaceClass);
+    this.exchangeClients = clients;
+    this.url = url;
   }
 
   @Override

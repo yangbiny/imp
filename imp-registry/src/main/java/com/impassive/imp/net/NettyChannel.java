@@ -39,7 +39,6 @@ public class NettyChannel extends AbstractChannel {
 
   @Override
   public InetSocketAddress getRemoteAddress() {
-   return (InetSocketAddress) channel.remoteAddress();
-
+    return (InetSocketAddress) channel.remoteAddress();
   }
 }

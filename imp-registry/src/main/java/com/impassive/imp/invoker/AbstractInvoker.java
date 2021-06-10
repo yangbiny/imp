@@ -5,9 +5,13 @@ import com.impassive.imp.protocol.Invocation;
 /** @author impassivey */
 public abstract class AbstractInvoker<T> implements Invoker<T> {
 
-  private final T reference;
+  private T reference;
 
   private final Class<T> classType;
+
+  public AbstractInvoker(Class<T> classType) {
+    this.classType = classType;
+  }
 
   public AbstractInvoker(T reference, Class<T> classType) {
     if (reference == null) {

@@ -1,8 +1,10 @@
 package com.impassive.imp.protocol;
 
+import com.impassive.imp.invoker.ImpInvoker;
 import com.impassive.imp.invoker.Invoker;
 import com.impassive.imp.invoker.InvokerWrapper;
 import com.impassive.imp.net.DecodeChannel;
+import com.impassive.imp.net.ExchangeClient;
 import com.impassive.imp.net.NettyChannelHandler;
 import com.impassive.imp.registry.AbstractRegistryFactory;
 import com.impassive.imp.registry.Registry;
@@ -26,6 +28,10 @@ public class ImpProtocol implements Protocol {
   }
 
   private <T> Invoker<T> doRefer(Class<T> interfaceClass, Url url) {
+    return new ImpInvoker<>(interfaceClass, getClients(url), url);
+  }
+
+  private ExchangeClient[] getClients(Url url) {
     return null;
   }
 
