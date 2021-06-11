@@ -3,7 +3,7 @@ package com.impassive.imp.net;
 import java.net.InetSocketAddress;
 
 /** @author impassivey */
-public interface Channel {
+public interface Channel extends Endpoint {
 
   /**
    * 获取远程服务器的IP地址

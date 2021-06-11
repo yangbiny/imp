@@ -5,7 +5,9 @@ import com.impassive.imp.invoker.Invoker;
 import com.impassive.imp.invoker.InvokerWrapper;
 import com.impassive.imp.net.DecodeChannel;
 import com.impassive.imp.net.ExchangeClient;
+import com.impassive.imp.net.ImpExchangeClient;
 import com.impassive.imp.net.NettyChannelHandler;
+import com.impassive.imp.net.NettyClient;
 import com.impassive.imp.registry.AbstractRegistryFactory;
 import com.impassive.imp.registry.Registry;
 import com.impassive.imp.registry.RegistryFactory;
@@ -32,7 +34,13 @@ public class ImpProtocol implements Protocol {
   }
 
   private ExchangeClient[] getClients(Url url) {
-    return null;
+    ExchangeClient[] clients = new ExchangeClient[1];
+    clients[0] = initClient(url);
+    return clients;
+  }
+
+  private ExchangeClient initClient(Url url) {
+    return new ImpExchangeClient(new NettyClient(url, null));
   }
 
   private <T> void doExport(Invoker<T> invoker) {
@@ -44,7 +52,7 @@ public class ImpProtocol implements Protocol {
     registry(invokerWrapper);
   }
 
-  private <T> void openService(Url url) {
+  private void openService(Url url) {
     final String addressKey = url.address();
     ProtocolServer protocolServer = PROTOCOL_SERVER_MAP.get(addressKey);
     if (protocolServer != null) {

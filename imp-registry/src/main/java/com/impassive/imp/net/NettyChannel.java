@@ -2,11 +2,14 @@ package com.impassive.imp.net;
 
 import com.impassive.imp.protocol.Url;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
 import java.net.InetSocketAddress;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import lombok.extern.slf4j.Slf4j;
 
 /** @author impassivey */
+@Slf4j
 public class NettyChannel extends AbstractChannel {
 
   private static final Map<Channel, NettyChannel> CHANNEL_MAP = new ConcurrentHashMap<>();
@@ -40,5 +43,13 @@ public class NettyChannel extends AbstractChannel {
   @Override
   public InetSocketAddress getRemoteAddress() {
     return (InetSocketAddress) channel.remoteAddress();
+  }
+
+  @Override
+  public void send(Object object) {
+    ChannelFuture channelFuture = channel.writeAndFlush(object);
+    if (channelFuture.isSuccess()) {
+      log.info("channel success : {}", channelFuture);
+    }
   }
 }
