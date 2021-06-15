@@ -5,12 +5,16 @@ import com.impassive.imp.invoker.Invoker;
 import com.impassive.imp.protocol.ImpProtocol;
 import com.impassive.imp.protocol.Protocol;
 import com.impassive.imp.protocol.Url;
+import com.impassive.imp.proxy.JdkProxyFactory;
+import com.impassive.imp.proxy.ProxyFactory;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 
 /** @author impassivey */
 @Getter
 public class ConsumerConfig<T> extends BaseConsumerConfig {
+
+  private static final ProxyFactory PROXY_FACTORY = new JdkProxyFactory();
 
   private static final Protocol PROTOCOL = new ImpProtocol();
 
@@ -80,6 +84,6 @@ public class ConsumerConfig<T> extends BaseConsumerConfig {
   }
 
   private T createProxy(Invoker<T> refer) {
-    return null;
+    return PROXY_FACTORY.proxy(refer);
   }
 }

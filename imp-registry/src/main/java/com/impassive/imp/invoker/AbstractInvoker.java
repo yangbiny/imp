@@ -33,25 +33,16 @@ public abstract class AbstractInvoker<T> implements Invoker<T> {
   @Override
   public Result invoke(Invocation invocation) throws Throwable {
     // TODO 这里会正式的去调用，并返回
-    final Object objectValue =
-        doInvoke(
-            reference,
-            invocation.getMethodName(),
-            invocation.getParams(),
-            invocation.getParamTypes());
+    final Object objectValue = doInvoke(invocation);
     return null;
   }
 
   /**
    * 执行方法调用
    *
-   * @param reference 执行的对象
-   * @param methodName 执行的方法名称
-   * @param params 执行的方法的参数
-   * @param paramsType 方法的参数类型
+   * @param invocation 执行的对象
    * @return 执行的结果
    * @throws Throwable Throwable
    */
-  protected abstract Object doInvoke(
-      T reference, String methodName, Object[] params, Class<?>[] paramsType) throws Throwable;
+  protected abstract Object doInvoke(Invocation invocation) throws Throwable;
 }

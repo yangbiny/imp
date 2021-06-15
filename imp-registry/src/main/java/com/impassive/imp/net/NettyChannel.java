@@ -27,15 +27,13 @@ public class NettyChannel extends AbstractChannel {
       throw new IllegalArgumentException("channel is null");
     }
     NettyChannel nettyChannel = CHANNEL_MAP.get(channel);
-    if (channel.isActive()) {
-      if (nettyChannel != null) {
-        return nettyChannel;
-      }
-      NettyChannel tmpNettyChannel = new NettyChannel(channel, url, channelHandler);
-      nettyChannel = CHANNEL_MAP.putIfAbsent(channel, tmpNettyChannel);
-      if (nettyChannel == null) {
-        nettyChannel = tmpNettyChannel;
-      }
+    if (nettyChannel != null) {
+      return nettyChannel;
+    }
+    NettyChannel tmpNettyChannel = new NettyChannel(channel, url, channelHandler);
+    nettyChannel = CHANNEL_MAP.putIfAbsent(channel, tmpNettyChannel);
+    if (nettyChannel == null) {
+      nettyChannel = tmpNettyChannel;
     }
     return nettyChannel;
   }

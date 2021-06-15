@@ -14,4 +14,13 @@ public interface ProxyFactory {
    * @return 返回的代理对象
    */
   <T> Invoker<T> getInvoker(T ref, Class<T> classType);
+
+  /**
+   * 通过 invoker获取一个代理对象
+   *
+   * @param invoker invoker
+   * @param <T> 代理对象的类型
+   * @return 代理对象
+   */
+  <T> T proxy(Invoker<T> invoker);
 }
