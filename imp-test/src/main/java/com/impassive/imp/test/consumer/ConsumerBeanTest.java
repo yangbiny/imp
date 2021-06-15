@@ -12,6 +12,7 @@ public class ConsumerBeanTest {
   private static ConsumerBean<TestRpc> consumerBean;
 
   public static void main(String[] args) {
+    init();
     TestRpc bean = consumerBean.getBean();
     System.out.println(bean.test("test"));
   }
@@ -24,6 +25,7 @@ public class ConsumerBeanTest {
 
     ProtocolConfig protocolConfig = new ProtocolConfig();
     protocolConfig.setExportPort(11222);
+    protocolConfig.setHost("127.0.0.1");
 
     RegistryConfig registryConfig = new RegistryConfig();
     registryConfig.setRegistryAddress("impassive.com:2181");

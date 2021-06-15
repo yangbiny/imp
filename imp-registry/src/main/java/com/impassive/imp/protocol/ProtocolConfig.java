@@ -29,6 +29,10 @@ public class ProtocolConfig {
     this.port = port;
   }
 
+  public void setHost(String host){
+    this.host = host;
+  }
+
   public void changeHost() {
     this.host = NetUtils.getAddress();
   }

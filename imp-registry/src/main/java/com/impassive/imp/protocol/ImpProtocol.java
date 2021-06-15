@@ -3,8 +3,14 @@ package com.impassive.imp.protocol;
 import com.impassive.imp.invoker.ImpInvoker;
 import com.impassive.imp.invoker.Invoker;
 import com.impassive.imp.invoker.InvokerWrapper;
+import com.impassive.imp.net.AbstractExchangeHandler;
+import com.impassive.imp.net.Channel;
 import com.impassive.imp.net.DecodeChannel;
+import com.impassive.imp.net.DecodeChannelHandler;
+import com.impassive.imp.net.ExchangeChannel;
 import com.impassive.imp.net.ExchangeClient;
+import com.impassive.imp.net.ExchangeHandler;
+import com.impassive.imp.net.HeaderExchangeHandler;
 import com.impassive.imp.net.ImpExchangeClient;
 import com.impassive.imp.net.NettyChannelHandler;
 import com.impassive.imp.net.NettyClient;
@@ -12,12 +18,36 @@ import com.impassive.imp.registry.AbstractRegistryFactory;
 import com.impassive.imp.registry.Registry;
 import com.impassive.imp.registry.RegistryFactory;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
 /** @author impassivey */
 public class ImpProtocol implements Protocol {
 
   private static final Map<String, ProtocolServer> PROTOCOL_SERVER_MAP = new ConcurrentHashMap<>();
+
+  private final ExchangeHandler exchangeHandler =
+      new AbstractExchangeHandler() {
+        @Override
+        public void connection(Channel channel) {
+          super.connection(channel);
+        }
+
+        @Override
+        public void receive(Channel channel, Object msg) {
+          super.receive(channel, msg);
+        }
+
+        @Override
+        public void close(Channel channel) {
+          super.close(channel);
+        }
+
+        @Override
+        public CompletableFuture<Object> reply(ExchangeChannel exchangeChannel, Object request) {
+          return super.reply(exchangeChannel, request);
+        }
+      };
 
   @Override
   public <T> void export(Invoker<T> invoker) {
@@ -40,7 +70,8 @@ public class ImpProtocol implements Protocol {
   }
 
   private ExchangeClient initClient(Url url) {
-    return new ImpExchangeClient(new NettyClient(url, null));
+    return new ImpExchangeClient(
+        new NettyClient(url, new DecodeChannelHandler(new HeaderExchangeHandler(exchangeHandler))));
   }
 
   private <T> void doExport(Invoker<T> invoker) {
