@@ -42,7 +42,11 @@
       <artifactId>imp-common</artifactId>
       <version>${project.version}</version>
     </dependency>
-
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>fastjson</artifactId>
+      <version>1.2.76</version>
+    </dependency>
   </dependencies>
 
 </project>

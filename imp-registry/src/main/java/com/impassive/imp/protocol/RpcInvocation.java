@@ -1,8 +1,10 @@
 package com.impassive.imp.protocol;
 
 import java.lang.reflect.Method;
+import lombok.Setter;
 
 /** @author impassivey */
+@Setter
 public class RpcInvocation implements Invocation {
 
   private Method method;
@@ -12,6 +14,9 @@ public class RpcInvocation implements Invocation {
   private String serverName;
 
   private Class<?>[] parameterTypes;
+
+  public RpcInvocation() {
+  }
 
   public RpcInvocation(Method method, Object[] params, String serverName) {
     this.method = method;

@@ -1,9 +1,11 @@
 package com.impassive.imp.net;
 
+import com.alibaba.fastjson.JSONObject;
+import com.impassive.imp.protocol.Invocation;
 import com.impassive.imp.protocol.RpcInvocation;
 import io.netty.buffer.ByteBuf;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 
 /** @author impassivey */
 public class DecodeChannel implements ChannelHandler {
@@ -13,10 +15,10 @@ public class DecodeChannel implements ChannelHandler {
 
   @Override
   public void receive(Channel channel, Object msg) {
-    if (msg instanceof RpcInvocation){
-      RpcInvocation rpcInvocation = (RpcInvocation) msg;
-      System.out.println(Arrays.toString(rpcInvocation.getParams()));
-    }
+    ByteBuf byteBuf = (ByteBuf) msg;
+    String s = byteBuf.toString(StandardCharsets.UTF_8);
+    Invocation invocation = JSONObject.parseObject(s, RpcInvocation.class);
+    System.out.println(invocation);
   }
 
   @Override
