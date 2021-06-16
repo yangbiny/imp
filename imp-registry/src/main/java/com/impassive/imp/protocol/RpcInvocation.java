@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class RpcInvocation implements Invocation {
 
-  private Method method;
+  private transient Method method;
 
   private Object[] params;
 
@@ -15,14 +15,13 @@ public class RpcInvocation implements Invocation {
 
   private Class<?>[] parameterTypes;
 
-  public RpcInvocation() {
-  }
+  public RpcInvocation() {}
 
   public RpcInvocation(Method method, Object[] params, String serverName) {
     this.method = method;
     this.params = params;
     this.serverName = serverName;
-    parameterTypes = method.getParameterTypes();
+    this.parameterTypes = method.getParameterTypes();
   }
 
   @Override

@@ -5,7 +5,6 @@ import com.impassive.imp.invoker.Invoker;
 import com.impassive.imp.invoker.InvokerWrapper;
 import com.impassive.imp.net.AbstractExchangeHandler;
 import com.impassive.imp.net.Channel;
-import com.impassive.imp.net.DecodeChannel;
 import com.impassive.imp.net.DecodeChannelHandler;
 import com.impassive.imp.net.ExchangeChannel;
 import com.impassive.imp.net.ExchangeClient;
@@ -89,7 +88,8 @@ public class ImpProtocol implements Protocol {
     if (protocolServer != null) {
       return;
     }
-    final NettyChannelHandler channelHandler = new NettyChannelHandler(url, new DecodeChannel());
+    final NettyChannelHandler channelHandler =
+        new NettyChannelHandler(url, exchangeHandler);
     if (PROTOCOL_SERVER_MAP.get(addressKey) != null) {
       return;
     }
