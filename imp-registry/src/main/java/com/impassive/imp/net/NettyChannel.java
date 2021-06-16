@@ -6,6 +6,7 @@ import io.netty.channel.ChannelFuture;
 import java.net.InetSocketAddress;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutionException;
 import lombok.extern.slf4j.Slf4j;
 
 /** @author impassivey */
@@ -46,8 +47,10 @@ public class NettyChannel extends AbstractChannel {
   @Override
   public void send(Object object) {
     ChannelFuture channelFuture = channel.writeAndFlush(object);
-    if (channelFuture.isSuccess()) {
-      log.info("channel success : {}", channelFuture);
+    try {
+      Void unused = channelFuture.get();
+    } catch (InterruptedException | ExecutionException e) {
+      e.printStackTrace();
     }
   }
 }

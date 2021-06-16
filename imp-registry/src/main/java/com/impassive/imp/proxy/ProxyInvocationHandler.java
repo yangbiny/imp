@@ -1,6 +1,7 @@
 package com.impassive.imp.proxy;
 
 import com.impassive.imp.invoker.Invoker;
+import com.impassive.imp.invoker.Result;
 import com.impassive.imp.protocol.RpcInvocation;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -18,6 +19,10 @@ public class ProxyInvocationHandler implements InvocationHandler {
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
     String name = invoker.getInterfaceClass().getName();
     RpcInvocation invocation = new RpcInvocation(method,args,name);
-    return invoker.invoke(invocation).getResult();
+    Result invoke = invoker.invoke(invocation);
+    if (invoke == null){
+      return null;
+    }
+    return invoke.getResult();
   }
 }

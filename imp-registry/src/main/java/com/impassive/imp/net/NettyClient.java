@@ -4,8 +4,9 @@ import com.impassive.imp.protocol.Url;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelInitializer;
-import io.netty.channel.DefaultEventLoopGroup;
+import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.string.StringEncoder;
 import java.net.InetSocketAddress;
@@ -25,20 +26,29 @@ public class NettyClient extends AbstractClient {
   protected void doOpen(Url url) {
     bootstrap = new Bootstrap();
     bootstrap
-        .group(new DefaultEventLoopGroup())
+        .group(new NioEventLoopGroup())
         .channel(NioSocketChannel.class)
         .handler(
             new ChannelInitializer<NioSocketChannel>() {
               @Override
               protected void initChannel(NioSocketChannel nioSocketChannel) throws Exception {
-                nioSocketChannel.pipeline().addLast(new StringEncoder());
+                nioSocketChannel.pipeline().addLast(new MsgEncoder());
               }
             });
   }
 
   @Override
   protected void doConnect() {
-    ChannelFuture connect = bootstrap.connect(getConnectAddress());
+    ChannelFuture connect =
+        bootstrap
+            .connect(getConnectAddress())
+            .addListener(
+                (ChannelFutureListener)
+                    future -> {
+                      if (future.isSuccess()) {
+                        System.out.println("connection success");
+                      }
+                    });
     this.channel = connect.channel();
   }
 

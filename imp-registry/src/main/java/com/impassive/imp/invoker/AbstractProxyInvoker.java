@@ -24,6 +24,10 @@ public abstract class AbstractProxyInvoker<T> implements Invoker<T> {
 
   @Override
   public Result invoke(Invocation invocation) throws Throwable {
+    Object object =
+        doInvoke(
+            proxy, invocation.getMethodName(), invocation.getParams(), invocation.getParamTypes());
+    System.out.println(object);
     return null;
   }
 }
