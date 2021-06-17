@@ -39,6 +39,13 @@ public class NettyChannel extends AbstractChannel {
     return nettyChannel;
   }
 
+  public static void removeIfNotConnect(Channel channel) {
+    if (channel.isActive()) {
+      return;
+    }
+    CHANNEL_MAP.remove(channel);
+  }
+
   @Override
   public InetSocketAddress getRemoteAddress() {
     return (InetSocketAddress) channel.remoteAddress();

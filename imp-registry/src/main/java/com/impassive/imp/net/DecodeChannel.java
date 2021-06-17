@@ -11,10 +11,5 @@ public class DecodeChannel extends ByteToMessageDecoder {
   @Override
   protected void decode(
       ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list)
-      throws Exception {
-    while (byteBuf.isReadable()) {
-
-      int readerIndex = byteBuf.readerIndex();
-    }
-  }
+      throws Exception {}
 }

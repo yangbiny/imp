@@ -32,7 +32,8 @@ public abstract class AbstractClient extends AbstractEndpoint implements Client 
 
   @Override
   public void send(Object object) {
-    getChannel().send(object);
+    Channel channel = getChannel();
+    channel.send(object);
   }
 
   private void init() {
