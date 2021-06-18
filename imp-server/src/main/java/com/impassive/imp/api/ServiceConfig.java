@@ -7,7 +7,7 @@ import com.impassive.imp.invoker.InvokerWrapper;
 import com.impassive.imp.proxy.JdkProxyFactory;
 import com.impassive.imp.protocol.Protocol;
 import com.impassive.imp.proxy.ProxyFactory;
-import com.impassive.imp.protocol.Url;
+import com.impassive.imp.common.Url;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 

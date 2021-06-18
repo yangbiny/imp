@@ -1,6 +1,6 @@
 package com.impassive.imp.registry;
 
-import com.impassive.imp.protocol.Url;
+import com.impassive.imp.common.Url;
 
 /**
  * 用于生成对应的 注册对象

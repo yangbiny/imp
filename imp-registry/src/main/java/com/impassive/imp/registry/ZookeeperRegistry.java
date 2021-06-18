@@ -1,6 +1,6 @@
 package com.impassive.imp.registry;
 
-import com.impassive.imp.protocol.Url;
+import com.impassive.imp.common.Url;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import org.apache.zookeeper.CreateMode;

@@ -1,6 +1,6 @@
 package com.impassive.imp.registry;
 
-import com.impassive.imp.protocol.Url;
+import com.impassive.imp.common.Url;
 
 /** @author impassivey */
 public abstract class AbstractRegistry implements Registry {

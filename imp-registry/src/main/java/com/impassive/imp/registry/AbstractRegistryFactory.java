@@ -1,6 +1,7 @@
 package com.impassive.imp.registry;
 
-import com.impassive.imp.protocol.Url;
+import com.impassive.imp.common.RegistryType;
+import com.impassive.imp.common.Url;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;

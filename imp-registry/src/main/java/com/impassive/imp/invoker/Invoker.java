@@ -1,6 +1,7 @@
 package com.impassive.imp.invoker;
 
-import com.impassive.imp.protocol.Invocation;
+
+import com.impassive.rpc.Invocation;
 
 /** @author impassivey */
 public interface Invoker<T> {

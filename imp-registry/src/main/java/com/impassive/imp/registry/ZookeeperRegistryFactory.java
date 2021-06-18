@@ -1,6 +1,7 @@
 package com.impassive.imp.registry;
 
-import com.impassive.imp.protocol.Url;
+import com.impassive.imp.common.RegistryType;
+import com.impassive.imp.common.Url;
 import javax.annotation.Nullable;
 
 /** @author impassivey */

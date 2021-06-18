@@ -1,7 +1,8 @@
 package com.impassive.imp.protocol;
 
-import com.impassive.imp.net.ChannelHandler;
-import com.impassive.imp.net.NettyChannelHandler;
+import com.impassive.imp.common.Url;
+import com.impassive.imp.remoting.ChannelHandler;
+import com.impassive.remoting.netty.NettyChannelHandler;
 
 /** @author impassivey */
 public class ExchangerServer implements ProtocolServer {

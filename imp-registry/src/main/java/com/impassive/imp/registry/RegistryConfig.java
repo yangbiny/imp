@@ -1,5 +1,6 @@
 package com.impassive.imp.registry;
 
+import com.impassive.imp.common.RegistryType;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 

@@ -1,12 +1,10 @@
 package com.impassive.imp.invoker;
 
-import com.impassive.imp.protocol.Invocation;
-import com.impassive.imp.protocol.Url;
+import com.impassive.imp.common.Url;
+import com.impassive.rpc.Invocation;
 import lombok.Getter;
 
-/**
- * @author impassivey
- */
+/** @author impassivey */
 @Getter
 public class InvokerWrapper<T> implements Invoker<T> {
 
