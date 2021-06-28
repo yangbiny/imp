@@ -22,6 +22,11 @@
       <artifactId>imp-common</artifactId>
       <version>1.0.0</version>
     </dependency>
+    <dependency>
+      <groupId>com.impassive</groupId>
+      <artifactId>imp-rpc-imp</artifactId>
+      <version>1.0.0</version>
+    </dependency>
   </dependencies>
 
 </project>

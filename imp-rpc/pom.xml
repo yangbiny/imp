@@ -21,4 +21,12 @@
     <maven.compiler.target>8</maven.compiler.target>
   </properties>
 
+  <dependencies>
+    <dependency>
+      <groupId>com.impassive</groupId>
+      <artifactId>imp-remoting-api</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+  </dependencies>
+
 </project>

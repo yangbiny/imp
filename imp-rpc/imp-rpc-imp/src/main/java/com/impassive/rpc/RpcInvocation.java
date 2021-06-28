@@ -1,13 +1,17 @@
 package com.impassive.rpc;
 
 import java.lang.reflect.Method;
+import lombok.Data;
 import lombok.Setter;
 
 /** @author impassivey */
+@Data
 @Setter
 public class RpcInvocation implements Invocation {
 
   private transient Method method;
+
+  private String methodName;
 
   private Object[] params;
 
