@@ -8,6 +8,8 @@ import io.netty.buffer.ByteBuf;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import org.apache.commons.lang3.StringUtils;
 
 /** @author impassivey */
 public class ImpCodec extends AbstractCodec {
@@ -28,7 +30,8 @@ public class ImpCodec extends AbstractCodec {
     final byte[] serviceNameBytes = serviceName.getBytes(StandardCharsets.UTF_8);
 
     final Class<?>[] paramTypes = invocation.getParamTypes();
-    final List<Class<?>> classes = Arrays.asList(paramTypes);
+    final List<String> classes =
+        Arrays.stream(paramTypes).map(Class::getName).collect(Collectors.toList());
     final String paramTypeStr = Joiner.on(",").join(classes);
     final byte[] paramTypeStrBytes = paramTypeStr.getBytes(StandardCharsets.UTF_8);
 
@@ -45,7 +48,7 @@ public class ImpCodec extends AbstractCodec {
   }
 
   @Override
-  public Object decode(ByteBuf in) {
+  public Object decode(ByteBuf in) throws ClassNotFoundException {
     int all = in.readInt();
     if (in.readableBytes() < all) {
       return null;
@@ -63,19 +66,34 @@ public class ImpCodec extends AbstractCodec {
     length = in.readInt();
     bytes = new byte[length];
     in.readBytes(bytes, 0, length);
-    String paramStr = new String(bytes);
+    String paramsTypeStr = new String(bytes);
 
     length = in.readInt();
     bytes = new byte[length];
     in.readBytes(bytes, 0, length);
-    String paramsTypes = new String(bytes);
-
-    return null;
+    String paramStr = new String(bytes);
+    Object[] param = new Object[0];
+    if (StringUtils.isNotEmpty(paramStr)) {
+      param = paramStr.split(",");
+    }
+    String[] paramTypes = new String[0];
+    if (StringUtils.isNotEmpty(paramsTypeStr)) {
+      paramTypes = paramsTypeStr.split(",");
+    }
+    Class<?>[] paramType = new Class[paramTypes.length];
+    for (int i = 0; i < paramTypes.length; i++) {
+      paramType[i] = Class.forName(paramTypes[i]);
+    }
+    RpcInvocation rpcInvocation = new RpcInvocation();
+    rpcInvocation.setMethodName(methodName);
+    rpcInvocation.setParams(param);
+    rpcInvocation.setParameterTypes(paramType);
+    rpcInvocation.setServerName(serviceName);
+    return rpcInvocation;
   }
 
   private void write(ByteBuf out, byte[] bytes) {
     out.writeInt(bytes.length);
     out.writeBytes(bytes);
   }
-
 }

@@ -1,7 +1,7 @@
-package com.impassive.imp.remoting.channel;
+package com.impassive.remoting.netty.codec;
 
+import com.impassive.codec.ImpCodec;
 import com.impassive.imp.remoting.Codec;
-import com.impassive.imp.remoting.codec.ImpCodec;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
@@ -16,6 +16,7 @@ public class DecodeChannel extends ByteToMessageDecoder {
   protected void decode(
       ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list)
       throws Exception {
-      codec.decode(byteBuf);
+    Object decode = codec.decode(byteBuf);
+    list.add(decode);
   }
 }

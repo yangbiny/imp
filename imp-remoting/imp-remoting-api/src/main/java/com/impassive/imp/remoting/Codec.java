@@ -18,6 +18,7 @@ public interface Codec {
    *
    * @param in 输入的直接数组
    * @return 转换后的对象
+   * @throws Exception 如果解析失败会直接抛出异常
    */
-  Object decode(ByteBuf in);
+  Object decode(ByteBuf in) throws Exception;
 }

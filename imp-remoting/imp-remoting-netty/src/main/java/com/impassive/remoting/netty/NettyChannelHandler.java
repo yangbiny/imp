@@ -4,7 +4,7 @@ import com.impassive.imp.common.Url;
 import com.impassive.imp.remoting.Channel;
 import com.impassive.imp.remoting.ChannelHandler;
 import com.impassive.imp.remoting.channel.AbstractServer;
-import com.impassive.imp.remoting.channel.DecodeChannel;
+import com.impassive.remoting.netty.codec.DecodeChannel;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
