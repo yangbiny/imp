@@ -90,7 +90,8 @@ public class ImpProtocol implements Protocol {
       return;
     }
     final NettyChannelHandler channelHandler =
-        new NettyChannelHandler(url, exchangeHandler);
+        new NettyChannelHandler(
+            url, new DecodeChannelHandler(new HeaderExchangeHandler(exchangeHandler)));
     if (PROTOCOL_SERVER_MAP.get(addressKey) != null) {
       return;
     }

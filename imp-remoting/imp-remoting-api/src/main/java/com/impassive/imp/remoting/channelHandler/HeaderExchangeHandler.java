@@ -20,7 +20,11 @@ public class HeaderExchangeHandler implements ChannelHandler {
 
   @Override
   public void receive(Channel channel, Object msg) {
-    exchangeHandler.receive(channel, msg);
+    handlerRequest();
+  }
+
+  private void handlerRequest() {
+
   }
 
   @Override
