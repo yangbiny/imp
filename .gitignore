@@ -2,3 +2,16 @@
 /imp.iml
 /imp-registry/target/
 /imp-server/target/
+/*/target/*
+/*/*/target/*
+/imp-test/imp-test.iml
+/imp-client/imp-client.iml
+/imp-common/imp-common.iml
+/imp-registry/imp-registry.iml
+/imp-remoting/imp-remoting.iml
+/imp-remoting/imp-remoting-api/imp-remoting-api.iml
+/imp-remoting/imp-remoting-netty/imp-remoting-netty.iml
+/imp-rpc/imp-rpc.iml
+/imp-rpc/imp-rpc-api/imp-rpc-api.iml
+/imp-rpc/imp-rpc-imp/imp-rpc-imp.iml
+/imp-server/imp-server.iml
