@@ -1,8 +1,0 @@
-com/impassive/remoting/netty/NettyClient$1.class
-com/impassive/remoting/netty/NettyChannel.class
-com/impassive/remoting/netty/codec/DecodeChannel.class
-com/impassive/remoting/netty/NettyServiceHandler.class
-com/impassive/remoting/netty/NettyClient.class
-com/impassive/remoting/netty/codec/MsgEncoder.class
-com/impassive/remoting/netty/NettyChannelHandler.class
-com/impassive/remoting/netty/NettyChannelHandler$1.class
