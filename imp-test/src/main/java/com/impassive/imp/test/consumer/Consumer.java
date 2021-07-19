@@ -7,17 +7,20 @@ import com.impassive.imp.registry.RegistryConfig;
 import com.impassive.imp.test.TestRpc;
 
 /** @author impassivey */
-public class ConsumerBeanTest {
+public class Consumer {
 
   private static ConsumerBean<TestRpc> consumerBean;
 
-  public static void main(String[] args) {
+  public void start() throws InterruptedException {
     init();
     TestRpc bean = consumerBean.getBean();
-    System.out.println(bean.test("test"));
+    while (true) {
+      System.out.println(bean.test("test"));
+      Thread.sleep(1000);
+    }
   }
 
-  private static void init() {
+  private void init() {
     consumerBean = new ConsumerBean<>();
 
     ApplicationConfig applicationConfig = new ApplicationConfig();

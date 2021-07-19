@@ -34,7 +34,9 @@ public abstract class AbstractInvoker<T> implements Invoker<T> {
   public Result invoke(Invocation invocation) throws Throwable {
     // TODO 这里会正式的去调用，并返回
     final Object objectValue = doInvoke(invocation);
-    return null;
+    final ImpResult impResult = new ImpResult();
+    impResult.setResult(objectValue);
+    return impResult;
   }
 
   /**

@@ -4,11 +4,9 @@ import com.impassive.imp.common.Url;
 import com.impassive.imp.remoting.ChannelHandler;
 import com.impassive.imp.remoting.channel.AbstractChannel;
 import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
 import java.net.InetSocketAddress;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutionException;
 
 /** @author impassivey */
 public class NettyChannel extends AbstractChannel {
@@ -53,11 +51,6 @@ public class NettyChannel extends AbstractChannel {
 
   @Override
   public void send(Object object) {
-    ChannelFuture channelFuture = channel.writeAndFlush(object);
-    try {
-      Void unused = channelFuture.get();
-    } catch (InterruptedException | ExecutionException e) {
-      e.printStackTrace();
-    }
+    channel.writeAndFlush(object);
   }
 }
