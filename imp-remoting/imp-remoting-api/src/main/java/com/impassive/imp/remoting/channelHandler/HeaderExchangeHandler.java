@@ -2,7 +2,9 @@ package com.impassive.imp.remoting.channelHandler;
 
 import com.impassive.imp.remoting.Channel;
 import com.impassive.imp.remoting.ChannelHandler;
+import com.impassive.imp.remoting.ExchangeChannel;
 import com.impassive.imp.remoting.ExchangeHandler;
+import java.util.concurrent.CompletableFuture;
 
 /** @author impassivey */
 public class HeaderExchangeHandler implements ChannelHandler {
@@ -26,7 +28,11 @@ public class HeaderExchangeHandler implements ChannelHandler {
 
   private void handlerRequest(Channel channel, Object msg) {
     try {
-      exchangeHandler.receive(channel, msg);
+      CompletableFuture<Object> reply = exchangeHandler.reply((ExchangeChannel) channel, msg);
+      reply.whenComplete(
+          (res, t) -> {
+            channel.send(res);
+          });
     } catch (Throwable throwable) {
       throw new RuntimeException("unknown exception", throwable);
     }

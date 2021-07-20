@@ -25,6 +25,7 @@ public class ImpInvoker<T> extends AbstractInvoker<T> {
   protected Object doInvoke(Invocation invocation) throws Throwable {
     ExchangeClient exchangeClient = exchangeClients[0];
     CompletableFuture<Object> request = exchangeClient.request(invocation);
+    Object object = request.get();
     return "傻狗";
   }
 }
