@@ -7,18 +7,14 @@ import com.impassive.imp.invoker.InvokerWrapper;
 import com.impassive.imp.registry.AbstractRegistryFactory;
 import com.impassive.imp.registry.Registry;
 import com.impassive.imp.registry.RegistryFactory;
-import com.impassive.imp.remoting.Channel;
-import com.impassive.imp.remoting.ExchangeChannel;
 import com.impassive.imp.remoting.ExchangeClient;
 import com.impassive.imp.remoting.ExchangeHandler;
-import com.impassive.imp.remoting.channel.AbstractExchangeHandler;
 import com.impassive.imp.remoting.channelHandler.DecodeChannelHandler;
 import com.impassive.imp.remoting.channelHandler.HeaderExchangeHandler;
 import com.impassive.imp.remoting.channelHandler.ImpExchangeClient;
 import com.impassive.remoting.netty.NettyChannelHandler;
 import com.impassive.remoting.netty.NettyClient;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
 /** @author impassivey */
@@ -26,28 +22,7 @@ public class ImpProtocol implements Protocol {
 
   private static final Map<String, ProtocolServer> PROTOCOL_SERVER_MAP = new ConcurrentHashMap<>();
 
-  private final ExchangeHandler exchangeHandler =
-      new AbstractExchangeHandler() {
-        @Override
-        public void connection(Channel channel) {
-          super.connection(channel);
-        }
-
-        @Override
-        public void receive(Channel channel, Object msg) {
-          super.receive(channel, msg);
-        }
-
-        @Override
-        public void close(Channel channel) {
-          super.close(channel);
-        }
-
-        @Override
-        public CompletableFuture<Object> reply(ExchangeChannel exchangeChannel, Object request) {
-          return super.reply(exchangeChannel, request);
-        }
-      };
+  private final ExchangeHandlerAdapter exchangeHandler = new ExchangeHandlerAdapter();
 
   @Override
   public <T> void export(Invoker<T> invoker) {
@@ -79,6 +54,7 @@ public class ImpProtocol implements Protocol {
       return;
     }
     InvokerWrapper<T> invokerWrapper = (InvokerWrapper<T>) invoker;
+    exchangeHandler.putInvokerMap(invokerWrapper);
     openService(invokerWrapper.getUrl());
     registry(invokerWrapper);
   }
@@ -89,6 +65,7 @@ public class ImpProtocol implements Protocol {
     if (protocolServer != null) {
       return;
     }
+    Class<?> classType = url.getClassType();
     final NettyChannelHandler channelHandler =
         new NettyChannelHandler(
             url, new DecodeChannelHandler(new HeaderExchangeHandler(exchangeHandler)));

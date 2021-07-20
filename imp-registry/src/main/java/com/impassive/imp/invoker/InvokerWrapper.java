@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 public class InvokerWrapper<T> implements Invoker<T> {
 
-  private Invoker<T> invoker;
+  private final Invoker<T> invoker;
 
   private Url url;
 
@@ -19,11 +19,11 @@ public class InvokerWrapper<T> implements Invoker<T> {
 
   @Override
   public Class<T> getInterfaceClass() {
-    return null;
+    return (Class<T>) url.getClassType();
   }
 
   @Override
   public Result invoke(Invocation invocation) throws Throwable {
-    return null;
+    return invoker.invoke(invocation);
   }
 }

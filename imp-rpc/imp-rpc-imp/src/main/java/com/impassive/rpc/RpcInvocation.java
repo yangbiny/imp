@@ -35,7 +35,7 @@ public class RpcInvocation implements Invocation {
 
   @Override
   public String getMethodName() {
-    return method.getName();
+    return method == null ? methodName : method.getName();
   }
 
   @Override

@@ -26,6 +26,7 @@ public class ImpExchangeChannel implements ExchangeChannel {
 
   @Override
   public CompletableFuture<Object> request(Object req) {
+    // 这里就是最终的 client 发送出请求。此处这里是nettyClient
     channel.send(req);
     return new DefaultCompletableFeature<>();
   }

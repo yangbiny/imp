@@ -28,6 +28,8 @@ public abstract class AbstractProxyInvoker<T> implements Invoker<T> {
         doInvoke(
             proxy, invocation.getMethodName(), invocation.getParams(), invocation.getParamTypes());
     System.out.println(object);
-    return null;
+    final ImpResult impResult = new ImpResult();
+    impResult.setResult(object);
+    return impResult;
   }
 }

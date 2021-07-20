@@ -20,11 +20,12 @@ public class HeaderExchangeHandler implements ChannelHandler {
 
   @Override
   public void receive(Channel channel, Object msg) {
-    handlerRequest();
+    // 此时收到的数据是编码过后的  RpcInvocation
+    handlerRequest(channel, msg);
   }
 
-  private void handlerRequest() {
-
+  private void handlerRequest(Channel channel, Object msg) {
+    exchangeHandler.receive(channel, msg);
   }
 
   @Override
