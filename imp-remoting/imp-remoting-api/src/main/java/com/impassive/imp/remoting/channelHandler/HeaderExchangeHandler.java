@@ -25,7 +25,11 @@ public class HeaderExchangeHandler implements ChannelHandler {
   }
 
   private void handlerRequest(Channel channel, Object msg) {
-    exchangeHandler.receive(channel, msg);
+    try {
+      exchangeHandler.receive(channel, msg);
+    } catch (Throwable throwable) {
+      throw new RuntimeException("unknown exception", throwable);
+    }
   }
 
   @Override

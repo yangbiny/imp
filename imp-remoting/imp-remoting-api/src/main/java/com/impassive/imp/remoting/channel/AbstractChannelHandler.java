@@ -17,7 +17,7 @@ public abstract class AbstractChannelHandler implements ChannelHandler {
   }
 
   @Override
-  public void receive(Channel channel, Object msg) {
+  public void receive(Channel channel, Object msg) throws Exception{
     handler.receive(channel, msg);
   }
 

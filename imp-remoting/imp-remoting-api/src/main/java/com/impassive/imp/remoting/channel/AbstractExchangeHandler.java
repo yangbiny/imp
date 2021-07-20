@@ -14,13 +14,14 @@ public abstract class AbstractExchangeHandler extends ChannelHandlerAdapter impl
   public void connection(Channel channel) {}
 
   @Override
-  public void receive(Channel channel, Object msg) {}
+  public void receive(Channel channel, Object msg) throws Exception {}
 
   @Override
   public void close(Channel channel) {}
 
   @Override
-  public CompletableFuture<Object> reply(ExchangeChannel exchangeChannel, Object request) {
+  public CompletableFuture<Object> reply(ExchangeChannel exchangeChannel, Object request)
+      throws Throwable {
     return null;
   }
 }

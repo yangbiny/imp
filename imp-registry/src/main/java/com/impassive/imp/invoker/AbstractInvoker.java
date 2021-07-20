@@ -1,6 +1,7 @@
 package com.impassive.imp.invoker;
 
 import com.impassive.rpc.Invocation;
+import java.util.concurrent.CompletableFuture;
 
 /** @author impassivey */
 public abstract class AbstractInvoker<T> implements Invoker<T> {
@@ -32,10 +33,17 @@ public abstract class AbstractInvoker<T> implements Invoker<T> {
 
   @Override
   public Result invoke(Invocation invocation) throws Throwable {
-    // TODO 这里会正式的去调用，并返回
     final Object objectValue = doInvoke(invocation);
-    final ImpResult impResult = new ImpResult();
-    impResult.setResult(objectValue);
+    final CompletableFuture<Object> future = CompletableFuture.completedFuture(objectValue);
+    final CompletableFuture<RpcResponse> handle =
+        future.handle(
+            (obj, t) -> {
+              RpcResponse rpcResponse = new RpcResponse();
+              rpcResponse.setResult(obj);
+              return rpcResponse;
+            });
+    final ImpResult impResult = new ImpResult(handle);
+    impResult.setResult(future);
     return impResult;
   }
 

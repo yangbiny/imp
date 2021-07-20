@@ -1,6 +1,7 @@
 package com.impassive.imp.invoker;
 
 import com.impassive.rpc.Invocation;
+import java.util.concurrent.CompletableFuture;
 
 /** @author impassivey */
 public abstract class AbstractProxyInvoker<T> implements Invoker<T> {
@@ -27,8 +28,15 @@ public abstract class AbstractProxyInvoker<T> implements Invoker<T> {
     Object object =
         doInvoke(
             proxy, invocation.getMethodName(), invocation.getParams(), invocation.getParamTypes());
-    System.out.println(object);
-    final ImpResult impResult = new ImpResult();
+    CompletableFuture<Object> future = CompletableFuture.completedFuture(object);
+    final CompletableFuture<RpcResponse> handle =
+        future.handle(
+            (obj, e) -> {
+              RpcResponse rpcResponse = new RpcResponse();
+              rpcResponse.setResult(obj);
+              return rpcResponse;
+            });
+    final ImpResult impResult = new ImpResult(handle);
     impResult.setResult(object);
     return impResult;
   }

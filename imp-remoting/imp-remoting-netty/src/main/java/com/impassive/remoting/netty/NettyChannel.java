@@ -6,6 +6,7 @@ import com.impassive.imp.remoting.channel.AbstractChannel;
 import io.netty.channel.Channel;
 import java.net.InetSocketAddress;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
 /** @author impassivey */
@@ -52,5 +53,10 @@ public class NettyChannel extends AbstractChannel {
   @Override
   public void send(Object object) {
     channel.writeAndFlush(object);
+  }
+
+  @Override
+  public CompletableFuture<Object> request(Object req) {
+    return null;
   }
 }

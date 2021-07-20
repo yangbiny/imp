@@ -12,5 +12,5 @@ public interface ExchangeHandler extends ChannelHandler {
    * @param request 请求的信息
    * @return 请求的结果
    */
-  CompletableFuture<Object> reply(ExchangeChannel exchangeChannel, Object request);
+  CompletableFuture<Object> reply(ExchangeChannel exchangeChannel, Object request) throws Throwable;
 }

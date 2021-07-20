@@ -10,7 +10,7 @@ public class ChannelHandlerAdapter implements ChannelHandler {
   public void connection(Channel channel) {}
 
   @Override
-  public void receive(Channel channel, Object msg) {}
+  public void receive(Channel channel, Object msg) throws Exception {}
 
   @Override
   public void close(Channel channel) {}

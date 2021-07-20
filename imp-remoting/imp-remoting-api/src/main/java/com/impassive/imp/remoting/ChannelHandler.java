@@ -16,7 +16,7 @@ public interface ChannelHandler {
    * @param msg 接收到的信息
    * @param channel handler
    */
-  void receive(Channel channel, Object msg);
+  void receive(Channel channel, Object msg) throws Exception;
 
   /**
    * 连接关闭时的操作

@@ -7,10 +7,10 @@ import com.impassive.imp.remoting.Channel;
 import com.impassive.imp.remoting.ExchangeChannel;
 import com.impassive.imp.remoting.channel.AbstractExchangeHandler;
 import com.impassive.rpc.RpcInvocation;
-import com.sun.org.apache.xml.internal.utils.NSInfo;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 import lombok.extern.slf4j.Slf4j;
 
 /** @author impassivey */
@@ -26,27 +26,11 @@ public class ExchangeHandlerAdapter extends AbstractExchangeHandler {
   }
 
   @Override
-  public void receive(Channel channel, Object msg) {
-    if (msg instanceof RpcInvocation) {
-      RpcInvocation rpcInvocation = (RpcInvocation) msg;
-      final String serviceName = rpcInvocation.getServiceName();
-      try {
-        final Class<?> className = Class.forName(serviceName);
-        final InvokerWrapper<?> invokerWrapper = INVOKER_WRAPPER_MAP.get(className);
-        if (invokerWrapper == null) {
-          throw new UnsupportedOperationException("can not find invokerWrapper");
-        }
-        final Invoker<?> invoker = invokerWrapper.getInvoker();
-        try {
-          final Result invoke = invoker.invoke(rpcInvocation);
-          // 这里添加回复的操作
-        } catch (Throwable throwable) {
-          throw new RuntimeException("invoke has exception : ", throwable);
-        }
-      } catch (ClassNotFoundException e) {
-        log.error("can not find class : {}", msg);
-        log.error("can not find class : ", e);
-      }
+  public void receive(Channel channel, Object msg) throws Exception {
+    try {
+      reply((ExchangeChannel) channel, msg);
+    } catch (Throwable throwable) {
+     throw new RuntimeException("receive has exception : ",throwable);
     }
   }
 
@@ -56,8 +40,30 @@ public class ExchangeHandlerAdapter extends AbstractExchangeHandler {
   }
 
   @Override
-  public CompletableFuture<Object> reply(ExchangeChannel exchangeChannel, Object request) {
-    return super.reply(exchangeChannel, request);
+  public CompletableFuture<Object> reply(ExchangeChannel exchangeChannel, Object request)
+      throws Throwable {
+    RpcInvocation rpcInvocation = (RpcInvocation) request;
+    final String serviceName = rpcInvocation.getServiceName();
+    InvokerWrapper<?> invokerWrapper = null;
+    try {
+      final Class<?> className = Class.forName(serviceName);
+      invokerWrapper = INVOKER_WRAPPER_MAP.get(className);
+      if (invokerWrapper == null) {
+        throw new UnsupportedOperationException("can not find invokerWrapper");
+      }
+      // 这里添加回复的操作
+    } catch (ClassNotFoundException e) {
+      log.error("can not find class : {}", request);
+      log.error("can not find class : ", e);
+    } catch (Throwable throwable) {
+      log.error("invoke has error : ", throwable);
+    }
+    if (invokerWrapper == null){
+      throw new UnsupportedOperationException("can not find invokerWrapper");
+    }
+    final Invoker<?> invoker = invokerWrapper.getInvoker();
+    Result result = invoker.invoke(rpcInvocation);
+    return result.thenApply(Function.identity());
   }
 
   public void putInvokerMap(InvokerWrapper<?> invokerWrapper) {

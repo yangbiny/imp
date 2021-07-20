@@ -1,5 +1,8 @@
 package com.impassive.imp.invoker;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Function;
+
 /** @author impassivey */
 public interface Result {
 
@@ -16,4 +19,6 @@ public interface Result {
    * @param object 返回的对象
    */
   void setResult(Object object);
+
+ <U> CompletableFuture<U> thenApply(Function<Result,? extends U> object);
 }
