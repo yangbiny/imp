@@ -27,8 +27,9 @@ public class HeaderExchangeHandler implements ChannelHandler {
   }
 
   private void handlerRequest(Channel channel, Object msg) {
+    ExchangeChannel exchangeChannel = ExchangeChannelHandler.getOrAddExchangeHandler(channel);
     try {
-      CompletableFuture<Object> reply = exchangeHandler.reply((ExchangeChannel) channel, msg);
+      CompletableFuture<Object> reply = exchangeHandler.reply(exchangeChannel, msg);
       reply.whenComplete(
           (res, t) -> {
             channel.send(res);

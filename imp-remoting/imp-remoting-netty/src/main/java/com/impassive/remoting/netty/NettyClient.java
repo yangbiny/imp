@@ -3,12 +3,14 @@ package com.impassive.remoting.netty;
 import com.impassive.imp.common.Url;
 import com.impassive.imp.remoting.ChannelHandler;
 import com.impassive.imp.remoting.channel.AbstractClient;
+import com.impassive.remoting.netty.codec.DecodeChannel;
 import com.impassive.remoting.netty.codec.MsgEncoder;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import java.net.InetSocketAddress;
@@ -27,14 +29,20 @@ public class NettyClient extends AbstractClient {
   @Override
   protected void doOpen(Url url) {
     bootstrap = new Bootstrap();
+    NettyClientHandler nettyClientHandler = new NettyClientHandler(channelHandler, url);
     bootstrap
         .group(new NioEventLoopGroup())
+        .option(ChannelOption.SO_KEEPALIVE, true)
         .channel(NioSocketChannel.class)
         .handler(
             new ChannelInitializer<NioSocketChannel>() {
               @Override
               protected void initChannel(NioSocketChannel nioSocketChannel) throws Exception {
-                nioSocketChannel.pipeline().addLast(new MsgEncoder());
+                nioSocketChannel
+                    .pipeline()
+                    .addLast("encoder", new MsgEncoder())
+                    .addLast("decoder", new DecodeChannel())
+                    .addLast("handler", nettyClientHandler);
               }
             });
   }

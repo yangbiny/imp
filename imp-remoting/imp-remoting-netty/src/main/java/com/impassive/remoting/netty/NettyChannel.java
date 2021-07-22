@@ -55,8 +55,4 @@ public class NettyChannel extends AbstractChannel {
     channel.writeAndFlush(object);
   }
 
-  @Override
-  public CompletableFuture<Object> request(Object req) {
-    return null;
-  }
 }
