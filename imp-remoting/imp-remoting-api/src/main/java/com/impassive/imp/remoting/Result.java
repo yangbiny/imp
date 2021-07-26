@@ -1,4 +1,4 @@
-package com.impassive.imp.invoker;
+package com.impassive.imp.remoting;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;

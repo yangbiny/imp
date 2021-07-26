@@ -1,7 +1,8 @@
 package com.impassive.imp.invoker;
 
 import com.impassive.imp.common.Url;
-import com.impassive.rpc.Invocation;
+import com.impassive.imp.remoting.Invocation;
+import com.impassive.imp.remoting.Result;
 import lombok.Getter;
 
 /** @author impassivey */

@@ -1,4 +1,4 @@
-package com.impassive.rpc;
+package com.impassive.imp.remoting;
 
 /** @author impassivey */
 public interface Invocation {

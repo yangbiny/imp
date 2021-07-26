@@ -2,18 +2,23 @@ package com.impassive.imp.protocol;
 
 import com.impassive.imp.invoker.Invoker;
 import com.impassive.imp.invoker.InvokerWrapper;
-import com.impassive.imp.invoker.Result;
+import com.impassive.imp.remoting.Result;
 import com.impassive.imp.remoting.Channel;
 import com.impassive.imp.remoting.ExchangeChannel;
 import com.impassive.imp.remoting.channel.AbstractExchangeHandler;
+import com.impassive.imp.remoting.channelHandler.ExchangeChannelHandler;
+import com.impassive.imp.remoting.channelHandler.HeaderExchangeHandler;
 import com.impassive.rpc.RpcInvocation;
+import com.impassive.rpc.RpcResponse;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import lombok.extern.slf4j.Slf4j;
 
-/** @author impassivey */
+/**
+ * @author impassivey
+ */
 @Slf4j
 public class ExchangeHandlerAdapter extends AbstractExchangeHandler {
 
@@ -28,9 +33,11 @@ public class ExchangeHandlerAdapter extends AbstractExchangeHandler {
   @Override
   public void receive(Channel channel, Object msg) throws Exception {
     try {
-      reply((ExchangeChannel) channel, msg);
+      ExchangeChannel exchangeHandler = ExchangeChannelHandler
+          .getOrAddExchangeHandler(channel);
+      reply(exchangeHandler, msg);
     } catch (Throwable throwable) {
-     throw new RuntimeException("receive has exception : ",throwable);
+      throw new RuntimeException("receive has exception : ", throwable);
     }
   }
 
@@ -42,6 +49,9 @@ public class ExchangeHandlerAdapter extends AbstractExchangeHandler {
   @Override
   public CompletableFuture<Object> reply(ExchangeChannel exchangeChannel, Object request)
       throws Throwable {
+    if (request instanceof Result){
+      return null;
+    }
     RpcInvocation rpcInvocation = (RpcInvocation) request;
     final String serviceName = rpcInvocation.getServiceName();
     InvokerWrapper<?> invokerWrapper = null;
@@ -51,16 +61,16 @@ public class ExchangeHandlerAdapter extends AbstractExchangeHandler {
       if (invokerWrapper == null) {
         throw new UnsupportedOperationException("can not find invokerWrapper");
       }
-      // 这里添加回复的操作
     } catch (ClassNotFoundException e) {
       log.error("can not find class : {}", request);
       log.error("can not find class : ", e);
     } catch (Throwable throwable) {
       log.error("invoke has error : ", throwable);
     }
-    if (invokerWrapper == null){
+    if (invokerWrapper == null) {
       throw new UnsupportedOperationException("can not find invokerWrapper");
     }
+    // 这里添加回复的操作
     final Invoker<?> invoker = invokerWrapper.getInvoker();
     Result result = invoker.invoke(rpcInvocation);
     return result.thenApply(Function.identity());

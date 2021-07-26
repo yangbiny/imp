@@ -1,9 +1,11 @@
 package com.impassive.codec;
 
+import com.alibaba.fastjson.JSON;
 import com.google.common.base.Joiner;
 import com.impassive.imp.remoting.codec.AbstractCodec;
-import com.impassive.rpc.Invocation;
+import com.impassive.imp.remoting.Invocation;
 import com.impassive.rpc.RpcInvocation;
+import com.impassive.rpc.RpcResponse;
 import io.netty.buffer.ByteBuf;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
@@ -11,7 +13,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 
-/** @author impassivey */
+/**
+ * @author impassivey
+ */
 public class ImpCodec extends AbstractCodec {
 
   @Override
@@ -41,6 +45,8 @@ public class ImpCodec extends AbstractCodec {
             + serviceNameBytes.length
             + paramTypeStrBytes.length;
     out.writeInt(all);
+    // 不是返回值
+    out.writeInt(0);
     write(out, serviceNameBytes);
     write(out, methodNameBytes);
     write(out, paramTypeStrBytes);
@@ -52,6 +58,10 @@ public class ImpCodec extends AbstractCodec {
     int all = in.readInt();
     if (in.readableBytes() < all) {
       return null;
+    }
+    int isResponse = in.readInt();
+    if (isResponse == 1) {
+      return buildResponse(in);
     }
     int length = in.readInt();
     byte[] bytes = new byte[length];
@@ -90,6 +100,28 @@ public class ImpCodec extends AbstractCodec {
     rpcInvocation.setParameterTypes(paramType);
     rpcInvocation.setServerName(serviceName);
     return rpcInvocation;
+  }
+
+  private Object buildResponse(ByteBuf in) throws ClassNotFoundException {
+    int length = in.readInt();
+    byte[] bytes = new byte[length];
+    in.readBytes(bytes, 0, length);
+    String result = new String(bytes);
+
+    Class<?> aClass = Class.forName(result);
+    Object resultObject;
+    length = in.readInt();
+    bytes = new byte[length];
+    in.readBytes(bytes, 0, length);
+    result = new String(bytes);
+    if (aClass == String.class) {
+      resultObject = result;
+    } else {
+      resultObject = JSON.parse(result);
+    }
+    RpcResponse rpcResponse = new RpcResponse();
+    rpcResponse.setResult(resultObject);
+    return rpcResponse;
   }
 
   private void write(ByteBuf out, byte[] bytes) {

@@ -1,5 +1,6 @@
 package com.impassive.rpc;
 
+import com.impassive.imp.remoting.Invocation;
 import java.lang.reflect.Method;
 import lombok.Data;
 import lombok.Setter;

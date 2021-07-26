@@ -4,14 +4,17 @@ import com.impassive.imp.common.Url;
 import com.impassive.imp.remoting.Channel;
 import com.impassive.imp.remoting.ChannelHandler;
 import com.impassive.imp.remoting.channel.AbstractServer;
-import com.impassive.remoting.netty.codec.DecodeChannel;
+import com.impassive.remoting.netty.codec.DecodeRequest;
+import com.impassive.remoting.netty.codec.EncodeResponse;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
-/** @author impassivey */
+/**
+ * @author impassivey
+ */
 public class NettyChannelHandler extends AbstractServer {
 
   private ServerBootstrap bootstrap;
@@ -37,7 +40,8 @@ public class NettyChannelHandler extends AbstractServer {
             new ChannelInitializer<SocketChannel>() {
               @Override
               protected void initChannel(SocketChannel socketChannel) throws Exception {
-                socketChannel.pipeline().addLast(new DecodeChannel());
+                socketChannel.pipeline().addLast("decode", new DecodeRequest());
+                socketChannel.pipeline().addLast("encode", new EncodeResponse());
                 socketChannel.pipeline().addLast(nettyServiceHandler);
               }
             })
@@ -52,7 +56,8 @@ public class NettyChannelHandler extends AbstractServer {
   }
 
   @Override
-  public void connection(Channel channel) {}
+  public void connection(Channel channel) {
+  }
 
   @Override
   public void close(Channel channel) {

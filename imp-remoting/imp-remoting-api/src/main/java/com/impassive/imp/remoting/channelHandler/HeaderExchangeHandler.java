@@ -4,9 +4,13 @@ import com.impassive.imp.remoting.Channel;
 import com.impassive.imp.remoting.ChannelHandler;
 import com.impassive.imp.remoting.ExchangeChannel;
 import com.impassive.imp.remoting.ExchangeHandler;
+import com.impassive.imp.remoting.Invocation;
+import com.impassive.imp.remoting.Result;
 import java.util.concurrent.CompletableFuture;
 
-/** @author impassivey */
+/**
+ * @author impassivey
+ */
 public class HeaderExchangeHandler implements ChannelHandler {
 
   protected ExchangeHandler exchangeHandler;
@@ -21,9 +25,13 @@ public class HeaderExchangeHandler implements ChannelHandler {
   }
 
   @Override
-  public void receive(Channel channel, Object msg) {
+  public void receive(Channel channel, Object msg) throws Exception {
     // 此时收到的数据是编码过后的  RpcInvocation
-    handlerRequest(channel, msg);
+    if (msg instanceof Invocation) {
+      handlerRequest(channel, msg);
+    } else if (msg instanceof Result) {
+      exchangeHandler.receive(channel, msg);
+    }
   }
 
   private void handlerRequest(Channel channel, Object msg) {
