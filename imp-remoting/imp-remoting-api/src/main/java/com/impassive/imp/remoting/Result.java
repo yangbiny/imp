@@ -4,7 +4,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
 /** @author impassivey */
-public interface Result {
+public interface Result extends Request {
 
   /**
    * 获取返回的结果
@@ -20,5 +20,5 @@ public interface Result {
    */
   void setResult(Object object);
 
- <U> CompletableFuture<U> thenApply(Function<Result,? extends U> object);
+  <U> CompletableFuture<U> thenApply(Function<Result, ? extends U> object);
 }

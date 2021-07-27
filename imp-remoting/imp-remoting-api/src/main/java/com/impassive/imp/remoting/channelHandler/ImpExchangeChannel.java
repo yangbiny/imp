@@ -2,6 +2,7 @@ package com.impassive.imp.remoting.channelHandler;
 
 import com.impassive.imp.remoting.Channel;
 import com.impassive.imp.remoting.ExchangeChannel;
+import com.impassive.imp.remoting.Request;
 import java.net.InetSocketAddress;
 import java.util.concurrent.CompletableFuture;
 
@@ -27,7 +28,7 @@ public class ImpExchangeChannel implements ExchangeChannel {
   @Override
   public CompletableFuture<Object> request(Object req) {
     // 这里就是最终的 client 发送出请求。此处这里是nettyClient
-    DefaultCompletableFeature<Object> feature = new DefaultCompletableFeature<>(channel);
+    DefaultCompletableFeature feature = new DefaultCompletableFeature(channel, (Request) req);
     channel.send(req);
     return feature;
   }

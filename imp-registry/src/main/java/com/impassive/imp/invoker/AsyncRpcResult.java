@@ -39,4 +39,14 @@ public class AsyncRpcResult implements Result {
     }
     return new RpcResponse();
   }
+
+  @Override
+  public void setRequestId(long id) {
+
+  }
+
+  @Override
+  public Long getRequestId() {
+    return null;
+  }
 }

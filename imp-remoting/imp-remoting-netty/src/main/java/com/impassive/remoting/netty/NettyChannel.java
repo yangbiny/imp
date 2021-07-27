@@ -6,7 +6,6 @@ import com.impassive.imp.remoting.channel.AbstractChannel;
 import io.netty.channel.Channel;
 import java.net.InetSocketAddress;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
 /** @author impassivey */

@@ -31,6 +31,8 @@ public class EncodeResponse extends MessageToByteEncoder<Result> {
     byteBuf.writeInt(1);
     write(byteBuf, resultTypeBytes);
     write(byteBuf, resultBytes);
+    byteBuf.writeLong(result.getRequestId());
+
   }
 
   private void write(ByteBuf byteBuf, byte[] bytes) {

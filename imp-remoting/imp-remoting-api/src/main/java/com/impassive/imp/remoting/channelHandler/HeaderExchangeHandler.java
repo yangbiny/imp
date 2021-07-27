@@ -5,6 +5,7 @@ import com.impassive.imp.remoting.ChannelHandler;
 import com.impassive.imp.remoting.ExchangeChannel;
 import com.impassive.imp.remoting.ExchangeHandler;
 import com.impassive.imp.remoting.Invocation;
+import com.impassive.imp.remoting.Request;
 import com.impassive.imp.remoting.Result;
 import java.util.concurrent.CompletableFuture;
 
@@ -40,7 +41,11 @@ public class HeaderExchangeHandler implements ChannelHandler {
       CompletableFuture<Object> reply = exchangeHandler.reply(exchangeChannel, msg);
       reply.whenComplete(
           (res, t) -> {
-            channel.send(res);
+            Request request = (Request) msg;
+            Result result = (Result) res;
+            result.setRequestId(request.getRequestId());
+            channel.send(result);
+
           });
     } catch (Throwable throwable) {
       throw new RuntimeException("unknown exception", throwable);

@@ -2,6 +2,7 @@ package com.impassive.imp.remoting.channelHandler;
 
 import com.impassive.imp.remoting.Channel;
 import com.impassive.imp.remoting.ExchangeChannel;
+import com.impassive.imp.remoting.Request;
 import java.net.InetSocketAddress;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -42,6 +43,6 @@ public class ExchangeChannelHandler implements ExchangeChannel {
   @Override
   public CompletableFuture<Object> request(Object req) {
     channel.send(req);
-    return new DefaultCompletableFeature<>(channel);
+    return new DefaultCompletableFeature(channel, (Request) req);
   }
 }

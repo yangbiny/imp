@@ -18,9 +18,9 @@ public class ProxyInvocationHandler implements InvocationHandler {
   @Override
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
     String name = invoker.getInterfaceClass().getName();
-    RpcInvocation invocation = new RpcInvocation(method,args,name);
+    RpcInvocation invocation = new RpcInvocation(method, args, name);
     Result invoke = invoker.invoke(invocation);
-    if (invoke == null){
+    if (invoke == null) {
       return null;
     }
     return invoke.getResult();

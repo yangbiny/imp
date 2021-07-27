@@ -5,6 +5,10 @@ import com.impassive.imp.remoting.ExchangeClient;
 import com.impassive.imp.remoting.Invocation;
 import com.impassive.rpc.RpcResponse;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+import java.util.function.BiConsumer;
 
 /** @author impassivey */
 public class ImpInvoker<T> extends AbstractInvoker<T> {
@@ -25,8 +29,14 @@ public class ImpInvoker<T> extends AbstractInvoker<T> {
   @Override
   protected Object doInvoke(Invocation invocation) {
     ExchangeClient exchangeClient = exchangeClients[0];
-    CompletableFuture<RpcResponse> future = exchangeClient.request(invocation)
-        .thenApply(obj -> (RpcResponse) obj);
-    return "傻狗";
+    CompletableFuture<RpcResponse> future =
+        exchangeClient.request(invocation).thenApply(obj -> (RpcResponse) obj);
+    RpcResponse rpcResponse = null;
+    try {
+      rpcResponse = future.get(10000, TimeUnit.SECONDS);
+    } catch (InterruptedException | ExecutionException | TimeoutException e) {
+      e.printStackTrace();
+    }
+    return rpcResponse.getResult();
   }
 }

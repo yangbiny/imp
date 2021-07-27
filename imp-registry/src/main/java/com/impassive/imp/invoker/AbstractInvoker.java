@@ -1,6 +1,7 @@
 package com.impassive.imp.invoker;
 
 import com.impassive.imp.remoting.Invocation;
+import com.impassive.imp.remoting.Request;
 import com.impassive.imp.remoting.Result;
 import com.impassive.rpc.RpcResponse;
 import java.util.concurrent.CompletableFuture;
@@ -36,12 +37,14 @@ public abstract class AbstractInvoker<T> implements Invoker<T> {
   @Override
   public Result invoke(Invocation invocation) throws Throwable {
     final Object objectValue = doInvoke(invocation);
+    Request request = (Request) invocation;
     final CompletableFuture<Object> future = CompletableFuture.completedFuture(objectValue);
     final CompletableFuture<RpcResponse> handle =
         future.handle(
             (obj, t) -> {
               RpcResponse rpcResponse = new RpcResponse();
               rpcResponse.setResult(obj);
+              rpcResponse.setRequestId(request.getRequestId());
               return rpcResponse;
             });
     final ImpResult impResult = new ImpResult(handle);

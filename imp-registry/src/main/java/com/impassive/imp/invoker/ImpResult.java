@@ -41,4 +41,14 @@ public class ImpResult implements Result {
   public <U> CompletableFuture<U> thenApply(Function<Result, ? extends U> object) {
     return this.completableFuture.thenApply(object);
   }
+
+  @Override
+  public void setRequestId(long id) {
+
+  }
+
+  @Override
+  public Long getRequestId() {
+    return null;
+  }
 }
