@@ -49,16 +49,7 @@ public class NettyClient extends AbstractClient {
 
   @Override
   protected void doConnect() {
-    ChannelFuture connect =
-        bootstrap
-            .connect(getConnectAddress())
-            .addListener(
-                (ChannelFutureListener)
-                    future -> {
-                      if (future.isSuccess()) {
-                        System.out.println("connection success");
-                      }
-                    });
+    ChannelFuture connect = bootstrap.connect(getConnectAddress());
     this.channel = connect.channel();
   }
 
