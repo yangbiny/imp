@@ -41,8 +41,8 @@ public class ImpInvoker<T> extends AbstractInvoker<T> {
     CompletableFuture<Object> request = exchangeClient.request(invocation);
     Future<Object> submit = THREAD_POOL_EXECUTOR.submit((Callable<Object>) request::get);
     try {
-      Object o = submit.get(10, TimeUnit.SECONDS);
-      return 0;
+      RpcResponse o = (RpcResponse) submit.get(10, TimeUnit.SECONDS);
+      return o.getResult();
     } catch (InterruptedException | ExecutionException | TimeoutException e) {
       e.printStackTrace();
     }
