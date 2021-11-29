@@ -64,7 +64,6 @@ public class ImpProtocol implements Protocol {
     if (protocolServer != null) {
       return;
     }
-    Class<?> classType = url.getClassType();
     final NettyChannelHandler channelHandler =
         new NettyChannelHandler(
             url, new DecodeChannelHandler(new HeaderExchangeHandler(exchangeHandler)));

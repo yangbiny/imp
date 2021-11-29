@@ -36,22 +36,25 @@ public class NettyServiceHandler extends ChannelDuplexHandler {
       ChannelPromise promise)
       throws Exception {
     super.connect(ctx, remoteAddress, localAddress, promise);
+    NettyChannel.getOrAddNetChannel(ctx.channel(), url, channelHandler);
   }
 
   @Override
   public void disconnect(ChannelHandlerContext ctx, ChannelPromise promise) throws Exception {
     super.disconnect(ctx, promise);
+    NettyChannel.removeIfNotConnect(ctx.channel());
   }
 
   @Override
   public void close(ChannelHandlerContext ctx, ChannelPromise promise) throws Exception {
     super.close(ctx, promise);
+    NettyChannel.removeIfNotConnect(ctx.channel());
   }
 
   @Override
   public void deregister(ChannelHandlerContext ctx, ChannelPromise promise) throws Exception {
-
     super.deregister(ctx, promise);
+    NettyChannel.getOrAddNetChannel(ctx.channel(), url, channelHandler);
   }
 
   @Override
@@ -59,5 +62,10 @@ public class NettyServiceHandler extends ChannelDuplexHandler {
     final NettyChannel nettyChannel =
         NettyChannel.getOrAddNetChannel(ctx.channel(), url, channelHandler);
     channelHandler.receive(nettyChannel, msg);
+  }
+
+  @Override
+  public void channelActive(ChannelHandlerContext ctx) throws Exception {
+    super.channelActive(ctx);
   }
 }

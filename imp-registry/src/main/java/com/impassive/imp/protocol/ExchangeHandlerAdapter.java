@@ -10,7 +10,6 @@ import com.impassive.imp.remoting.channel.AbstractExchangeHandler;
 import com.impassive.imp.remoting.channelHandler.DefaultCompletableFeature;
 import com.impassive.imp.remoting.channelHandler.ExchangeChannelHandler;
 import com.impassive.rpc.RpcInvocation;
-import com.impassive.rpc.RpcResponse;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;

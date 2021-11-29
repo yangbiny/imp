@@ -11,7 +11,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 /** @author impassivey */
 public class ImpInvoker<T> extends AbstractInvoker<T> {
@@ -20,7 +19,7 @@ public class ImpInvoker<T> extends AbstractInvoker<T> {
       new ThreadPoolExecutor(
           10, 10, 10, TimeUnit.MINUTES, new ArrayBlockingQueue<>(1000), r -> new Thread(r));
 
-  private ExchangeClient[] exchangeClients;
+  private final ExchangeClient[] exchangeClients;
 
   private Url url;
 
@@ -39,10 +38,10 @@ public class ImpInvoker<T> extends AbstractInvoker<T> {
     CompletableFuture<Object> request = exchangeClient.request(invocation);
     Future<Object> submit = THREAD_POOL_EXECUTOR.submit((Callable<Object>) request::get);
     try {
-      RpcResponse o = (RpcResponse) submit.get(10, TimeUnit.SECONDS);
+      RpcResponse o = (RpcResponse) submit.get();
       return o.getResult();
-    } catch (InterruptedException | ExecutionException | TimeoutException e) {
-      e.printStackTrace();
+    } catch (InterruptedException | ExecutionException exception) {
+      exception.printStackTrace();
     }
     return null;
   }
