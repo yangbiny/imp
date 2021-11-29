@@ -7,7 +7,9 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
 import java.net.SocketAddress;
 
-/** @author impassivey */
+/**
+ * @author impassivey
+ */
 public class NettyServiceHandler extends ChannelDuplexHandler {
 
   private final ChannelHandler channelHandler;
@@ -23,6 +25,7 @@ public class NettyServiceHandler extends ChannelDuplexHandler {
   public void bind(ChannelHandlerContext ctx, SocketAddress localAddress, ChannelPromise promise)
       throws Exception {
     super.bind(ctx, localAddress, promise);
+    NettyChannel.getOrAddNetChannel(ctx.channel(), url, channelHandler);
   }
 
   @Override
