@@ -15,7 +15,7 @@ public class Consumer {
     init();
     TestRpc bean = consumerBean.getBean();
     while (true) {
-      final String test = bean.test("test");
+      final String test = bean.test("test" + System.currentTimeMillis());
       System.out.println(test);
       Thread.sleep(1000);
     }

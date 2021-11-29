@@ -10,7 +10,7 @@ public class ImpResult implements Result {
 
   private Object result;
 
-  private CompletableFuture<RpcResponse> completableFuture;
+  private final CompletableFuture<RpcResponse> completableFuture;
 
   public ImpResult(CompletableFuture<RpcResponse> completableFuture) {
     this.completableFuture = completableFuture;

@@ -8,7 +8,7 @@ import java.util.function.Function;
 /** @author impassivey */
 public class AsyncRpcResult implements Result {
 
-  private CompletableFuture<RpcResponse> responseFuture;
+  private final CompletableFuture<RpcResponse> responseFuture;
 
   public AsyncRpcResult(CompletableFuture<RpcResponse> responseFuture) {
     this.responseFuture = responseFuture;

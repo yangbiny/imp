@@ -105,6 +105,8 @@ public class ImpCodec extends AbstractCodec {
     for (int i = 0; i < paramTypes.length; i++) {
       paramType[i] = Class.forName(paramTypes[i]);
     }
+    for (Object o : param) {
+    }
     int isRequest = in.readInt();
 
     RpcInvocation rpcInvocation = new RpcInvocation();

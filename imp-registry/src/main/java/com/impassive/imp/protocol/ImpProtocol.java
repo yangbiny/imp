@@ -8,7 +8,6 @@ import com.impassive.imp.registry.AbstractRegistryFactory;
 import com.impassive.imp.registry.Registry;
 import com.impassive.imp.registry.RegistryFactory;
 import com.impassive.imp.remoting.ExchangeClient;
-import com.impassive.imp.remoting.ExchangeHandler;
 import com.impassive.imp.remoting.channelHandler.DecodeChannelHandler;
 import com.impassive.imp.remoting.channelHandler.HeaderExchangeHandler;
 import com.impassive.imp.remoting.channelHandler.ImpExchangeClient;
