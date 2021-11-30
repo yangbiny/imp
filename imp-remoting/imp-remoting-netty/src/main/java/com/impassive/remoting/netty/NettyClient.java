@@ -8,16 +8,18 @@ import com.impassive.remoting.netty.codec.EncoderRequest;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import java.net.InetSocketAddress;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author impassivey
  */
+@Slf4j
 public class NettyClient extends AbstractClient {
 
   private volatile Bootstrap bootstrap;
@@ -39,7 +41,7 @@ public class NettyClient extends AbstractClient {
         .handler(
             new ChannelInitializer<NioSocketChannel>() {
               @Override
-              protected void initChannel(NioSocketChannel nioSocketChannel) throws Exception {
+              protected void initChannel(NioSocketChannel nioSocketChannel) {
                 nioSocketChannel
                     .pipeline()
                     .addLast("encoder", new EncoderRequest())
@@ -53,6 +55,7 @@ public class NettyClient extends AbstractClient {
   protected void doConnect() {
     ChannelFuture connect = bootstrap.connect(getConnectAddress());
     this.channel = connect.channel();
+    log.info("channel active status : {}",this.channel.isActive());
   }
 
   @Override

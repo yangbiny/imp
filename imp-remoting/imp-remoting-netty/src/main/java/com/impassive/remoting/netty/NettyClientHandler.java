@@ -6,8 +6,12 @@ import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
 import java.net.SocketAddress;
+import lombok.extern.slf4j.Slf4j;
 
-/** @author impassivey */
+/**
+ * @author impassivey
+ */
+@Slf4j
 public class NettyClientHandler extends ChannelDuplexHandler {
 
   private final ChannelHandler channelHandler;
@@ -19,88 +23,24 @@ public class NettyClientHandler extends ChannelDuplexHandler {
     this.url = url;
   }
 
-
-  @Override
-  public void bind(ChannelHandlerContext ctx, SocketAddress localAddress, ChannelPromise promise)
-      throws Exception {
-    super.bind(ctx, localAddress, promise);
-  }
-
   @Override
   public void connect(ChannelHandlerContext ctx, SocketAddress remoteAddress,
       SocketAddress localAddress, ChannelPromise promise) throws Exception {
     super.connect(ctx, remoteAddress, localAddress, promise);
-  }
-
-  @Override
-  public void disconnect(ChannelHandlerContext ctx, ChannelPromise promise) throws Exception {
-    super.disconnect(ctx, promise);
-  }
-
-  @Override
-  public void close(ChannelHandlerContext ctx, ChannelPromise promise) throws Exception {
-    super.close(ctx, promise);
-  }
-
-  @Override
-  public void deregister(ChannelHandlerContext ctx, ChannelPromise promise) throws Exception {
-    super.deregister(ctx, promise);
-  }
-
-  @Override
-  public void read(ChannelHandlerContext ctx) throws Exception {
-    super.read(ctx);
-  }
-
-  @Override
-  public void flush(ChannelHandlerContext ctx) throws Exception {
-    super.flush(ctx);
-  }
-
-  @Override
-  public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
-    super.channelRegistered(ctx);
-  }
-
-  @Override
-  public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
-    super.channelUnregistered(ctx);
+    log.debug("netty is connect : remote : {},local : {}", remoteAddress, localAddress);
   }
 
   @Override
   public void channelActive(ChannelHandlerContext ctx) throws Exception {
     super.channelActive(ctx);
+    NettyChannel.getOrAddNetChannel(ctx.channel(), url, channelHandler);
   }
 
   @Override
   public void channelInactive(ChannelHandlerContext ctx) throws Exception {
     super.channelInactive(ctx);
-  }
-
-  @Override
-  public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-    super.channelReadComplete(ctx);
-  }
-
-  @Override
-  public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-    super.userEventTriggered(ctx, evt);
-  }
-
-  @Override
-  public void channelWritabilityChanged(ChannelHandlerContext ctx) throws Exception {
-    super.channelWritabilityChanged(ctx);
-  }
-
-  @Override
-  public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-    super.exceptionCaught(ctx, cause);
-  }
-
-  @Override
-  public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise)
-      throws Exception {
-    super.write(ctx, msg, promise);
+    log.debug("channel is inactive : {}, channel active status {}",
+        ctx.channel(), ctx.channel().isActive());
   }
 
   @Override

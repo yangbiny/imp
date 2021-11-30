@@ -45,6 +45,11 @@
       <version>1.18.12</version>
     </dependency>
     <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>log4j-over-slf4j</artifactId>
+      <version>1.7.25</version>
+    </dependency>
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.12</version>
@@ -60,7 +65,18 @@
       <artifactId>jsr305</artifactId>
       <version>3.0.1</version>
     </dependency>
+    <dependency>
+      <groupId>me.moocar</groupId>
+      <artifactId>logback-gelf</artifactId>
+      <version>0.3</version>
+    </dependency>
 
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>1.2.3</version>
+      <scope>compile</scope>
+    </dependency>
   </dependencies>
 
 </project>
