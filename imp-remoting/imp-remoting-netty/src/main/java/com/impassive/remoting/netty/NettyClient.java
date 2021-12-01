@@ -1,6 +1,7 @@
 package com.impassive.remoting.netty;
 
 import com.impassive.imp.common.Url;
+import com.impassive.imp.exception.ImpNettyException;
 import com.impassive.imp.remoting.ChannelHandler;
 import com.impassive.imp.remoting.channel.AbstractClient;
 import com.impassive.remoting.netty.codec.DecodeRequest;
@@ -55,14 +56,21 @@ public class NettyClient extends AbstractClient {
   protected void doConnect() {
     InetSocketAddress connectAddress = getConnectAddress();
     ChannelFuture future = bootstrap.connect(connectAddress);
-    boolean success = future.awaitUninterruptibly(10, TimeUnit.SECONDS);
-    if (success && future.isSuccess()) {
-      this.channel = future.channel();
-      log.info("channel active status : {}", this.channel.isActive());
-    } else if (future.cause() != null) {
-      log.error("connect has error : ", future.cause());
-    }else {
-      log.error("failed connect to service : {}",connectAddress);
+    try {
+      boolean success = future.awaitUninterruptibly(10, TimeUnit.SECONDS);
+
+      if (success && future.isSuccess()) {
+        this.channel = future.channel();
+        log.info("channel active status : {}", this.channel.isActive());
+      } else if (future.cause() != null) {
+        log.error("connect has error : ", future.cause());
+        throw new ImpNettyException("connect has error", future.cause());
+      } else {
+        log.error("failed connect to service : {}", connectAddress);
+        throw new ImpNettyException("failed connect to service");
+      }
+    } catch (Exception e) {
+      throw new ImpNettyException("connect to service has exception ", e);
     }
   }
 
