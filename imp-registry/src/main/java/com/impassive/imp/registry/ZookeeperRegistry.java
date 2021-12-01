@@ -3,25 +3,34 @@ package com.impassive.imp.registry;
 import com.impassive.imp.common.Url;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
+import org.apache.zookeeper.WatchedEvent;
+import org.apache.zookeeper.Watcher;
+import org.apache.zookeeper.Watcher.Event.KeeperState;
 import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
 
-/** @author impassivey */
+/**
+ * @author impassivey
+ */
+@Slf4j
 public class ZookeeperRegistry extends AbstractRegistry {
 
   private static final String ZK_PATH = "/%s/%s/%s/%s";
 
   private static final String ZK_DATA = "%s://%s:%s/%s/?groupName=%s";
 
-  private final ZooKeeper zooKeeperClient;
+  private ZooKeeper zooKeeperClient;
 
   public ZookeeperRegistry(Url url) {
     super(url);
+
     try {
-      this.zooKeeperClient = new ZooKeeper(buildZookeeperRegistry(url), 1000 * 3600, event -> {});
+      this.zooKeeperClient = new ZooKeeper(buildZookeeperRegistry(url), 10000,
+          new ZookeeperWatcher());
     } catch (IOException e) {
       throw new RuntimeException("create zookeeper Client error", e);
     }
@@ -73,5 +82,20 @@ public class ZookeeperRegistry extends AbstractRegistry {
         url.getApplicationName(),
         url.getGroupName(),
         url.getInterfaceName());
+  }
+
+  final private class ZookeeperWatcher implements Watcher {
+
+    @Override
+    public void process(WatchedEvent event) {
+      if (event.getState() == KeeperState.Expired) {
+        log.error("zookeeper expire, will recreate : {}", event);
+        try {
+          zooKeeperClient = new ZooKeeper(buildZookeeperRegistry(url), 10000, this);
+        } catch (IOException e) {
+          throw new RuntimeException("create zookeeper Client error", e);
+        }
+      }
+    }
   }
 }

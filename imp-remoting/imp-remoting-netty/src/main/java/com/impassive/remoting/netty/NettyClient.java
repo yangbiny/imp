@@ -8,12 +8,12 @@ import com.impassive.remoting.netty.codec.EncoderRequest;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import java.net.InetSocketAddress;
+import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -53,9 +53,17 @@ public class NettyClient extends AbstractClient {
 
   @Override
   protected void doConnect() {
-    ChannelFuture connect = bootstrap.connect(getConnectAddress());
-    this.channel = connect.channel();
-    log.info("channel active status : {}",this.channel.isActive());
+    InetSocketAddress connectAddress = getConnectAddress();
+    ChannelFuture future = bootstrap.connect(connectAddress);
+    boolean success = future.awaitUninterruptibly(10, TimeUnit.SECONDS);
+    if (success && future.isSuccess()) {
+      this.channel = future.channel();
+      log.info("channel active status : {}", this.channel.isActive());
+    } else if (future.cause() != null) {
+      log.error("connect has error : ", future.cause());
+    }else {
+      log.error("failed connect to service : {}",connectAddress);
+    }
   }
 
   @Override
