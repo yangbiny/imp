@@ -4,9 +4,13 @@ import com.impassive.imp.api.ConsumerBean;
 import com.impassive.imp.application.ApplicationConfig;
 import com.impassive.imp.protocol.ProtocolConfig;
 import com.impassive.imp.registry.RegistryConfig;
+import com.impassive.imp.test.Result;
 import com.impassive.imp.test.TestRpc;
+import com.impassive.imp.test.provider.Param;
 
-/** @author impassivey */
+/**
+ * @author impassivey
+ */
 public class Consumer {
 
   private static ConsumerBean<TestRpc> consumerBean;
@@ -14,10 +18,15 @@ public class Consumer {
   public void start() throws InterruptedException {
     init();
     TestRpc bean = consumerBean.getBean();
-    while (true) {
+    int index = 10;
+    while (index-- > 0) {
       final String test = bean.test("test" + System.currentTimeMillis());
       System.out.println(test);
       Thread.sleep(1000);
+      Param param = new Param();
+      param.setDate(System.currentTimeMillis());
+      Result result = bean.test(param);
+      System.out.println(result);
     }
   }
 

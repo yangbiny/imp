@@ -3,12 +3,13 @@ package com.impassive.remoting.netty.codec;
 import com.impassive.codec.ImpCodec;
 import com.impassive.imp.remoting.Request;
 import com.impassive.imp.remoting.codec.Codec;
-import com.impassive.imp.remoting.Invocation;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 
-/** @author impassivey */
+/**
+ * @author impassivey
+ */
 public class EncoderRequest extends MessageToByteEncoder<Request> {
 
   private final Codec codec = new ImpCodec();
@@ -17,6 +18,6 @@ public class EncoderRequest extends MessageToByteEncoder<Request> {
   protected void encode(
       ChannelHandlerContext channelHandlerContext, Request request, ByteBuf byteBuf)
       throws Exception {
-    codec.encode(byteBuf,request);
+    codec.encode(byteBuf, request);
   }
 }

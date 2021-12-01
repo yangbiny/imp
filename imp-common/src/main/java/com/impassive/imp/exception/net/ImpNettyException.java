@@ -1,4 +1,4 @@
-package com.impassive.imp.exception;
+package com.impassive.imp.exception.net;
 
 public class ImpNettyException extends RuntimeException {
 

@@ -20,17 +20,12 @@
     <dependency>
       <groupId>com.impassive</groupId>
       <artifactId>imp-remoting-api</artifactId>
-      <version>1.0.0</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>com.impassive</groupId>
       <artifactId>imp-rpc-imp</artifactId>
-      <version>1.0.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.alibaba</groupId>
-      <artifactId>fastjson</artifactId>
-      <version>1.2.76</version>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
 

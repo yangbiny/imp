@@ -1,5 +1,7 @@
 package com.impassive.imp.test;
 
+import com.impassive.imp.test.provider.Param;
+
 /** @author impassivey */
 public interface TestRpc {
 
@@ -10,4 +12,7 @@ public interface TestRpc {
    * @return 返回数据
    */
   String test(String arg);
+
+  Result test(Param param);
+
 }

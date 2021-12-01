@@ -2,10 +2,10 @@ package com.impassive.codec;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.base.Joiner;
-import com.impassive.imp.common.Url;
+import com.impassive.imp.remoting.Invocation;
 import com.impassive.imp.remoting.Request;
 import com.impassive.imp.remoting.codec.AbstractCodec;
-import com.impassive.imp.remoting.Invocation;
+import com.impassive.imp.util.json.JsonTools;
 import com.impassive.rpc.RpcInvocation;
 import com.impassive.rpc.RpcResponse;
 import io.netty.buffer.ByteBuf;
@@ -29,7 +29,9 @@ public class ImpCodec extends AbstractCodec {
 
     final Object[] params = invocation.getParams();
     final List<Object> paramList = Arrays.asList(params);
-    final String paramStr = Joiner.on(",").join(paramList);
+    List<String> collect = paramList.stream().map(JsonTools::writeToJson)
+        .collect(Collectors.toList());
+    final String paramStr = JsonTools.writeToJson(collect);
     final byte[] paramStrBytes = paramStr.getBytes(StandardCharsets.UTF_8);
 
     final String serviceName = invocation.getServiceName();
@@ -40,7 +42,6 @@ public class ImpCodec extends AbstractCodec {
         Arrays.stream(paramTypes).map(Class::getName).collect(Collectors.toList());
     final String paramTypeStr = Joiner.on(",").join(classes);
     final byte[] paramTypeStrBytes = paramTypeStr.getBytes(StandardCharsets.UTF_8);
-
 
     int all =
         methodNameBytes.length
@@ -54,12 +55,12 @@ public class ImpCodec extends AbstractCodec {
     write(out, methodNameBytes);
     write(out, paramTypeStrBytes);
     write(out, paramStrBytes);
-    if (message instanceof Request){
+    if (message instanceof Request) {
       Request request = (Request) message;
       Long requestId = request.getRequestId();
       out.writeInt(1);
       out.writeLong(requestId);
-    }else {
+    } else {
       out.writeInt(0);
     }
   }
@@ -114,7 +115,7 @@ public class ImpCodec extends AbstractCodec {
     rpcInvocation.setParams(param);
     rpcInvocation.setParameterTypes(paramType);
     rpcInvocation.setServerName(serviceName);
-    if (isRequest == 1){
+    if (isRequest == 1) {
       long requestId = in.readLong();
       rpcInvocation.setRequestId(requestId);
     }

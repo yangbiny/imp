@@ -1,7 +1,7 @@
 package com.impassive.remoting.netty;
 
 import com.impassive.imp.common.Url;
-import com.impassive.imp.exception.ImpNettyException;
+import com.impassive.imp.exception.net.ImpNettyException;
 import com.impassive.imp.remoting.ChannelHandler;
 import com.impassive.imp.remoting.channel.AbstractClient;
 import com.impassive.remoting.netty.codec.DecodeRequest;
