@@ -1,17 +1,21 @@
 package com.impassive.codec;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.google.common.base.Joiner;
 import com.impassive.imp.remoting.Invocation;
 import com.impassive.imp.remoting.Request;
 import com.impassive.imp.remoting.codec.AbstractCodec;
+import com.impassive.imp.remoting.codec.RequestParam;
 import com.impassive.imp.util.json.JsonTools;
 import com.impassive.rpc.RpcInvocation;
 import com.impassive.rpc.RpcResponse;
 import io.netty.buffer.ByteBuf;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 
@@ -19,6 +23,8 @@ import org.apache.commons.lang3.StringUtils;
  * @author impassivey
  */
 public class ImpCodec extends AbstractCodec {
+
+  private static final Map<String, TypeReference<?>> TYPE_REFERENCE_MAP = new HashMap<>();
 
   @Override
   public void encode(ByteBuf out, Object message) {
@@ -29,7 +35,7 @@ public class ImpCodec extends AbstractCodec {
 
     final Object[] params = invocation.getParams();
     final List<Object> paramList = Arrays.asList(params);
-    List<String> collect = paramList.stream().map(JsonTools::writeToJson)
+    List<RequestParam> collect = paramList.stream().map(this::convertToRequestParam)
         .collect(Collectors.toList());
     final String paramStr = JsonTools.writeToJson(collect);
     final byte[] paramStrBytes = paramStr.getBytes(StandardCharsets.UTF_8);
@@ -88,25 +94,20 @@ public class ImpCodec extends AbstractCodec {
     length = in.readInt();
     bytes = new byte[length];
     in.readBytes(bytes, 0, length);
-    String paramsTypeStr = new String(bytes);
 
     length = in.readInt();
     bytes = new byte[length];
     in.readBytes(bytes, 0, length);
     String paramStr = new String(bytes);
-    Object[] param = new Object[0];
-    if (StringUtils.isNotEmpty(paramStr)) {
-      param = paramStr.split(",");
-    }
-    String[] paramTypes = new String[0];
-    if (StringUtils.isNotEmpty(paramsTypeStr)) {
-      paramTypes = paramsTypeStr.split(",");
-    }
-    Class<?>[] paramType = new Class[paramTypes.length];
-    for (int i = 0; i < paramTypes.length; i++) {
-      paramType[i] = Class.forName(paramTypes[i]);
-    }
-    for (Object o : param) {
+    TypeReference<RequestParam> typeReference = buildTypeReference(RequestParam.class);
+    List<RequestParam> requestParams = JsonTools.readFromJsonList(paramStr, typeReference);
+    Class<?>[] paramType = new Class[requestParams.size()];
+    Object[] param = new Object[requestParams.size()];
+    int index = 0;
+    for (RequestParam requestParam : requestParams) {
+      paramType[index] = requestParam.getClassType();
+      param[index] = JsonTools.readFromJson(requestParam.getValue(), requestParam.getClassType());
+      index++;
     }
     int isRequest = in.readInt();
 
@@ -150,4 +151,16 @@ public class ImpCodec extends AbstractCodec {
     out.writeInt(bytes.length);
     out.writeBytes(bytes);
   }
+
+  private <T> TypeReference<T> buildTypeReference(Class<T> aClass) {
+    String s = aClass.toString();
+    if (TYPE_REFERENCE_MAP.containsKey(s)) {
+      return (TypeReference<T>) TYPE_REFERENCE_MAP.get(s);
+    }
+    TypeReference<T> typeReference = new TypeReference<T>() {
+    };
+    TYPE_REFERENCE_MAP.putIfAbsent(s, typeReference);
+    return typeReference;
+  }
+
 }

@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
 /** @author impassivey */
 public class ProxyInvocationHandler implements InvocationHandler {
 
-  private Invoker<?> invoker;
+  private final Invoker<?> invoker;
 
   public <T> ProxyInvocationHandler(Invoker<?> invoker) {
     this.invoker = invoker;

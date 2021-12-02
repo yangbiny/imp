@@ -1,8 +1,10 @@
 package com.impassive.imp.util.json;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.impassive.imp.exception.serialize.SerializeException;
 import java.io.Serializable;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -21,4 +23,13 @@ public class JsonTools {
   }
 
 
+  public static Object readFromJson(String value, Class<?> classType) {
+    return null;
+  }
+
+  public static <T> List<T> readFromJsonList(String paramStr, TypeReference<T> typeReference) {
+    T t = JSON.parseObject(paramStr, typeReference);
+    return (List<T>) t;
+  }
 }
+
