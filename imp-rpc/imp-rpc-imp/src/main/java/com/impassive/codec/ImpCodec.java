@@ -17,14 +17,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author impassivey
  */
 public class ImpCodec extends AbstractCodec {
 
-  private static final Map<String, TypeReference<?>> TYPE_REFERENCE_MAP = new HashMap<>();
+  private static final Map<String, TypeReference<List<RequestParam>>> TYPE_REFERENCE_MAP = new HashMap<>();
 
   @Override
   public void encode(ByteBuf out, Object message) {
@@ -99,7 +98,7 @@ public class ImpCodec extends AbstractCodec {
     bytes = new byte[length];
     in.readBytes(bytes, 0, length);
     String paramStr = new String(bytes);
-    TypeReference<RequestParam> typeReference = buildTypeReference(RequestParam.class);
+    TypeReference<List<RequestParam>> typeReference = buildTypeReference();
     List<RequestParam> requestParams = JsonTools.readFromJsonList(paramStr, typeReference);
     Class<?>[] paramType = new Class[requestParams.size()];
     Object[] param = new Object[requestParams.size()];
@@ -152,12 +151,12 @@ public class ImpCodec extends AbstractCodec {
     out.writeBytes(bytes);
   }
 
-  private <T> TypeReference<T> buildTypeReference(Class<T> aClass) {
-    String s = aClass.toString();
+  private TypeReference<List<RequestParam>> buildTypeReference() {
+    String s = RequestParam.class.toString();
     if (TYPE_REFERENCE_MAP.containsKey(s)) {
-      return (TypeReference<T>) TYPE_REFERENCE_MAP.get(s);
+      return TYPE_REFERENCE_MAP.get(s);
     }
-    TypeReference<T> typeReference = new TypeReference<T>() {
+    TypeReference<List<RequestParam>> typeReference = new TypeReference<List<RequestParam>>() {
     };
     TYPE_REFERENCE_MAP.putIfAbsent(s, typeReference);
     return typeReference;

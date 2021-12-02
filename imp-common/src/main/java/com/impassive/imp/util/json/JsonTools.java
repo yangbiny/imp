@@ -27,9 +27,8 @@ public class JsonTools {
     return null;
   }
 
-  public static <T> List<T> readFromJsonList(String paramStr, TypeReference<T> typeReference) {
-    T t = JSON.parseObject(paramStr, typeReference);
-    return (List<T>) t;
+  public static <T> List<T> readFromJsonList(String paramStr, TypeReference<List<T>> typeReference) {
+    return JSON.parseObject(paramStr, typeReference);
   }
 }
 
