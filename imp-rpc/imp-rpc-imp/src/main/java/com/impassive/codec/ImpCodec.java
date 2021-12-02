@@ -98,8 +98,7 @@ public class ImpCodec extends AbstractCodec {
     bytes = new byte[length];
     in.readBytes(bytes, 0, length);
     String paramStr = new String(bytes);
-    TypeReference<List<RequestParam>> typeReference = buildTypeReference();
-    List<RequestParam> requestParams = JsonTools.readFromJsonList(paramStr, typeReference);
+    List<RequestParam> requestParams = JsonTools.readFromJsonList(paramStr, RequestParam.class);
     Class<?>[] paramType = new Class[requestParams.size()];
     Object[] param = new Object[requestParams.size()];
     int index = 0;
