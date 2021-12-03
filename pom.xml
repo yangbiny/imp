@@ -16,6 +16,7 @@
     <module>imp-common</module>
     <module>imp-remoting</module>
     <module>imp-rpc</module>
+    <module>imp-all</module>
   </modules>
 
   <properties>
