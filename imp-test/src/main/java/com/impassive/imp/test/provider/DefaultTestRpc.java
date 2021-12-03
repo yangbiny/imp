@@ -12,6 +12,8 @@ public class DefaultTestRpc implements TestRpc {
 
   @Override
   public Result test(Param param) {
-    return new Result();
+    Result result = new Result();
+    result.setObj(param.getDate() + " : result");
+    return result;
   }
 }

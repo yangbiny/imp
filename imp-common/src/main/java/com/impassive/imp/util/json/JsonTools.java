@@ -22,7 +22,7 @@ public class JsonTools {
   }
 
 
-  public static Object readFromJson(String value, Class<?> classType) {
+  public static <T> T readFromJson(String value, Class<T> classType) {
     return JSON.parseObject(value, classType);
   }
 

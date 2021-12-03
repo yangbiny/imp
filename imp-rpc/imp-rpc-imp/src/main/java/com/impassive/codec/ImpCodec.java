@@ -1,12 +1,12 @@
 package com.impassive.codec;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.google.common.base.Joiner;
 import com.impassive.imp.remoting.Invocation;
 import com.impassive.imp.remoting.Request;
 import com.impassive.imp.remoting.codec.AbstractCodec;
 import com.impassive.imp.remoting.codec.RequestParam;
+import com.impassive.imp.remoting.codec.ResponseResult;
 import com.impassive.imp.util.json.JsonTools;
 import com.impassive.rpc.RpcInvocation;
 import com.impassive.rpc.RpcResponse;
@@ -27,59 +27,29 @@ public class ImpCodec extends AbstractCodec {
 
   @Override
   public void encode(ByteBuf out, Object message) {
-    Invocation invocation = (Invocation) message;
-
-    final String methodName = invocation.getMethodName();
-    final byte[] methodNameBytes = methodName.getBytes(StandardCharsets.UTF_8);
-
-    final Object[] params = invocation.getParams();
-    final List<Object> paramList = Arrays.asList(params);
-    List<RequestParam> collect = paramList.stream().map(this::convertToRequestParam)
-        .collect(Collectors.toList());
-    final String paramStr = JsonTools.writeToJson(collect);
-    final byte[] paramStrBytes = paramStr.getBytes(StandardCharsets.UTF_8);
-
-    final String serviceName = invocation.getServiceName();
-    final byte[] serviceNameBytes = serviceName.getBytes(StandardCharsets.UTF_8);
-
-    final Class<?>[] paramTypes = invocation.getParamTypes();
-    final List<String> classes =
-        Arrays.stream(paramTypes).map(Class::getName).collect(Collectors.toList());
-    final String paramTypeStr = Joiner.on(",").join(classes);
-    final byte[] paramTypeStrBytes = paramTypeStr.getBytes(StandardCharsets.UTF_8);
-
-    int all =
-        methodNameBytes.length
-            + paramStrBytes.length
-            + serviceNameBytes.length
-            + paramTypeStrBytes.length;
-    out.writeInt(all);
-    // 不是返回值
-    out.writeInt(0);
-    write(out, serviceNameBytes);
-    write(out, methodNameBytes);
-    write(out, paramTypeStrBytes);
-    write(out, paramStrBytes);
-    if (message instanceof Request) {
-      Request request = (Request) message;
-      Long requestId = request.getRequestId();
-      out.writeInt(1);
-      out.writeLong(requestId);
-    } else {
-      out.writeInt(0);
+    boolean isRequest = message instanceof Invocation;
+    out.writeBoolean(isRequest);
+    if (isRequest) {
+      encodeRequest(out, message);
+      return;
     }
+    encodeResponse(out, message);
   }
 
   @Override
   public Object decode(ByteBuf in) throws ClassNotFoundException {
+    boolean isRequest = in.readBoolean();
     int all = in.readInt();
     if (in.readableBytes() < all) {
       return null;
     }
-    int isResponse = in.readInt();
-    if (isResponse == 1) {
-      return buildResponse(in);
+    if (isRequest) {
+      return decodeRequest(in);
     }
+    return decodeResponse(in);
+  }
+
+  private RpcInvocation decodeRequest(ByteBuf in) {
     int length = in.readInt();
     byte[] bytes = new byte[length];
     in.readBytes(bytes, 0, length);
@@ -121,24 +91,78 @@ public class ImpCodec extends AbstractCodec {
     return rpcInvocation;
   }
 
-  private Object buildResponse(ByteBuf in) throws ClassNotFoundException {
+  private void encodeRequest(ByteBuf out, Object message) {
+    Invocation invocation = (Invocation) message;
+
+    final String methodName = invocation.getMethodName();
+    final byte[] methodNameBytes = methodName.getBytes(StandardCharsets.UTF_8);
+
+    final Object[] params = invocation.getParams();
+    final List<Object> paramList = Arrays.asList(params);
+    List<RequestParam> collect = paramList.stream().map(this::convertToRequestParam)
+        .collect(Collectors.toList());
+    final String paramStr = JsonTools.writeToJson(collect);
+    final byte[] paramStrBytes = paramStr.getBytes(StandardCharsets.UTF_8);
+
+    final String serviceName = invocation.getServiceName();
+    final byte[] serviceNameBytes = serviceName.getBytes(StandardCharsets.UTF_8);
+
+    final Class<?>[] paramTypes = invocation.getParamTypes();
+    final List<String> classes =
+        Arrays.stream(paramTypes).map(Class::getName).collect(Collectors.toList());
+    final String paramTypeStr = Joiner.on(",").join(classes);
+    final byte[] paramTypeStrBytes = paramTypeStr.getBytes(StandardCharsets.UTF_8);
+
+    int all =
+        methodNameBytes.length
+            + paramStrBytes.length
+            + serviceNameBytes.length
+            + paramTypeStrBytes.length;
+    out.writeInt(all);
+    // 不是返回值
+    write(out, serviceNameBytes);
+    write(out, methodNameBytes);
+    write(out, paramTypeStrBytes);
+    write(out, paramStrBytes);
+    if (message instanceof Request) {
+      Request request = (Request) message;
+      Long requestId = request.getRequestId();
+      out.writeInt(1);
+      out.writeLong(requestId);
+    } else {
+      out.writeInt(0);
+    }
+  }
+
+  // response相关
+
+  private void encodeResponse(ByteBuf out, Object message) {
+    RpcResponse rpcResponse = (RpcResponse) message;
+    Object resultValue = rpcResponse.getResult();
+    Class<?> classType = null;
+    if (resultValue != null) {
+      classType = resultValue.getClass();
+    }
+    String resultJson = JsonTools.writeToJson(resultValue);
+    ResponseResult result = new ResponseResult(rpcResponse.getRequestId(), classType, resultJson);
+    String responseJson = JsonTools.writeToJson(result);
+    byte[] bytes = responseJson.getBytes(StandardCharsets.UTF_8);
+    // 继续数据的总长度
+    out.writeInt(bytes.length);
+
+    // 写入数据
+    write(out, bytes);
+  }
+
+  private Object decodeResponse(ByteBuf in) {
     int length = in.readInt();
     byte[] bytes = new byte[length];
     in.readBytes(bytes, 0, length);
-    String result = new String(bytes);
-
-    Class<?> aClass = Class.forName(result);
-    Object resultObject;
-    length = in.readInt();
-    bytes = new byte[length];
-    in.readBytes(bytes, 0, length);
-    result = new String(bytes);
-    if (aClass == String.class) {
-      resultObject = result;
-    } else {
-      resultObject = JSON.parse(result);
-    }
-    long requestId = in.readLong();
+    String responseJson = new String(bytes);
+    ResponseResult responseResult = JsonTools.readFromJson(responseJson, ResponseResult.class);
+    Long requestId = responseResult.getRequestId();
+    Class<?> classType = responseResult.getClassType();
+    Object resultObject = JsonTools.readFromJson(responseResult.getValue(), classType);
     RpcResponse rpcResponse = new RpcResponse();
     rpcResponse.setResult(resultObject);
     rpcResponse.setRequestId(requestId);
@@ -148,17 +172,6 @@ public class ImpCodec extends AbstractCodec {
   private void write(ByteBuf out, byte[] bytes) {
     out.writeInt(bytes.length);
     out.writeBytes(bytes);
-  }
-
-  private TypeReference<List<RequestParam>> buildTypeReference() {
-    String s = RequestParam.class.toString();
-    if (TYPE_REFERENCE_MAP.containsKey(s)) {
-      return TYPE_REFERENCE_MAP.get(s);
-    }
-    TypeReference<List<RequestParam>> typeReference = new TypeReference<List<RequestParam>>() {
-    };
-    TYPE_REFERENCE_MAP.putIfAbsent(s, typeReference);
-    return typeReference;
   }
 
 }

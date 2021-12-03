@@ -26,7 +26,8 @@ public class Consumer {
       Param param = new Param();
       param.setDate(System.currentTimeMillis());
       Result result = bean.test(param);
-      System.out.println(result);
+      System.out.println(result.getObj());
+      System.out.println(result.getObj());
     }
   }
 

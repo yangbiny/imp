@@ -1,9 +1,12 @@
 package com.impassive.imp.remoting;
 
+import java.io.Serializable;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
-/** @author impassivey */
+/**
+ * @author impassivey
+ */
 public interface Result extends Request {
 
   /**

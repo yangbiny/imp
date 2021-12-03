@@ -5,7 +5,9 @@ import com.impassive.rpc.RpcResponse;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
-/** @author impassivey */
+/**
+ * @author impassivey
+ */
 public class AsyncRpcResult implements Result {
 
   private final CompletableFuture<RpcResponse> responseFuture;

@@ -5,7 +5,9 @@ import com.impassive.imp.remoting.Result;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
-/** @author impassivey */
+/**
+ * @author impassivey
+ */
 public class RpcResponse implements Result, Request {
 
   private Long requestId;
