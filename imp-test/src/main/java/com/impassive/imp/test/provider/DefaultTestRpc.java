@@ -2,6 +2,7 @@ package com.impassive.imp.test.provider;
 
 import com.impassive.imp.test.Result;
 import com.impassive.imp.test.TestRpc;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,10 +23,15 @@ public class DefaultTestRpc implements TestRpc {
   }
 
   @Override
-  public List<String> test(List<Long> param) {
+  public List<String> test(ArrayList<Long> param) {
     if (CollectionUtils.isEmpty(param)) {
       return Collections.emptyList();
     }
     return param.stream().map(String::valueOf).collect(Collectors.toList());
+  }
+
+  @Override
+  public List<String> test(List<Long> param) {
+    return null;
   }
 }
