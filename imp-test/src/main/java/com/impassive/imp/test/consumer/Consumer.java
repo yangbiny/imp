@@ -1,5 +1,6 @@
 package com.impassive.imp.test.consumer;
 
+import com.google.common.collect.Lists;
 import com.impassive.imp.api.ConsumerBean;
 import com.impassive.imp.application.ApplicationConfig;
 import com.impassive.imp.protocol.ProtocolConfig;
@@ -7,6 +8,9 @@ import com.impassive.imp.registry.RegistryConfig;
 import com.impassive.imp.test.Result;
 import com.impassive.imp.test.TestRpc;
 import com.impassive.imp.test.provider.Param;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author impassivey
@@ -27,7 +31,9 @@ public class Consumer {
       param.setDate(System.currentTimeMillis());
       Result result = bean.test(param);
       System.out.println(result.getObj());
-      System.out.println(result.getObj());
+      ArrayList<Long> longs = Lists.newArrayList(System.currentTimeMillis());
+      List<String> tests = bean.test(longs);
+      System.out.println(Arrays.toString(tests.toArray()));
     }
   }
 
