@@ -1,7 +1,5 @@
 package com.impassive.codec;
 
-import com.alibaba.fastjson.TypeReference;
-import com.google.common.base.Joiner;
 import com.impassive.imp.remoting.Invocation;
 import com.impassive.imp.remoting.Request;
 import com.impassive.imp.remoting.codec.AbstractCodec;
@@ -13,17 +11,13 @@ import com.impassive.rpc.RpcResponse;
 import io.netty.buffer.ByteBuf;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
  * @author impassivey
  */
 public class ImpCodec extends AbstractCodec {
-
-  private static final Map<String, TypeReference<List<RequestParam>>> TYPE_REFERENCE_MAP = new HashMap<>();
 
   @Override
   public void encode(ByteBuf out, Object message) {
@@ -37,7 +31,7 @@ public class ImpCodec extends AbstractCodec {
   }
 
   @Override
-  public Object decode(ByteBuf in) throws ClassNotFoundException {
+  public Object decode(ByteBuf in) {
     boolean isRequest = in.readBoolean();
     int all = in.readInt();
     if (in.readableBytes() < all) {
@@ -63,6 +57,9 @@ public class ImpCodec extends AbstractCodec {
     length = in.readInt();
     bytes = new byte[length];
     in.readBytes(bytes, 0, length);
+    String argumentTypes = new String(bytes);
+
+    List<Class> classes = JsonTools.readFromJsonList(argumentTypes, Class.class);
 
     length = in.readInt();
     bytes = new byte[length];
@@ -84,6 +81,7 @@ public class ImpCodec extends AbstractCodec {
     rpcInvocation.setParams(param);
     rpcInvocation.setParameterTypes(paramType);
     rpcInvocation.setServerName(serviceName);
+    rpcInvocation.setArgumentTypes(classes.toArray(new Class[0]));
     if (isRequest == 1) {
       long requestId = in.readLong();
       rpcInvocation.setRequestId(requestId);
@@ -107,22 +105,22 @@ public class ImpCodec extends AbstractCodec {
     final String serviceName = invocation.getServiceName();
     final byte[] serviceNameBytes = serviceName.getBytes(StandardCharsets.UTF_8);
 
-    final Class<?>[] paramTypes = invocation.getParamTypes();
+    final Class<?>[] argumentTypes = invocation.argumentsType();
     final List<String> classes =
-        Arrays.stream(paramTypes).map(Class::getName).collect(Collectors.toList());
-    final String paramTypeStr = Joiner.on(",").join(classes);
-    final byte[] paramTypeStrBytes = paramTypeStr.getBytes(StandardCharsets.UTF_8);
+        Arrays.stream(argumentTypes).map(Class::getName).collect(Collectors.toList());
+    final String argumentTypesStr = JsonTools.writeToJson(classes);
+    final byte[] argumentTypesStrBytes = argumentTypesStr.getBytes(StandardCharsets.UTF_8);
 
     int all =
         methodNameBytes.length
             + paramStrBytes.length
             + serviceNameBytes.length
-            + paramTypeStrBytes.length;
+            + argumentTypesStrBytes.length;
     out.writeInt(all);
     // 不是返回值
     write(out, serviceNameBytes);
     write(out, methodNameBytes);
-    write(out, paramTypeStrBytes);
+    write(out, argumentTypesStrBytes);
     write(out, paramStrBytes);
     if (message instanceof Request) {
       Request request = (Request) message;

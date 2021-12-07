@@ -32,6 +32,7 @@ public class DefaultTestRpc implements TestRpc {
 
   @Override
   public List<String> test(List<Long> param) {
-    return null;
+    return param.stream().map(item -> item + " : list")
+        .collect(Collectors.toList());
   }
 }

@@ -11,8 +11,12 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import lombok.extern.slf4j.Slf4j;
 
-/** @author impassivey */
+/**
+ * @author impassivey
+ */
+@Slf4j
 public class ImpInvoker<T> extends AbstractInvoker<T> {
 
   private static final ThreadPoolExecutor THREAD_POOL_EXECUTOR =
@@ -26,6 +30,7 @@ public class ImpInvoker<T> extends AbstractInvoker<T> {
   public ImpInvoker(Class<T> interfaceClass, ExchangeClient[] clients, Url url) {
     super(interfaceClass);
     if (clients == null || clients.length == 0) {
+      log.error("client is empty");
       throw new IllegalArgumentException("client is empty");
     }
     this.exchangeClients = clients;

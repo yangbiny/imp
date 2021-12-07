@@ -70,6 +70,7 @@ public class NettyClient extends AbstractClient {
         throw new ImpNettyException("failed connect to service");
       }
     } catch (Exception e) {
+      log.error("connect to service has exception ", e);
       throw new ImpNettyException("connect to service has exception ", e);
     }
   }

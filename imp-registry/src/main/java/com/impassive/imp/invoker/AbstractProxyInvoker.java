@@ -29,7 +29,7 @@ public abstract class AbstractProxyInvoker<T> implements Invoker<T> {
   public Result invoke(Invocation invocation) throws Throwable {
     Object object =
         doInvoke(
-            proxy, invocation.getMethodName(), invocation.getParams(), invocation.getParamTypes());
+            proxy, invocation.getMethodName(), invocation.getParams(), invocation.argumentsType());
     CompletableFuture<Object> future = CompletableFuture.completedFuture(object);
     final CompletableFuture<RpcResponse> handle =
         future.handle(

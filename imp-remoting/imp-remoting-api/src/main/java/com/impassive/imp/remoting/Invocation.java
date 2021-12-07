@@ -1,6 +1,8 @@
 package com.impassive.imp.remoting;
 
-/** @author impassivey */
+/**
+ * @author impassivey
+ */
 public interface Invocation {
 
   /**
@@ -23,6 +25,13 @@ public interface Invocation {
    * @return 参数类型
    */
   Class<?>[] getParamTypes();
+
+  /**
+   * 参数的实际类型。例如：如果参数是list，则 paramType是list，该值可能是ArrayList，也可能是LinkedList
+   *
+   * @return 参数的实际类型
+   */
+  Class<?>[] argumentsType();
 
   /**
    * 获取执行方法的参数信息

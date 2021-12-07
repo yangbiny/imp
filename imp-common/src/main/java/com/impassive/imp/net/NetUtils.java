@@ -5,8 +5,12 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
+import lombok.extern.slf4j.Slf4j;
 
-/** @author impassivey */
+/**
+ * @author impassivey
+ */
+@Slf4j
 public class NetUtils {
 
   public static String getAddress() {
@@ -14,6 +18,7 @@ public class NetUtils {
     try {
       interfaces = NetworkInterface.getNetworkInterfaces();
     } catch (SocketException e) {
+      log.error("get network has error:", e);
       throw new RuntimeException("get network error", e);
     }
     while (interfaces.hasMoreElements()) {

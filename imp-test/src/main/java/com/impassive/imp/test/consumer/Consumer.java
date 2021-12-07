@@ -31,9 +31,12 @@ public class Consumer {
       param.setDate(System.currentTimeMillis());
       Result result = bean.test(param);
       System.out.println(result.getObj());
-      ArrayList<Long> longs = Lists.newArrayList(System.currentTimeMillis());
+      List<Long> longs = Lists.newArrayList(System.currentTimeMillis());
       List<String> tests = bean.test(longs);
       System.out.println(Arrays.toString(tests.toArray()));
+      ArrayList<Long> arrayList = Lists.newArrayList(System.currentTimeMillis());
+      List<String> test1 = bean.test(arrayList);
+      System.out.println(Arrays.toString(test1.toArray()));
     }
   }
 

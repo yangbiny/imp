@@ -7,7 +7,9 @@ import java.util.concurrent.atomic.AtomicLong;
 import lombok.Data;
 import lombok.Setter;
 
-/** @author impassivey */
+/**
+ * @author impassivey
+ */
 @Data
 @Setter
 public class RpcInvocation implements Invocation, Request {
@@ -24,15 +26,24 @@ public class RpcInvocation implements Invocation, Request {
 
   private Class<?>[] parameterTypes;
 
+  private Class<?>[] argumentTypes;
+
   private Long requestId;
 
-  public RpcInvocation() {}
+  public RpcInvocation() {
+  }
 
   public RpcInvocation(Method method, Object[] params, String serverName) {
     this.method = method;
     this.params = params;
     this.serverName = serverName;
-    this.parameterTypes = method.getParameterTypes();
+    if (params != null && params.length > 0) {
+      this.parameterTypes = new Class[params.length];
+      for (int i = 0; i < params.length; i++) {
+        this.parameterTypes[i] = params[i].getClass();
+      }
+    }
+    this.argumentTypes = method.getParameterTypes();
     this.setRequestId(ATOMIC_LONG.getAndIncrement());
   }
 
@@ -49,6 +60,11 @@ public class RpcInvocation implements Invocation, Request {
   @Override
   public Class<?>[] getParamTypes() {
     return parameterTypes;
+  }
+
+  @Override
+  public Class<?>[] argumentsType() {
+    return argumentTypes;
   }
 
   @Override
