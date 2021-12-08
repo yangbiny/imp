@@ -27,11 +27,13 @@ public class DefaultTestRpc implements TestRpc {
     if (CollectionUtils.isEmpty(param)) {
       return Collections.emptyList();
     }
+    System.out.println("这里是 array list");
     return param.stream().map(String::valueOf).collect(Collectors.toList());
   }
 
   @Override
   public List<String> test(List<Long> param) {
+    System.out.println("这里是 list");
     return param.stream().map(item -> item + " : list")
         .collect(Collectors.toList());
   }
