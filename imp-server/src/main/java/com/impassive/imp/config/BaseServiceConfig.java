@@ -1,8 +1,8 @@
 package com.impassive.imp.config;
 
-import com.impassive.imp.application.ApplicationConfig;
-import com.impassive.imp.protocol.ProtocolConfig;
-import com.impassive.imp.registry.RegistryConfig;
+import com.impassive.registry.config.ApplicationConfig;
+import com.impassive.registry.config.ProtocolConfig;
+import com.impassive.registry.config.RegistryConfig;
 import lombok.Getter;
 
 /** @author impassivey */

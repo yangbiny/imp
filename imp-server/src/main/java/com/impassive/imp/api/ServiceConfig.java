@@ -1,12 +1,12 @@
 package com.impassive.imp.api;
 
 import com.impassive.imp.config.BaseServiceConfig;
-import com.impassive.imp.protocol.ImpProtocol;
+import com.impassive.registry.protocol.ImpProtocol;
+import com.impassive.registry.protocol.Protocol;
+import com.impassive.registry.proxy.JdkProxyFactory;
+import com.impassive.registry.proxy.ProxyFactory;
 import com.impassive.rpc.invoker.Invoker;
 import com.impassive.rpc.invoker.InvokerWrapper;
-import com.impassive.imp.proxy.JdkProxyFactory;
-import com.impassive.imp.protocol.Protocol;
-import com.impassive.imp.proxy.ProxyFactory;
 import com.impassive.imp.common.Url;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;

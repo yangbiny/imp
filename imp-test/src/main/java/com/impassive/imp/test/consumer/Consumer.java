@@ -2,12 +2,12 @@ package com.impassive.imp.test.consumer;
 
 import com.google.common.collect.Lists;
 import com.impassive.imp.api.ConsumerBean;
-import com.impassive.imp.application.ApplicationConfig;
-import com.impassive.imp.protocol.ProtocolConfig;
-import com.impassive.imp.registry.RegistryConfig;
 import com.impassive.imp.test.Result;
 import com.impassive.imp.test.TestRpc;
 import com.impassive.imp.test.provider.Param;
+import com.impassive.registry.config.ApplicationConfig;
+import com.impassive.registry.config.ProtocolConfig;
+import com.impassive.registry.config.RegistryConfig;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
