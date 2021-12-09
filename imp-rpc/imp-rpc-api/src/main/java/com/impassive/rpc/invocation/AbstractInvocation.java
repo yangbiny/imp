@@ -1,4 +1,4 @@
-package com.impassive.imp.invoker;
+package com.impassive.rpc.invocation;
 
 /**
  * @author impassivey

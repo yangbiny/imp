@@ -1,8 +1,8 @@
-package com.impassive.imp.invoker;
+package com.impassive.rpc.invoker;
 
 
-import com.impassive.imp.remoting.Invocation;
-import com.impassive.imp.remoting.Result;
+import com.impassive.rpc.invocation.Invocation;
+import com.impassive.rpc.result.Result;
 
 /** @author impassivey */
 public interface Invoker<T> {

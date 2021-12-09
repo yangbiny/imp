@@ -2,8 +2,8 @@ package com.impassive.imp.api;
 
 import com.impassive.imp.config.BaseServiceConfig;
 import com.impassive.imp.protocol.ImpProtocol;
-import com.impassive.imp.invoker.Invoker;
-import com.impassive.imp.invoker.InvokerWrapper;
+import com.impassive.rpc.invoker.Invoker;
+import com.impassive.rpc.invoker.InvokerWrapper;
 import com.impassive.imp.proxy.JdkProxyFactory;
 import com.impassive.imp.protocol.Protocol;
 import com.impassive.imp.proxy.ProxyFactory;

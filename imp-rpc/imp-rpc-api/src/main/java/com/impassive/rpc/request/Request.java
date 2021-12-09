@@ -1,4 +1,4 @@
-package com.impassive.imp.remoting;
+package com.impassive.rpc.request;
 
 /** @author impassivey */
 public interface Request {

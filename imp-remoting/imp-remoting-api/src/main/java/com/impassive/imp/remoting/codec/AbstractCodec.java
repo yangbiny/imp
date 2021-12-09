@@ -7,11 +7,11 @@ import com.impassive.imp.util.json.JsonTools;
  */
 public abstract class AbstractCodec implements Codec {
 
-  protected RequestParam convertToRequestParam(Object object) {
+  protected CodecRequest convertToRequestParam(Object object) {
     if (object == null) {
       return null;
     }
-    return new RequestParam(object.getClass(), JsonTools.writeToJson(object));
+    return new CodecRequest(object.getClass(), JsonTools.writeToJson(object));
   }
 
 }

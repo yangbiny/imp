@@ -5,15 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * 用于记录方法参数的信息。分别包含了 参数的类型以及参数的值
- */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RequestParam implements Serializable {
+public class CodecResult implements Serializable {
 
-  private static final long serialVersionUID = 2660484466036339268L;
+  private static final long serialVersionUID = -1249636383265611460L;
+
+  private Long requestId;
 
   private Class<?> classType;
 

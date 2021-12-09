@@ -1,9 +1,9 @@
 package com.impassive.imp.protocol;
 
 import com.impassive.imp.common.Url;
-import com.impassive.imp.invoker.ImpInvoker;
-import com.impassive.imp.invoker.Invoker;
-import com.impassive.imp.invoker.InvokerWrapper;
+import com.impassive.invocation.ImpInvoker;
+import com.impassive.rpc.invoker.Invoker;
+import com.impassive.rpc.invoker.InvokerWrapper;
 import com.impassive.imp.registry.AbstractRegistryFactory;
 import com.impassive.imp.registry.Registry;
 import com.impassive.imp.registry.RegistryFactory;

@@ -1,6 +1,6 @@
-package com.impassive.imp.remoting;
+package com.impassive.rpc.result;
 
-import java.io.Serializable;
+import com.impassive.rpc.request.Request;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 

@@ -20,17 +20,17 @@
     <dependency>
       <groupId>com.impassive</groupId>
       <artifactId>imp-registry</artifactId>
-      <version>1.0.0</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>com.impassive</groupId>
       <artifactId>imp-common</artifactId>
-      <version>1.0.0</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>com.impassive</groupId>
       <artifactId>imp-client</artifactId>
-      <version>1.0.0</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -40,7 +40,7 @@
     <dependency>
       <groupId>com.impassive</groupId>
       <artifactId>imp-server</artifactId>
-      <version>1.0.0</version>
+      <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>

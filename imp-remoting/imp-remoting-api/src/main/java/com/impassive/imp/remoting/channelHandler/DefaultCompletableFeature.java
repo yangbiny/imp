@@ -1,13 +1,15 @@
 package com.impassive.imp.remoting.channelHandler;
 
 import com.impassive.imp.remoting.Channel;
-import com.impassive.imp.remoting.Request;
-import com.impassive.imp.remoting.Result;
+import com.impassive.rpc.request.Request;
+import com.impassive.rpc.result.Result;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
-/** @author impassivey */
+/**
+ * @author impassivey
+ */
 public class DefaultCompletableFeature extends CompletableFuture<Object> {
 
   private static final Map<Long, DefaultCompletableFeature> FUTURES = new ConcurrentHashMap<>();
@@ -19,12 +21,12 @@ public class DefaultCompletableFeature extends CompletableFuture<Object> {
     FUTURES.put(req.getRequestId(), this);
   }
 
-  public static DefaultCompletableFeature getInstance(Long requestId){
+  public static DefaultCompletableFeature getInstance(Long requestId) {
     return FUTURES.remove(requestId);
   }
 
-  public static void receive(Channel channel, Object msg){
-    if (!(msg instanceof Result)){
+  public static void receive(Channel channel, Object msg) {
+    if (!(msg instanceof Result)) {
       return;
     }
     Result result = (Result) msg;

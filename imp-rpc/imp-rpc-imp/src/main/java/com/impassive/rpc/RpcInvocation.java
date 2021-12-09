@@ -1,7 +1,7 @@
 package com.impassive.rpc;
 
-import com.impassive.imp.remoting.Invocation;
-import com.impassive.imp.remoting.Request;
+import com.impassive.rpc.invocation.Invocation;
+import com.impassive.rpc.request.Request;
 import java.lang.reflect.Method;
 import java.util.concurrent.atomic.AtomicLong;
 import lombok.Data;

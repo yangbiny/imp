@@ -4,9 +4,9 @@ import com.impassive.imp.remoting.Channel;
 import com.impassive.imp.remoting.ChannelHandler;
 import com.impassive.imp.remoting.ExchangeChannel;
 import com.impassive.imp.remoting.ExchangeHandler;
-import com.impassive.imp.remoting.Invocation;
-import com.impassive.imp.remoting.Request;
-import com.impassive.imp.remoting.Result;
+import com.impassive.rpc.invocation.Invocation;
+import com.impassive.rpc.request.Request;
+import com.impassive.rpc.result.Result;
 import java.util.concurrent.CompletableFuture;
 
 /**

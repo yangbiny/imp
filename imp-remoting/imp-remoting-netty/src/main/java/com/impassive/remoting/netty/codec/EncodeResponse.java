@@ -1,7 +1,7 @@
 package com.impassive.remoting.netty.codec;
 
 import com.impassive.codec.ImpCodec;
-import com.impassive.imp.remoting.Result;
+import com.impassive.rpc.result.Result;
 import com.impassive.imp.remoting.codec.Codec;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;

@@ -1,11 +1,11 @@
 package com.impassive.imp.protocol;
 
-import com.impassive.imp.invoker.Invoker;
-import com.impassive.imp.invoker.InvokerWrapper;
+import com.impassive.rpc.invoker.Invoker;
+import com.impassive.rpc.invoker.InvokerWrapper;
 import com.impassive.imp.remoting.Channel;
 import com.impassive.imp.remoting.ExchangeChannel;
-import com.impassive.imp.remoting.Invocation;
-import com.impassive.imp.remoting.Result;
+import com.impassive.rpc.invocation.Invocation;
+import com.impassive.rpc.result.Result;
 import com.impassive.imp.remoting.channel.AbstractExchangeHandler;
 import com.impassive.imp.remoting.channelHandler.DefaultCompletableFeature;
 import com.impassive.imp.remoting.channelHandler.ExchangeChannelHandler;

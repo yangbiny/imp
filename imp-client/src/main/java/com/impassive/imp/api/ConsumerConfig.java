@@ -1,7 +1,7 @@
 package com.impassive.imp.api;
 
 import com.impassive.imp.config.BaseConsumerConfig;
-import com.impassive.imp.invoker.Invoker;
+import com.impassive.rpc.invoker.Invoker;
 import com.impassive.imp.protocol.ImpProtocol;
 import com.impassive.imp.protocol.Protocol;
 import com.impassive.imp.common.Url;

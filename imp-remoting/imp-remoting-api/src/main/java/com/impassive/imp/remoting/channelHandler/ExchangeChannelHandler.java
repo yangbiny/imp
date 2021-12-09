@@ -2,7 +2,7 @@ package com.impassive.imp.remoting.channelHandler;
 
 import com.impassive.imp.remoting.Channel;
 import com.impassive.imp.remoting.ExchangeChannel;
-import com.impassive.imp.remoting.Request;
+import com.impassive.rpc.request.Request;
 import java.net.InetSocketAddress;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;

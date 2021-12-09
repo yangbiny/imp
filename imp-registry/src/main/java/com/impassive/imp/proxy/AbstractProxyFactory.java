@@ -1,6 +1,6 @@
 package com.impassive.imp.proxy;
 
-import com.impassive.imp.invoker.Invoker;
+import com.impassive.rpc.invoker.Invoker;
 
 /** @author impassivey */
 public abstract class AbstractProxyFactory  implements ProxyFactory {

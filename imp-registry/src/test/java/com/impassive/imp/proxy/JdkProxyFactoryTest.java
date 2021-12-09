@@ -1,7 +1,7 @@
 package com.impassive.imp.proxy;
 
 import com.google.common.collect.Lists;
-import com.impassive.imp.invoker.Invoker;
+import com.impassive.rpc.invoker.Invoker;
 import java.lang.reflect.Method;
 import java.util.List;
 import org.junit.Before;

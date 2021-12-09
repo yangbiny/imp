@@ -1,7 +1,7 @@
 package com.impassive.imp.proxy;
 
-import com.impassive.imp.invoker.Invoker;
-import com.impassive.imp.remoting.Result;
+import com.impassive.rpc.invoker.Invoker;
+import com.impassive.rpc.result.Result;
 import com.impassive.rpc.RpcInvocation;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

@@ -1,7 +1,7 @@
 package com.impassive.rpc;
 
-import com.impassive.imp.remoting.Request;
-import com.impassive.imp.remoting.Result;
+import com.impassive.rpc.request.Request;
+import com.impassive.rpc.result.Result;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 

@@ -1,10 +1,10 @@
 package com.impassive.codec;
 
-import com.impassive.imp.remoting.Invocation;
-import com.impassive.imp.remoting.Request;
+import com.impassive.rpc.invocation.Invocation;
+import com.impassive.rpc.request.Request;
 import com.impassive.imp.remoting.codec.AbstractCodec;
-import com.impassive.imp.remoting.codec.RequestParam;
-import com.impassive.imp.remoting.codec.ResponseResult;
+import com.impassive.imp.remoting.codec.CodecRequest;
+import com.impassive.imp.remoting.codec.CodecResult;
 import com.impassive.imp.util.json.JsonTools;
 import com.impassive.rpc.RpcInvocation;
 import com.impassive.rpc.RpcResponse;
@@ -65,13 +65,13 @@ public class ImpCodec extends AbstractCodec {
     bytes = new byte[length];
     in.readBytes(bytes, 0, length);
     String paramStr = new String(bytes);
-    List<RequestParam> requestParams = JsonTools.readFromJsonList(paramStr, RequestParam.class);
-    Class<?>[] paramType = new Class[requestParams.size()];
-    Object[] param = new Object[requestParams.size()];
+    List<CodecRequest> codecRequests = JsonTools.readFromJsonList(paramStr, CodecRequest.class);
+    Class<?>[] paramType = new Class[codecRequests.size()];
+    Object[] param = new Object[codecRequests.size()];
     int index = 0;
-    for (RequestParam requestParam : requestParams) {
-      paramType[index] = requestParam.getClassType();
-      param[index] = JsonTools.readFromJson(requestParam.getValue(), requestParam.getClassType());
+    for (CodecRequest codecRequest : codecRequests) {
+      paramType[index] = codecRequest.getClassType();
+      param[index] = JsonTools.readFromJson(codecRequest.getValue(), codecRequest.getClassType());
       index++;
     }
     int isRequest = in.readInt();
@@ -97,7 +97,7 @@ public class ImpCodec extends AbstractCodec {
 
     final Object[] params = invocation.getParams();
     final List<Object> paramList = Arrays.asList(params);
-    List<RequestParam> collect = paramList.stream().map(this::convertToRequestParam)
+    List<CodecRequest> collect = paramList.stream().map(this::convertToRequestParam)
         .collect(Collectors.toList());
     final String paramStr = JsonTools.writeToJson(collect);
     final byte[] paramStrBytes = paramStr.getBytes(StandardCharsets.UTF_8);
@@ -142,7 +142,7 @@ public class ImpCodec extends AbstractCodec {
       classType = resultValue.getClass();
     }
     String resultJson = JsonTools.writeToJson(resultValue);
-    ResponseResult result = new ResponseResult(rpcResponse.getRequestId(), classType, resultJson);
+    CodecResult result = new CodecResult(rpcResponse.getRequestId(), classType, resultJson);
     String responseJson = JsonTools.writeToJson(result);
     byte[] bytes = responseJson.getBytes(StandardCharsets.UTF_8);
     // 继续数据的总长度
@@ -157,10 +157,10 @@ public class ImpCodec extends AbstractCodec {
     byte[] bytes = new byte[length];
     in.readBytes(bytes, 0, length);
     String responseJson = new String(bytes);
-    ResponseResult responseResult = JsonTools.readFromJson(responseJson, ResponseResult.class);
-    Long requestId = responseResult.getRequestId();
-    Class<?> classType = responseResult.getClassType();
-    Object resultObject = JsonTools.readFromJson(responseResult.getValue(), classType);
+    CodecResult codecResult = JsonTools.readFromJson(responseJson, CodecResult.class);
+    Long requestId = codecResult.getRequestId();
+    Class<?> classType = codecResult.getClassType();
+    Object resultObject = JsonTools.readFromJson(codecResult.getValue(), classType);
     RpcResponse rpcResponse = new RpcResponse();
     rpcResponse.setResult(resultObject);
     rpcResponse.setRequestId(requestId);

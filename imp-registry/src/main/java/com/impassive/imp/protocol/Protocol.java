@@ -1,7 +1,7 @@
 package com.impassive.imp.protocol;
 
 import com.impassive.imp.common.Url;
-import com.impassive.imp.invoker.Invoker;
+import com.impassive.rpc.invoker.Invoker;
 
 /**
  * 用来暴露服务到注册中心

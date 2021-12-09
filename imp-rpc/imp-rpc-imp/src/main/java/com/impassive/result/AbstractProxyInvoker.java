@@ -1,7 +1,8 @@
-package com.impassive.imp.invoker;
+package com.impassive.result;
 
-import com.impassive.imp.remoting.Invocation;
-import com.impassive.imp.remoting.Result;
+import com.impassive.rpc.invocation.Invocation;
+import com.impassive.rpc.invoker.Invoker;
+import com.impassive.rpc.result.Result;
 import com.impassive.rpc.RpcResponse;
 import java.util.concurrent.CompletableFuture;
 

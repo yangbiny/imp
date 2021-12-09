@@ -25,7 +25,7 @@
     <dependency>
       <groupId>com.impassive</groupId>
       <artifactId>imp-common</artifactId>
-      <version>1.0.0</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>io.netty</groupId>
@@ -33,9 +33,9 @@
       <version>4.1.70.Final</version>
     </dependency>
     <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-      <version>1.18.22</version>
+      <groupId>com.impassive</groupId>
+      <artifactId>imp-rpc-api</artifactId>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
 
