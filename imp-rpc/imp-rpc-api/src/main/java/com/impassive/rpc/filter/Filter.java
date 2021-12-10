@@ -1,5 +1,7 @@
 package com.impassive.rpc.filter;
 
+import com.impassive.rpc.invocation.Invocation;
+import com.impassive.rpc.invoker.Invoker;
 import com.impassive.rpc.result.Result;
 
 /**
@@ -7,6 +9,9 @@ import com.impassive.rpc.result.Result;
  */
 public interface Filter {
 
-  Result filter();
+  /**
+   * filter机制。
+   */
+  Result filter(Invoker<?> invoker, Invocation invocation);
 
 }
