@@ -1,16 +1,10 @@
 package com.impassive.imp.test.consumer;
 
-import com.google.common.collect.Lists;
 import com.impassive.imp.api.ConsumerBean;
-import com.impassive.imp.test.Result;
 import com.impassive.imp.test.TestRpc;
-import com.impassive.imp.test.provider.Param;
 import com.impassive.registry.config.ApplicationConfig;
 import com.impassive.registry.config.ProtocolConfig;
 import com.impassive.registry.config.RegistryConfig;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author impassivey
@@ -22,12 +16,9 @@ public class Consumer {
   public void start() throws InterruptedException {
     init();
     TestRpc bean = consumerBean.getBean();
-    int index = 10;
-    while (index-- > 0) {
-      final String test = bean.test("test" + System.currentTimeMillis());
-      System.out.println(test);
-      Thread.sleep(1000);
-      Param param = new Param();
+    final String test = bean.test("test" + System.currentTimeMillis());
+    System.out.println(test);
+/*     Param param = new Param();
       param.setDate(System.currentTimeMillis());
       Result result = bean.test(param);
       System.out.println(result.getObj());
@@ -36,8 +27,7 @@ public class Consumer {
       System.out.println(Arrays.toString(tests.toArray()));
       ArrayList<Long> arrayList = Lists.newArrayList(System.currentTimeMillis());
       List<String> test1 = bean.test(arrayList);
-      System.out.println(Arrays.toString(test1.toArray()));
-    }
+      System.out.println(Arrays.toString(test1.toArray()));*/
   }
 
   private void init() {
