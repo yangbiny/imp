@@ -73,8 +73,7 @@ public class ExchangeHandlerAdapter extends AbstractExchangeHandler {
       throw new UnsupportedOperationException("can not find invokerWrapper");
     }
     // 这里添加回复的操作
-    final Invoker<?> invoker = invokerWrapper.getInvoker();
-    Result result = invoker.invoke(rpcInvocation);
+    Result result = invokerWrapper.invoke(rpcInvocation);
     return result.thenApply(Function.identity());
   }
 

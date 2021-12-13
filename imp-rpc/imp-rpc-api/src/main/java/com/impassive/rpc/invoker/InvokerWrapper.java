@@ -5,13 +5,15 @@ import com.impassive.rpc.invocation.Invocation;
 import com.impassive.rpc.result.Result;
 import lombok.Getter;
 
-/** @author impassivey */
-@Getter
+/**
+ * @author impassivey
+ */
 public class InvokerWrapper<T> implements Invoker<T> {
 
   private final Invoker<T> invoker;
 
-  private Url url;
+  @Getter
+  private final Url url;
 
   public InvokerWrapper(Invoker<T> invoker, Url url) {
     this.invoker = invoker;
