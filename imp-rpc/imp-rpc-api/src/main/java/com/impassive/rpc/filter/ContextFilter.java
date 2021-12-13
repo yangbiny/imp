@@ -8,7 +8,7 @@ import com.impassive.rpc.result.Result;
 public class ContextFilter implements Filter {
 
   @Override
-  public Result filter(Invoker<?> invoker, Invocation invocation) {
-    return null;
+  public Result filter(Invoker<?> invoker, Invocation invocation) throws Throwable {
+    return invoker.invoke(invocation);
   }
 }

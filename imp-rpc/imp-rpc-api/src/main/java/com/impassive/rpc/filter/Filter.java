@@ -12,6 +12,6 @@ public interface Filter {
   /**
    * filter机制。
    */
-  Result filter(Invoker<?> invoker, Invocation invocation);
+  Result filter(Invoker<?> invoker, Invocation invocation) throws Throwable;
 
 }
