@@ -5,8 +5,6 @@ import com.impassive.imp.test.TestRpc;
 import com.impassive.registry.config.ApplicationConfig;
 import com.impassive.registry.config.ProtocolConfig;
 import com.impassive.registry.config.RegistryConfig;
-import com.impassive.rpc.context.RpcContext;
-import com.impassive.rpc.invocation.Invocation;
 
 /**
  * @author impassivey
@@ -20,9 +18,6 @@ public class Consumer {
     TestRpc bean = consumerBean.getBean();
     final String test = bean.test("test" + System.currentTimeMillis());
     System.out.println(test);
-    RpcContext rpcContext = RpcContext.rpcContextInstance();
-    Invocation invocation = rpcContext.getInvocation();
-    System.out.println(invocation);
 /*     Param param = new Param();
       param.setDate(System.currentTimeMillis());
       Result result = bean.test(param);

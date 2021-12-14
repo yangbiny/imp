@@ -1,1 +1,2 @@
 com.impassive.rpc.filter.ContextFilter
+com.impassive.rpc.filter.TestFilter

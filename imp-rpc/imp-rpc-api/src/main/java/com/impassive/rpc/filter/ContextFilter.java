@@ -5,7 +5,7 @@ import com.impassive.rpc.invocation.Invocation;
 import com.impassive.rpc.invoker.Invoker;
 import com.impassive.rpc.result.Result;
 
-@ImpFilter(value = false)
+@ImpFilter
 public class ContextFilter implements Filter {
 
   @Override
@@ -17,7 +17,7 @@ public class ContextFilter implements Filter {
     rpcContext.setParams(invocation.getParams());
     try {
       return invoker.invoke(invocation);
-    }finally {
+    } finally {
       RpcContext.removeContext();
     }
   }
