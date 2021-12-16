@@ -1,16 +1,18 @@
 package com.impassive.imp.api;
 
+import com.impassive.imp.common.Url;
 import com.impassive.imp.config.BaseConsumerConfig;
 import com.impassive.registry.protocol.ImpProtocol;
 import com.impassive.registry.protocol.Protocol;
 import com.impassive.registry.proxy.JdkProxyFactory;
 import com.impassive.registry.proxy.ProxyFactory;
 import com.impassive.rpc.invoker.Invoker;
-import com.impassive.imp.common.Url;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 
-/** @author impassivey */
+/**
+ * @author impassivey
+ */
 @Getter
 public class ConsumerConfig<T> extends BaseConsumerConfig {
 
