@@ -33,7 +33,7 @@ public class ImpProtocol implements Protocol {
 
   private final ExchangeHandlerAdapter exchangeHandler = new ExchangeHandlerAdapter();
 
-  private final ServiceDiscover serviceDiscover = new ServiceDiscoverManager();
+  private final ServiceDiscover serviceDiscover = ServiceDiscoverManager.getInstance();
 
   @Override
   public <T> void export(Invoker<T> invoker) {
