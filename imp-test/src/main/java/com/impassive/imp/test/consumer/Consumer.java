@@ -37,7 +37,7 @@ public class Consumer {
     applicationConfig.setApplicationName("test");
 
     ProtocolConfig protocolConfig = new ProtocolConfig();
-    protocolConfig.setExportPort(11222);
+    protocolConfig.setPort(11222);
     protocolConfig.setHost("127.0.0.1");
 
     RegistryConfig registryConfig = new RegistryConfig();

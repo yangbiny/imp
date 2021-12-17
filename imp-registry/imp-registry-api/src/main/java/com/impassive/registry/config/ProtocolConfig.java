@@ -1,36 +1,35 @@
 package com.impassive.registry.config;
 
 import com.impassive.imp.net.NetUtils;
-import lombok.Getter;
+import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
-/** @author impassivey */
-@Getter
+/**
+ * @author impassivey
+ */
+@Data
 public class ProtocolConfig {
 
   private String host;
 
   private Integer port;
 
+  private Boolean useEndpoint = Boolean.FALSE;
+
   private String protocol = "imp";
 
-  public boolean valid() {
+  public boolean providerValid() {
     if (StringUtils.isEmpty(host)) {
       changeHost();
     }
     return StringUtils.isNoneEmpty(host, protocol) && port != null;
   }
 
-  public void setProtocol(String protocol) {
-    this.protocol = protocol;
-  }
-
-  public void setExportPort(Integer port) {
-    this.port = port;
-  }
-
-  public void setHost(String host){
-    this.host = host;
+  public boolean consumerValid() {
+    if (useEndpoint != null && useEndpoint) {
+      return StringUtils.isNoneEmpty(host, protocol) && port != null;
+    }
+    return true;
   }
 
   public void changeHost() {

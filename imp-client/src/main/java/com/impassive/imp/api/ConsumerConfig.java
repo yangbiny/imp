@@ -68,8 +68,8 @@ public class ConsumerConfig<T> extends BaseConsumerConfig {
     if (applicationConfig == null) {
       throw new IllegalArgumentException("applicationConfig can not be null");
     }
-    if (protocolConfig == null) {
-      throw new IllegalArgumentException("protocolConfig can not be null");
+    if (protocolConfig == null || !protocolConfig.consumerValid()) {
+      throw new IllegalArgumentException("protocolConfig is not valid");
     }
     if (registryConfig == null) {
       throw new IllegalArgumentException("registryConfig can not be null");

@@ -21,6 +21,8 @@ public class Url {
 
   private Integer port;
 
+  private Boolean useEndPoint;
+
   private String groupName;
 
   private String protocol;
@@ -45,5 +47,9 @@ public class Url {
       return address;
     }
     return host + ":" + port;
+  }
+
+  public boolean useEndPoint(){
+    return useEndPoint != null && useEndPoint;
   }
 }

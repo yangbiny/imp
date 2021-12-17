@@ -92,7 +92,7 @@ public class ServiceConfig<T> extends BaseServiceConfig {
 
   private void init() {
     protocolConfig.changeHost();
-    if (!protocolConfig.valid()) {
+    if (!protocolConfig.providerValid()) {
       throw new RuntimeException("protocolConfig is not valid");
     }
   }

@@ -19,7 +19,7 @@ public class ServiceConfigTestRpc {
     applicationConfig.setApplicationName("test");
 
     ProtocolConfig protocolConfig = new ProtocolConfig();
-    protocolConfig.setExportPort(11222);
+    protocolConfig.setPort(11222);
 
     RegistryConfig registryConfig = new RegistryConfig();
     registryConfig.setRegistryAddress("impassive.com:2181");
