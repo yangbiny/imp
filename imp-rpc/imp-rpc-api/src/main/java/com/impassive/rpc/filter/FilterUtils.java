@@ -1,21 +1,19 @@
 package com.impassive.rpc.filter;
 
+import com.impassive.imp.common.ClassInfo;
+import com.impassive.imp.common.ClassType;
+import com.impassive.imp.common.ClassUtils;
 import com.impassive.imp.exception.common.ImpCommonException;
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.annotation.Nullable;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
 
 @Slf4j
 public class FilterUtils {
@@ -37,14 +35,11 @@ public class FilterUtils {
     while (resources.hasMoreElements()) {
       URL url = resources.nextElement();
       String path = url.getPath();
-      List<String> list = parseFile(path);
-      if (CollectionUtils.isEmpty(list)) {
+      List<ClassInfo> filterClassInfo = ClassUtils.buildClass(ClassType.filter);
+      if (CollectionUtils.isEmpty(filterClassInfo)) {
         continue;
       }
-      for (String classStr : list) {
-        if (StringUtils.isEmpty(classStr)) {
-          continue;
-        }
+      for (ClassInfo classStr : filterClassInfo) {
         FilterMeta filter = buildFilter(classStr);
         if (filter == null) {
           continue;
@@ -61,18 +56,8 @@ public class FilterUtils {
     return FILTER_LIST;
   }
 
-  @Nullable
-  private static FilterMeta buildFilter(String classStr) {
-    if (StringUtils.isEmpty(classStr)) {
-      return null;
-    }
-    Class<?> aClass;
-    try {
-      aClass = Class.forName(classStr);
-    } catch (ClassNotFoundException e) {
-      log.error("can not find class : {}", classStr);
-      throw new ImpCommonException(e);
-    }
+  private static FilterMeta buildFilter(ClassInfo classStr) {
+    Class<?> aClass = classStr.getClassPath();
     Class<?>[] interfaces = aClass.getInterfaces();
     Filter filter;
     boolean hasFilterInterface = false;
@@ -97,29 +82,6 @@ public class FilterUtils {
       throw new ImpCommonException(e);
     }
     return new FilterMeta(filter, active, impFilter.order());
-  }
-
-  private static List<String> parseFile(String path) {
-    File file = new File(path);
-    File[] files;
-    if (file.isDirectory()) {
-      files = file.listFiles();
-    } else {
-      files = new File[]{file};
-    }
-    if (files == null) {
-      return Collections.emptyList();
-    }
-    try {
-      List<String> result = new ArrayList<>();
-      for (File file1 : files) {
-        result.addAll(FileUtils.readLines(file1));
-      }
-      return result;
-    } catch (IOException e) {
-      log.error("parse file has error : {}", path);
-      throw new ImpCommonException(e);
-    }
   }
 
 

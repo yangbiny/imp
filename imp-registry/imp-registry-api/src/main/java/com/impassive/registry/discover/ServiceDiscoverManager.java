@@ -13,6 +13,7 @@ public class ServiceDiscoverManager implements ServiceDiscover {
   private final Map<RegistryType, ServiceDiscover> discoverMap = new HashMap<>();
 
   private ServiceDiscoverManager() {
+
   }
 
   public static ServiceDiscoverManager getInstance() {
