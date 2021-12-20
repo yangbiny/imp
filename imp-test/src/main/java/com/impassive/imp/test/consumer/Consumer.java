@@ -48,7 +48,7 @@ public class Consumer {
     consumerBean.setApplicationConfig(applicationConfig);
     consumerBean.setProtocolConfig(protocolConfig);
     consumerBean.setRegistryConfig(registryConfig);
-    consumerBean.setGroupName("test_group");
+    consumerBean.setGroupName("test-a");
     consumerBean.setClassType(TestRpc.class);
   }
 }

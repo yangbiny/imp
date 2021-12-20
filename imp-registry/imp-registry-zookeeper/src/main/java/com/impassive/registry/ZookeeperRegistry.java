@@ -19,10 +19,6 @@ import org.apache.zookeeper.data.Stat;
 @Slf4j
 public class ZookeeperRegistry extends AbstractRegistry {
 
-  private static final String ZK_PATH = "/%s/%s/%s/%s";
-
-  private static final String ZK_DATA = "%s://%s:%s/%s/?groupName=%s";
-
   private ZooKeeper zooKeeperClient;
 
   public ZookeeperRegistry(Url url) {
@@ -43,8 +39,8 @@ public class ZookeeperRegistry extends AbstractRegistry {
   @Override
   protected void doRegister(Url url) {
     try {
-      final String path = buildPath(url);
-      final String data = buildData(url);
+      final String path = ZookeeperUtils.buildPath(url);
+      final String data = ZookeeperUtils.buildData(url);
       createPath(path, data);
     } catch (KeeperException | InterruptedException e) {
       throw new RuntimeException("zookeeper registry error ", e);
@@ -57,32 +53,9 @@ public class ZookeeperRegistry extends AbstractRegistry {
       final String substring = path.substring(0, i);
       createPath(substring, substring);
     }
-    final Stat exists = zooKeeperClient.exists(path, false);
-    if (exists != null) {
-      return;
-    }
-    zooKeeperClient.create(
-        path, data.getBytes(StandardCharsets.UTF_8), Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+    zooKeeperClient.setData(path, data.getBytes(StandardCharsets.UTF_8), -1);
   }
 
-  private String buildData(Url url) {
-    return String.format(
-        ZK_DATA,
-        url.getProtocol(),
-        url.getHost(),
-        url.getPort(),
-        url.getInterfaceName(),
-        url.getGroupName());
-  }
-
-  private String buildPath(Url url) {
-    return String.format(
-        ZK_PATH,
-        url.getProtocol(),
-        url.getApplicationName(),
-        url.getGroupName(),
-        url.getInterfaceName());
-  }
 
   final private class ZookeeperWatcher implements Watcher {
 
