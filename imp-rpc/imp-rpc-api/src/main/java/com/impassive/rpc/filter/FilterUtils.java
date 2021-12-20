@@ -4,12 +4,10 @@ import com.impassive.imp.common.ClassInfo;
 import com.impassive.imp.common.ClassType;
 import com.impassive.imp.common.ClassUtils;
 import com.impassive.imp.exception.common.ImpCommonException;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
@@ -24,28 +22,14 @@ public class FilterUtils {
     if (CollectionUtils.isNotEmpty(FILTER_LIST)) {
       return FILTER_LIST;
     }
-    Enumeration<URL> resources;
-    try {
-      resources = FilterUtils.class.getClassLoader().getResources("filter");
-    } catch (IOException e) {
-      log.error("read filter has error", e);
-      throw new ImpCommonException(e);
+    List<ClassInfo> filterClassInfo = ClassUtils.buildClass(ClassType.filter);
+    if (CollectionUtils.isEmpty(filterClassInfo)) {
+      return Collections.emptyList();
     }
     List<FilterMeta> filterMetas = new ArrayList<>();
-    while (resources.hasMoreElements()) {
-      URL url = resources.nextElement();
-      String path = url.getPath();
-      List<ClassInfo> filterClassInfo = ClassUtils.buildClass(ClassType.filter);
-      if (CollectionUtils.isEmpty(filterClassInfo)) {
-        continue;
-      }
-      for (ClassInfo classStr : filterClassInfo) {
-        FilterMeta filter = buildFilter(classStr);
-        if (filter == null) {
-          continue;
-        }
-        filterMetas.add(filter);
-      }
+    for (ClassInfo classInfo : filterClassInfo) {
+      FilterMeta filter = buildFilter(classInfo);
+      filterMetas.add(filter);
     }
     List<Filter> collect = filterMetas.stream()
         .filter(FilterMeta::isActive)

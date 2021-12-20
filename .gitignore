@@ -15,3 +15,6 @@
 /imp-rpc/imp-rpc-api/imp-rpc-api.iml
 /imp-rpc/imp-rpc-imp/imp-rpc-imp.iml
 /imp-server/imp-server.iml
+/imp-registry/imp-registry-api/imp-registry-api.iml
+/imp-all/imp-all.iml
+/imp-registry/imp-registry-zookeeper/imp-registry-zookeeper.iml
