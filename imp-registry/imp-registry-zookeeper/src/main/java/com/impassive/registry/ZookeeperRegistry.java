@@ -67,14 +67,14 @@ public class ZookeeperRegistry extends AbstractRegistry {
     if (exists != null) {
       return;
     }
-    zooKeeperClient.create(path, path.getBytes(StandardCharsets.UTF_8), Ids.OPEN_ACL_UNSAFE,
+    zooKeeperClient.create(path, "".getBytes(StandardCharsets.UTF_8), Ids.OPEN_ACL_UNSAFE,
         CreateMode.PERSISTENT);
   }
 
   private void saveData(String path, String data) throws KeeperException, InterruptedException {
     byte[] existData = zooKeeperClient.getData(path, false, null);
     List<String> strings = new ArrayList<>();
-    if (existData.length > 0) {
+    if (existData != null && existData.length > 0) {
       strings = JsonTools.readFromJsonList(new String(existData), String.class);
       strings.add(data);
     }

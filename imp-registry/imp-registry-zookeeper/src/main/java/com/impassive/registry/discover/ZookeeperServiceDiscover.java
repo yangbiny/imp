@@ -4,10 +4,12 @@ import com.google.common.collect.Lists;
 import com.impassive.imp.common.RegistryType;
 import com.impassive.imp.common.Url;
 import com.impassive.imp.exception.common.ImpCommonException;
+import com.impassive.imp.util.json.JsonTools;
 import com.impassive.registry.ZookeeperUtils;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +39,16 @@ public class ZookeeperServiceDiscover extends AbstractServiceDiscovery {
       throw new ImpCommonException(e);
     }
     String data = new String(dataByte);
+    List<String> urls = JsonTools.readFromJsonList(data, String.class);
+    List<DiscoverService> discoverServiceList = new ArrayList<>();
+    for (String urlStr : urls) {
+      DiscoverService discoverService = buildDiscover(urlStr);
+      discoverServiceList.add(discoverService);
+    }
+    return discoverServiceList;
+  }
+
+  private DiscoverService buildDiscover(String data) {
     URI uri;
     try {
       uri = new URI(data);
@@ -52,7 +64,7 @@ public class ZookeeperServiceDiscover extends AbstractServiceDiscovery {
     discoverService.setClassName(urlPath.replaceAll("/", ""));
     discoverService.setHost(host);
     discoverService.setProtocol(scheme);
-    return Lists.newArrayList(discoverService);
+    return discoverService;
   }
 
   private void buildZookeeperClient(String address) {
