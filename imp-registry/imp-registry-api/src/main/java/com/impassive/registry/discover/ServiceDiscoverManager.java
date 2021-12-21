@@ -67,8 +67,8 @@ public class ServiceDiscoverManager implements ServiceDiscover {
       return;
     }
     try {
-      ServiceDiscover serviceDiscover = (ServiceDiscover) classPath.newInstance();
-      discoverMap.putIfAbsent(registryType, serviceDiscover);
+      AbstractServiceDiscovery serviceDiscover = (AbstractServiceDiscovery) classPath.newInstance();
+      discoverMap.putIfAbsent(serviceDiscover.registryType(), serviceDiscover);
     } catch (InstantiationException | IllegalAccessException e) {
       log.error("can not find class : {}", classPath, e);
     }

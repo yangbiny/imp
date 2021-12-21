@@ -2,7 +2,9 @@ package com.impassive.registry.registry;
 
 import com.impassive.imp.common.Url;
 
-/** @author impassivey */
+/**
+ * @author impassivey
+ */
 public interface Registry {
 
   /**
@@ -11,4 +13,11 @@ public interface Registry {
    * @param url 需要注册的url的信息
    */
   void registry(Url url);
+
+  /**
+   * 取消服务注册。将对应的url的信息冲注册中心取消
+   *
+   * @param url url的信息
+   */
+  void unRegistry(Url url);
 }
