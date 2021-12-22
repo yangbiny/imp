@@ -22,6 +22,11 @@
       <artifactId>imp-registry-zookeeper</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.impassive</groupId>
+      <artifactId>imp-rpc-imp</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
 
 </project>

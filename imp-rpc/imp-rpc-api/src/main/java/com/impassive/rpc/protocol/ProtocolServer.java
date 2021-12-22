@@ -1,4 +1,4 @@
-package com.impassive.registry.protocol;
+package com.impassive.rpc.protocol;
 
 /** @author impassivey */
 public interface ProtocolServer {

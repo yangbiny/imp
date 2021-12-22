@@ -1,4 +1,4 @@
-package com.impassive.registry.discover;
+package com.impassive.rpc.discover;
 
 import lombok.Data;
 

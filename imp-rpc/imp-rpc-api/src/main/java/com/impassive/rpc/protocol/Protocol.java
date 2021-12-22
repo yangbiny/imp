@@ -1,4 +1,4 @@
-package com.impassive.registry.protocol;
+package com.impassive.rpc.protocol;
 
 import com.impassive.imp.common.Url;
 import com.impassive.rpc.invoker.Invoker;

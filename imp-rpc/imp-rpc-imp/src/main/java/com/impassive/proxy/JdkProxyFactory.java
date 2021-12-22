@@ -1,4 +1,4 @@
-package com.impassive.registry.proxy;
+package com.impassive.proxy;
 
 import com.impassive.result.AbstractProxyInvoker;
 import com.impassive.rpc.invoker.Invoker;

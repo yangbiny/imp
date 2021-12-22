@@ -1,4 +1,4 @@
-package com.impassive.registry.discover;
+package com.impassive.discover;
 
 import com.impassive.imp.common.ClassInfo;
 import com.impassive.imp.common.ClassType;
@@ -6,6 +6,9 @@ import com.impassive.imp.common.ClassUtils;
 import com.impassive.imp.common.RegistryType;
 import com.impassive.imp.common.Url;
 import com.impassive.imp.exception.common.ImpCommonException;
+import com.impassive.rpc.discover.AbstractServiceDiscovery;
+import com.impassive.rpc.discover.DiscoverService;
+import com.impassive.rpc.discover.ServiceDiscover;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

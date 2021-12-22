@@ -1,4 +1,4 @@
-package com.impassive.codec;
+package com.impassive.remoting.netty.codec;
 
 import com.impassive.rpc.invocation.Invocation;
 import com.impassive.rpc.request.Request;

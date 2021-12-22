@@ -1,4 +1,4 @@
-package com.impassive.registry.discover;
+package com.impassive.rpc.discover;
 
 import com.impassive.imp.common.Url;
 import java.util.List;

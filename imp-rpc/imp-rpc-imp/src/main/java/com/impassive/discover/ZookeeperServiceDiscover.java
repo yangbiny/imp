@@ -1,11 +1,12 @@
-package com.impassive.registry.discover;
+package com.impassive.discover;
 
-import com.google.common.collect.Lists;
 import com.impassive.imp.common.RegistryType;
 import com.impassive.imp.common.Url;
 import com.impassive.imp.exception.common.ImpCommonException;
 import com.impassive.imp.util.json.JsonTools;
 import com.impassive.registry.ZookeeperUtils;
+import com.impassive.rpc.discover.AbstractServiceDiscovery;
+import com.impassive.rpc.discover.DiscoverService;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -81,7 +82,7 @@ public class ZookeeperServiceDiscover extends AbstractServiceDiscovery {
   }
 
   @Override
-  protected RegistryType registryType() {
+  public RegistryType registryType() {
     return RegistryType.ZOOKEEPER;
   }
 

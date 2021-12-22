@@ -19,7 +19,7 @@
   <dependencies>
     <dependency>
       <groupId>com.impassive</groupId>
-      <artifactId>imp-registry-zookeeper</artifactId>
+      <artifactId>imp-rpc-imp</artifactId>
       <version>${project.version}</version>
     </dependency>
   </dependencies>

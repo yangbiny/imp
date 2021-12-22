@@ -1,4 +1,4 @@
-package com.impassive.registry.discover;
+package com.impassive.rpc.discover;
 
 import com.impassive.imp.common.RegistryType;
 import com.impassive.imp.common.Url;
@@ -8,7 +8,7 @@ public abstract class AbstractServiceDiscovery implements ServiceDiscover {
 
   protected abstract List<DiscoverService> doDiscover(Url url);
 
-  protected abstract RegistryType registryType();
+  public abstract RegistryType registryType();
 
   @Override
   public List<DiscoverService> discover(Url url) {

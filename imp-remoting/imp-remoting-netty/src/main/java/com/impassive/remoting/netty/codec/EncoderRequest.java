@@ -1,6 +1,5 @@
 package com.impassive.remoting.netty.codec;
 
-import com.impassive.codec.ImpCodec;
 import com.impassive.rpc.request.Request;
 import com.impassive.imp.remoting.codec.Codec;
 import io.netty.buffer.ByteBuf;
