@@ -1,1 +1,1 @@
-zookeeper=com.impassive.discover.ZookeeperServiceDiscover
+zookeeper=com.impassive.rpc.discover.impl.ZookeeperServiceDiscover

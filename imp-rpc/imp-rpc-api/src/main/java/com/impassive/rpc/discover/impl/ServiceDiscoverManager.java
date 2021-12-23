@@ -1,4 +1,4 @@
-package com.impassive.discover;
+package com.impassive.rpc.discover.impl;
 
 import com.impassive.imp.common.ClassInfo;
 import com.impassive.imp.common.ClassType;

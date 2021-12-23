@@ -27,10 +27,5 @@
       <artifactId>imp-remoting-netty</artifactId>
       <version>${project.version}</version>
     </dependency>
-    <dependency>
-      <groupId>com.impassive</groupId>
-      <artifactId>imp-registry-zookeeper</artifactId>
-      <version>${project.version}</version>
-    </dependency>
   </dependencies>
 </project>

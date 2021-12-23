@@ -10,7 +10,7 @@ import com.impassive.invocation.ImpInvoker;
 import com.impassive.registry.AbstractRegistryFactory;
 import com.impassive.rpc.discover.DiscoverService;
 import com.impassive.rpc.discover.ServiceDiscover;
-import com.impassive.discover.ServiceDiscoverManager;
+import com.impassive.rpc.discover.impl.ServiceDiscoverManager;
 import com.impassive.rpc.protocol.Protocol;
 import com.impassive.rpc.protocol.ProtocolServer;
 import com.impassive.registry.registry.Registry;
