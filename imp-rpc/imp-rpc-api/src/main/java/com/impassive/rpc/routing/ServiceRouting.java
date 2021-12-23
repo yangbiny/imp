@@ -1,6 +1,7 @@
 package com.impassive.rpc.routing;
 
-import com.impassive.rpc.discover.DiscoverService;
+import com.impassive.imp.common.Url;
+import com.impassive.imp.common.DiscoverService;
 import java.util.List;
 
 public interface ServiceRouting {
@@ -11,6 +12,6 @@ public interface ServiceRouting {
    * @param discoverServices 发现的服务信息
    * @return 路由结果
    */
-  DiscoverService routing(List<DiscoverService> discoverServices);
+  DiscoverService routing(Url url, List<DiscoverService> discoverServices);
 
 }

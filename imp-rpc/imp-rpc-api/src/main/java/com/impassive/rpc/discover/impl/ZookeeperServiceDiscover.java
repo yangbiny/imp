@@ -6,7 +6,7 @@ import com.impassive.imp.exception.common.ImpCommonException;
 import com.impassive.imp.util.json.JsonTools;
 import com.impassive.registry.ZookeeperUtils;
 import com.impassive.rpc.discover.AbstractServiceDiscovery;
-import com.impassive.rpc.discover.DiscoverService;
+import com.impassive.imp.common.DiscoverService;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;

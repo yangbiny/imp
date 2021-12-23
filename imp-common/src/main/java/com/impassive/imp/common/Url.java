@@ -37,6 +37,8 @@ public class Url {
 
   private String address;
 
+  private ServiceRoutingType serviceRoutingType;
+
   public String buildRegistryKey(String formatTpl) {
     return String.format(
         formatTpl, this.registryType.name().toLowerCase(), this.registryIp, this.registryPort);
@@ -49,7 +51,12 @@ public class Url {
     return host + ":" + port;
   }
 
-  public boolean useEndPoint(){
+  public boolean useEndPoint() {
     return useEndPoint != null && useEndPoint;
+  }
+
+  public void discoverService(DiscoverService discoverService) {
+    this.host = discoverService.getHost();
+    this.port = discoverService.getPort();
   }
 }

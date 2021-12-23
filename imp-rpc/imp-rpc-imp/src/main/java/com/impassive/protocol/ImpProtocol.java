@@ -1,29 +1,27 @@
 package com.impassive.protocol;
 
+import com.impassive.imp.common.DiscoverService;
 import com.impassive.imp.common.Url;
-import com.impassive.imp.exception.common.ImpCommonException;
 import com.impassive.imp.remoting.ExchangeClient;
 import com.impassive.imp.remoting.channelHandler.DecodeChannelHandler;
 import com.impassive.imp.remoting.channelHandler.HeaderExchangeHandler;
 import com.impassive.imp.remoting.channelHandler.ImpExchangeClient;
 import com.impassive.invocation.ImpInvoker;
 import com.impassive.registry.AbstractRegistryFactory;
-import com.impassive.rpc.discover.DiscoverService;
-import com.impassive.rpc.discover.ServiceDiscover;
-import com.impassive.rpc.discover.impl.ServiceDiscoverManager;
-import com.impassive.rpc.protocol.Protocol;
-import com.impassive.rpc.protocol.ProtocolServer;
 import com.impassive.registry.registry.Registry;
 import com.impassive.registry.registry.RegistryFactory;
 import com.impassive.remoting.netty.NettyChannelHandler;
 import com.impassive.remoting.netty.NettyClient;
+import com.impassive.rpc.adapter.RoutingDiscoverAdapter;
+import com.impassive.rpc.discover.ServiceDiscover;
+import com.impassive.rpc.discover.impl.ServiceDiscoverManager;
 import com.impassive.rpc.invoker.Invoker;
 import com.impassive.rpc.invoker.InvokerWrapper;
-import java.util.List;
+import com.impassive.rpc.protocol.Protocol;
+import com.impassive.rpc.protocol.ProtocolServer;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
 
 /**
  * @author impassivey
@@ -61,12 +59,8 @@ public class ImpProtocol implements Protocol {
     // 1. 是否是点对点？
     if (!url.useEndPoint()) {
       // 2. 不是 ---> 需要进行服务发现
-      List<DiscoverService> discover = serviceDiscover.discover(url);
-      if (CollectionUtils.isEmpty(discover)) {
-        log.error("can not find service : {}, {}", url.getGroupName(), url.getInterfaceName());
-        throw new ImpCommonException(
-            "can not find service " + url.getGroupName() + " " + url.getInterfaceName());
-      }
+      DiscoverService discoverService = RoutingDiscoverAdapter.discoverAndRouting(url);
+      url.discoverService(discoverService);
     }
     // 是直接使用即可
     return new ImpExchangeClient(

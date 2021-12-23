@@ -16,7 +16,12 @@ public enum ClassType {
   /**
    * 过滤器相关
    */
-  filter("filter");
+  filter("filter"),
+
+  /**
+   * 路由相关
+   */
+  routing("routing");
 
   private final String path;
 

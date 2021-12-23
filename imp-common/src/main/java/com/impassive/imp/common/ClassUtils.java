@@ -28,30 +28,27 @@ public class ClassUtils {
     Enumeration<URL> resources;
     try {
       resources = Thread.currentThread().getContextClassLoader()
-          .getResources(classType.getPath());
+          .getResources("imp/" + classType.getPath());
     } catch (IOException e) {
       log.error("build class has exception : {}", classType);
       throw new ImpCommonException("build class has exception : ", e);
     }
-    List<ClassInfo> result = new ArrayList<>();
-    while (resources.hasMoreElements()) {
-      URL url = resources.nextElement();
-      List<String> lines = parseFile(url.getPath());
-      List<ClassInfo> collect = lines.stream()
-          .filter(StringUtils::isNotEmpty)
-          .map(item -> StringUtils.split(item, "="))
-          .map(item -> {
-            try {
-              return new ClassInfo(item[0], Class.forName(item[1]));
-            } catch (ClassNotFoundException e) {
-              log.error("can not find class : {}", Arrays.toString(item));
-              throw new ImpCommonException(e);
-            }
-          })
-          .collect(Collectors.toList());
-      result.addAll(collect);
+    if (!resources.hasMoreElements()) {
+      return Collections.emptyList();
     }
-    return result;
+    URL url = resources.nextElement();
+    List<String> lines = parseFile(url.getPath());
+    return lines.stream()
+        .filter(StringUtils::isNotEmpty)
+        .map(item -> StringUtils.split(item, "="))
+        .map(item -> {
+          try {
+            return new ClassInfo(item[0], Class.forName(item[1]));
+          } catch (ClassNotFoundException e) {
+            log.error("can not find class : {}", Arrays.toString(item));
+            throw new ImpCommonException(e);
+          }
+        }).collect(Collectors.toList());
   }
 
   private static List<String> parseFile(String path) {

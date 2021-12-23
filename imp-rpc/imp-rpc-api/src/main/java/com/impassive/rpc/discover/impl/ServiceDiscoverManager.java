@@ -7,7 +7,7 @@ import com.impassive.imp.common.RegistryType;
 import com.impassive.imp.common.Url;
 import com.impassive.imp.exception.common.ImpCommonException;
 import com.impassive.rpc.discover.AbstractServiceDiscovery;
-import com.impassive.rpc.discover.DiscoverService;
+import com.impassive.imp.common.DiscoverService;
 import com.impassive.rpc.discover.ServiceDiscover;
 import java.util.HashMap;
 import java.util.List;
