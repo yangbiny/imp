@@ -33,11 +33,6 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.13</version>
-    </dependency>
-    <dependency>
       <groupId>com.impassive</groupId>
       <artifactId>imp-server</artifactId>
       <version>${project.version}</version>
