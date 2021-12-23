@@ -13,8 +13,6 @@ import com.impassive.registry.registry.RegistryFactory;
 import com.impassive.remoting.netty.NettyChannelHandler;
 import com.impassive.remoting.netty.NettyClient;
 import com.impassive.rpc.adapter.RoutingDiscoverAdapter;
-import com.impassive.rpc.discover.ServiceDiscover;
-import com.impassive.rpc.discover.impl.ServiceDiscoverManager;
 import com.impassive.rpc.invoker.Invoker;
 import com.impassive.rpc.invoker.InvokerWrapper;
 import com.impassive.rpc.protocol.Protocol;
@@ -32,8 +30,6 @@ public class ImpProtocol implements Protocol {
   private static final Map<String, ProtocolServer> PROTOCOL_SERVER_MAP = new ConcurrentHashMap<>();
 
   private final ExchangeHandlerAdapter exchangeHandler = new ExchangeHandlerAdapter();
-
-  private final ServiceDiscover serviceDiscover = ServiceDiscoverManager.getInstance();
 
   @Override
   public <T> void export(Invoker<T> invoker) {
