@@ -5,7 +5,7 @@
   <parent>
     <artifactId>imp</artifactId>
     <groupId>com.impassive</groupId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
@@ -19,7 +19,7 @@
   <dependencies>
     <dependency>
       <groupId>com.impassive</groupId>
-      <artifactId>imp-registry</artifactId>
+      <artifactId>imp-registry-api</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
