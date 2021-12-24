@@ -16,6 +16,7 @@
   <name>imp-config</name>
   <modules>
     <module>imp-config-api</module>
+    <module>imp-config-spring</module>
   </modules>
 
   <properties>
