@@ -46,7 +46,7 @@ public class ZookeeperRegistry extends AbstractRegistry {
       final String path = ZookeeperUtils.buildPath(url);
       final String data = ZookeeperUtils.buildData(url);
       createPath(path);
-      saveData(path, data);
+      saveData(path, data,false);
     } catch (KeeperException | InterruptedException e) {
       throw new RuntimeException("zookeeper registry error ", e);
     }
@@ -54,6 +54,19 @@ public class ZookeeperRegistry extends AbstractRegistry {
 
   @Override
   protected void doUnRegistry(Url url) {
+    final String path = ZookeeperUtils.buildPath(url);
+    final String data = ZookeeperUtils.buildData(url);
+    try {
+      byte[] existData = zooKeeperClient.getData(path, false, null);
+      if (existData.length <= 0) {
+        return;
+      }
+      List<String> dataList = JsonTools.readFromJsonList(new String(existData), String.class);
+      dataList.remove(data);
+      saveData(path, JsonTools.writeToJson(dataList), true);
+    } catch (KeeperException | InterruptedException e) {
+      throw new RuntimeException("zookeeper un registry error ", e);
+    }
 
   }
 
@@ -71,7 +84,12 @@ public class ZookeeperRegistry extends AbstractRegistry {
         CreateMode.PERSISTENT);
   }
 
-  private void saveData(String path, String data) throws KeeperException, InterruptedException {
+  private void saveData(String path, String data, boolean override)
+      throws KeeperException, InterruptedException {
+    if (override) {
+      zooKeeperClient.setData(path, data.getBytes(StandardCharsets.UTF_8), -1);
+      return;
+    }
     byte[] existData = zooKeeperClient.getData(path, false, null);
     List<String> strings = new ArrayList<>();
     if (existData != null && existData.length > 0) {

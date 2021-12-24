@@ -28,7 +28,7 @@ public abstract class AbstractRegistry implements Registry {
 
   @Override
   public void unRegistry(Url url) {
-
+    doUnRegistry(url);
   }
 
   /**
