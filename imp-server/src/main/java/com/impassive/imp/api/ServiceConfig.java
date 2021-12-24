@@ -1,7 +1,7 @@
 package com.impassive.imp.api;
 
-import com.impassive.imp.config.BaseServiceConfig;
 import com.impassive.imp.common.Url;
+import com.impassive.imp.config.BaseServiceConfig;
 import com.impassive.protocol.ImpProtocol;
 import com.impassive.proxy.JdkProxyFactory;
 import com.impassive.rpc.invoker.Invoker;
@@ -27,12 +27,16 @@ public class ServiceConfig<T> extends BaseServiceConfig {
 
   private T reference;
 
-  /** 需要暴露出去的接口 */
+  /**
+   * 需要暴露出去的接口
+   */
   private Class<T> classInterface;
 
   private String interfaceName;
 
   private String groupName;
+
+  private InvokerWrapper<T> invokerWrapper;
 
   public void setReference(T reference) {
     this.reference = reference;
@@ -60,7 +64,16 @@ public class ServiceConfig<T> extends BaseServiceConfig {
     final InvokerWrapper<T> wrapper = buildInvokeWrapper(invoker);
     PROTOCOL.export(wrapper);
     export = true;
+    this.invokerWrapper = wrapper;
   }
+
+  public void unExport() {
+    if (!export) {
+      return;
+    }
+    PROTOCOL.unExport(this.invokerWrapper);
+  }
+
 
   private void checkParam() {
     if (applicationConfig == null) {

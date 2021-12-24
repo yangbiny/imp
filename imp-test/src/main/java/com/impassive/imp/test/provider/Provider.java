@@ -7,16 +7,22 @@ import com.impassive.registry.config.ProtocolConfig;
 import com.impassive.registry.config.RegistryConfig;
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-/** @author impassivey */
+/**
+ * @author impassivey
+ */
 public class Provider {
 
   private ServiceConfig<TestRpc> serviceConfig;
 
-  private CountDownLatch countDownLatch;
+  private final CountDownLatch countDownLatch;
 
-  public Provider(CountDownLatch countDownLatch) {
+  private final AtomicBoolean finish;
+
+  public Provider(CountDownLatch countDownLatch, AtomicBoolean finish) {
     this.countDownLatch = countDownLatch;
+    this.finish = finish;
   }
 
   public void setUp() {
@@ -41,14 +47,21 @@ public class Provider {
     serviceConfig.setReference(defaultTestRpc);
   }
 
-  public void start() throws IOException {
+  public void start() throws Exception {
     setUp();
     export();
+    unExport();
   }
 
-  public void export() throws IOException {
+  private void unExport() {
+    serviceConfig.unExport();
+  }
+
+  public void export() throws Exception {
     serviceConfig.export();
     countDownLatch.countDown();
-    System.out.println(System.in.read());
+    while (!finish.get()) {
+      Thread.sleep(1000);
+    }
   }
 }

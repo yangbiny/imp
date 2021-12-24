@@ -5,6 +5,7 @@ import com.impassive.imp.test.TestRpc;
 import com.impassive.registry.config.ApplicationConfig;
 import com.impassive.registry.config.ProtocolConfig;
 import com.impassive.registry.config.RegistryConfig;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author impassivey
@@ -13,11 +14,18 @@ public class Consumer {
 
   private static ConsumerBean<TestRpc> consumerBean;
 
+  private final AtomicBoolean atomicBoolean;
+
+  public Consumer(AtomicBoolean finish) {
+    atomicBoolean = finish;
+  }
+
   public void start() throws InterruptedException {
     init();
     TestRpc bean = consumerBean.getBean();
     final String test = bean.test("test" + System.currentTimeMillis());
     System.out.println(test);
+    atomicBoolean.compareAndSet(false, true);
 /*     Param param = new Param();
       param.setDate(System.currentTimeMillis());
       Result result = bean.test(param);

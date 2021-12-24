@@ -37,6 +37,12 @@ public class ImpProtocol implements Protocol {
   }
 
   @Override
+  public   <T> void unExport(Invoker<T> invoker){
+    doUnExport(invoker);
+  }
+
+
+  @Override
   public <T> Invoker<T> refer(Class<T> interfaceClass, Url url) {
     return doRefer(interfaceClass, url);
   }
@@ -71,6 +77,15 @@ public class ImpProtocol implements Protocol {
     exchangeHandler.putInvokerMap(invokerWrapper);
     openService(invokerWrapper.getUrl());
     registry(invokerWrapper);
+  }
+
+  private <T> void doUnExport(Invoker<T> invoker) {
+    InvokerWrapper<T> invokerWrapper = (InvokerWrapper<T>) invoker;
+    Url url = invokerWrapper.getUrl();
+    final RegistryFactory registryFactory =
+        AbstractRegistryFactory.getRegistryFactory(url.getRegistryType());
+    final Registry registry = registryFactory.getRegistry(url);
+    registry.unRegistry(url);
   }
 
   private void openService(Url url) {

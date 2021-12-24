@@ -19,12 +19,18 @@ public interface Protocol {
   <T> void export(Invoker<T> invoker);
 
   /**
+   * 取消服务暴露。包括从注册中心移出注册的数据
+   *
+   * @param invoker 需要取消暴露的对象
+   */
+  <T> void unExport(Invoker<T> invoker);
+
+  /**
    * 创建一个消费者的代理对象
    *
    * @param interfaceClass 代理对象的接口
    * @param url 代理对象的信息
    * @param <T> 代理对象的类型
-   * @return
    */
   <T> Invoker<T> refer(Class<T> interfaceClass, Url url);
 }
