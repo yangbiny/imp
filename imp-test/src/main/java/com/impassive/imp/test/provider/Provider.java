@@ -1,11 +1,10 @@
 package com.impassive.imp.test.provider;
 
-import com.impassive.imp.api.ServiceConfig;
+import com.impassive.config.service.ServiceConfig;
 import com.impassive.imp.test.TestRpc;
 import com.impassive.registry.config.ApplicationConfig;
 import com.impassive.registry.config.ProtocolConfig;
 import com.impassive.registry.config.RegistryConfig;
-import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 

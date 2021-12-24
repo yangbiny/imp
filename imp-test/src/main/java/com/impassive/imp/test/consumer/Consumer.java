@@ -1,6 +1,6 @@
 package com.impassive.imp.test.consumer;
 
-import com.impassive.imp.api.ConsumerBean;
+import com.impassive.config.client.ConsumerBean;
 import com.impassive.imp.test.TestRpc;
 import com.impassive.registry.config.ApplicationConfig;
 import com.impassive.registry.config.ProtocolConfig;

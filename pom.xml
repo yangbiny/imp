@@ -9,14 +9,13 @@
   <packaging>pom</packaging>
   <version>1.0.1</version>
   <modules>
-    <module>imp-client</module>
-    <module>imp-server</module>
     <module>imp-registry</module>
     <module>imp-test</module>
     <module>imp-common</module>
     <module>imp-remoting</module>
     <module>imp-rpc</module>
     <module>imp-all</module>
+    <module>imp-config</module>
   </modules>
 
   <properties>

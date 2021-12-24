@@ -1,4 +1,4 @@
-package com.impassive.imp.api;
+package com.impassive.config.client;
 
 /** @author impassivey */
 public class ConsumerBean<T> extends ConsumerConfig<T> {

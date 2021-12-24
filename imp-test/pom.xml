@@ -29,14 +29,8 @@
     </dependency>
     <dependency>
       <groupId>com.impassive</groupId>
-      <artifactId>imp-client</artifactId>
+      <artifactId>imp-config-api</artifactId>
       <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.impassive</groupId>
-      <artifactId>imp-server</artifactId>
-      <version>${project.version}</version>
-      <scope>compile</scope>
     </dependency>
   </dependencies>
 
