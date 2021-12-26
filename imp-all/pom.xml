@@ -19,11 +19,6 @@
   <dependencies>
     <dependency>
       <groupId>com.impassive</groupId>
-      <artifactId>imp-client</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.impassive</groupId>
       <artifactId>imp-common</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -50,11 +45,6 @@
     <dependency>
       <groupId>com.impassive</groupId>
       <artifactId>imp-rpc-imp</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.impassive</groupId>
-      <artifactId>imp-server</artifactId>
       <version>${project.version}</version>
     </dependency>
   </dependencies>
