@@ -1,7 +1,7 @@
 package com.impassive.provider;
 
 import com.impassive.TestRpc;
-import com.impassive.config.service.ServiceConfig;
+import com.impassive.config.ServiceBeanConfig;
 import com.impassive.registry.config.ApplicationConfig;
 import com.impassive.registry.config.ProtocolConfig;
 import com.impassive.registry.config.RegistryConfig;
@@ -14,10 +14,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class Provider {
 
-
   @Bean
-  public ServiceConfig<TestRpc> setUp(TestRpc testRpc) {
-    ServiceConfig<TestRpc> serviceConfig = new ServiceConfig<>();
+  public ServiceBeanConfig<TestRpc> setUp(TestRpc testRpc) {
+    ServiceBeanConfig<TestRpc> serviceConfig = new ServiceBeanConfig<>();
     serviceConfig.setGroupName("test-a");
     serviceConfig.setInterface(TestRpc.class);
     serviceConfig.setReference(testRpc);

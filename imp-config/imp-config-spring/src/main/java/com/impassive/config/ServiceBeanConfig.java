@@ -5,11 +5,13 @@ import com.impassive.registry.config.ApplicationConfig;
 import com.impassive.registry.config.ProtocolConfig;
 import com.impassive.registry.config.RegistryConfig;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-public class ServiceBeanConfig<T> extends ServiceConfig<T> implements ApplicationContextAware, InitializingBean {
+public class ServiceBeanConfig<T> extends ServiceConfig<T> implements ApplicationContextAware, InitializingBean,
+    DisposableBean {
 
   private ApplicationContext applicationContext;
 
@@ -24,5 +26,10 @@ public class ServiceBeanConfig<T> extends ServiceConfig<T> implements Applicatio
   @Override
   public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
     this.applicationContext = applicationContext;
+  }
+
+  @Override
+  public void destroy() throws Exception {
+    this.unExport();
   }
 }
