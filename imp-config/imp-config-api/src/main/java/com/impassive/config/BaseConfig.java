@@ -1,13 +1,15 @@
-package com.impassive.config.service;
+package com.impassive.config;
 
 import com.impassive.registry.config.ApplicationConfig;
 import com.impassive.registry.config.ProtocolConfig;
 import com.impassive.registry.config.RegistryConfig;
 import lombok.Getter;
 
-/** @author impassivey */
+/**
+ * @author impassivey
+ */
 @Getter
-public class BaseServiceConfig {
+public class BaseConfig {
 
   protected RegistryConfig registryConfig;
 
@@ -23,7 +25,7 @@ public class BaseServiceConfig {
     this.applicationConfig = applicationConfig;
   }
 
-  public void setRegistryConfig(RegistryConfig registryConfig){
+  public void setRegistryConfig(RegistryConfig registryConfig) {
     this.registryConfig = registryConfig;
   }
 }

@@ -1,7 +1,7 @@
-package com.impassive.imp.test.consumer;
+package com.impassive.test.consumer;
 
-import com.impassive.config.client.ConsumerBean;
-import com.impassive.imp.test.TestRpc;
+import com.impassive.config.client.ConsumerConfig;
+import com.impassive.test.TestRpc;
 import com.impassive.registry.config.ApplicationConfig;
 import com.impassive.registry.config.ProtocolConfig;
 import com.impassive.registry.config.RegistryConfig;
@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class Consumer {
 
-  private static ConsumerBean<TestRpc> consumerBean;
+  private static ConsumerConfig<TestRpc> consumerConfig;
 
   private final AtomicBoolean atomicBoolean;
 
@@ -22,7 +22,7 @@ public class Consumer {
 
   public void start() throws InterruptedException {
     init();
-    TestRpc bean = consumerBean.getBean();
+    TestRpc bean = consumerConfig.refer();
     final String test = bean.test("test" + System.currentTimeMillis());
     System.out.println(test);
     atomicBoolean.compareAndSet(false, true);
@@ -39,7 +39,7 @@ public class Consumer {
   }
 
   private void init() {
-    consumerBean = new ConsumerBean<>();
+    consumerConfig = new ConsumerConfig<>();
 
     ApplicationConfig applicationConfig = new ApplicationConfig();
     applicationConfig.setApplicationName("test");
@@ -53,10 +53,10 @@ public class Consumer {
     registryConfig.setRegistryType("zookeeper");
     registryConfig.setRegister(true);
 
-    consumerBean.setApplicationConfig(applicationConfig);
-    consumerBean.setProtocolConfig(protocolConfig);
-    consumerBean.setRegistryConfig(registryConfig);
-    consumerBean.setGroupName("test-a");
-    consumerBean.setClassType(TestRpc.class);
+    consumerConfig.setApplicationConfig(applicationConfig);
+    consumerConfig.setProtocolConfig(protocolConfig);
+    consumerConfig.setRegistryConfig(registryConfig);
+    consumerConfig.setGroupName("test-a");
+    consumerConfig.setClassType(TestRpc.class);
   }
 }

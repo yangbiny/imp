@@ -1,7 +1,7 @@
-package com.impassive.imp.test.provider;
+package com.impassive.test.provider;
 
 import com.impassive.config.service.ServiceConfig;
-import com.impassive.imp.test.TestRpc;
+import com.impassive.test.TestRpc;
 import com.impassive.registry.config.ApplicationConfig;
 import com.impassive.registry.config.ProtocolConfig;
 import com.impassive.registry.config.RegistryConfig;

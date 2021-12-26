@@ -1,4 +1,4 @@
-package com.impassive.imp.test;
+package com.impassive.test;
 
 import java.io.Serializable;
 import lombok.Data;

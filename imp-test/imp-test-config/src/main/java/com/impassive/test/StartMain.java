@@ -1,7 +1,7 @@
-package com.impassive.imp.test;
+package com.impassive.test;
 
-import com.impassive.imp.test.consumer.Consumer;
-import com.impassive.imp.test.provider.Provider;
+import com.impassive.test.consumer.Consumer;
+import com.impassive.test.provider.Provider;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 

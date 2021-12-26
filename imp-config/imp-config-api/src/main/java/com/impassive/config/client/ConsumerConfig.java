@@ -1,5 +1,6 @@
 package com.impassive.config.client;
 
+import com.impassive.config.BaseConfig;
 import com.impassive.imp.common.Url;
 import com.impassive.protocol.ImpProtocol;
 import com.impassive.proxy.JdkProxyFactory;
@@ -13,7 +14,7 @@ import org.apache.commons.lang3.StringUtils;
  * @author impassivey
  */
 @Getter
-public class ConsumerConfig<T> extends BaseConsumerConfig {
+public class ConsumerConfig<T> extends BaseConfig {
 
   private static final ProxyFactory PROXY_FACTORY = new JdkProxyFactory();
 

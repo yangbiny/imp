@@ -1,8 +1,8 @@
-package com.impassive.imp.test.provider;
+package com.impassive.test.provider;
 
-import com.impassive.imp.test.Result;
-import com.impassive.imp.test.TestRpc;
 import com.impassive.rpc.context.RpcContext;
+import com.impassive.test.Result;
+import com.impassive.test.TestRpc;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

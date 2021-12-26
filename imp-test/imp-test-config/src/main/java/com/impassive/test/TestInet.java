@@ -1,4 +1,4 @@
-package com.impassive.imp.test;
+package com.impassive.test;
 
 import java.net.Inet4Address;
 import java.net.InetAddress;

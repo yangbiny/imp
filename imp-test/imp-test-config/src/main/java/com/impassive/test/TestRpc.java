@@ -1,6 +1,6 @@
-package com.impassive.imp.test;
+package com.impassive.test;
 
-import com.impassive.imp.test.provider.Param;
+import com.impassive.test.provider.Param;
 import java.util.ArrayList;
 import java.util.List;
 
