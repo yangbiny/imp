@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <artifactId>imp-test-spring</artifactId>
+    <artifactId>imp-test</artifactId>
     <groupId>com.impassive</groupId>
     <version>1.0.1</version>
   </parent>
