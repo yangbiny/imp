@@ -46,7 +46,7 @@ public class ZookeeperRegistry extends AbstractRegistry {
       final String path = ZookeeperUtils.buildPath(url);
       final String data = ZookeeperUtils.buildData(url);
       createPath(path);
-      saveData(path, data,false);
+      saveData(path, data, false);
     } catch (KeeperException | InterruptedException e) {
       throw new RuntimeException("zookeeper registry error ", e);
     }
@@ -99,6 +99,15 @@ public class ZookeeperRegistry extends AbstractRegistry {
     List<String> collect = strings.stream().distinct().collect(Collectors.toList());
     String dataValue = JsonTools.writeToJson(collect);
     zooKeeperClient.setData(path, dataValue.getBytes(StandardCharsets.UTF_8), -1);
+  }
+
+  @Override
+  public void destroy() {
+    try {
+      zooKeeperClient.close();
+    } catch (InterruptedException e) {
+      log.error("close zk has exception : ", e);
+    }
   }
 
 

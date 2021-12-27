@@ -29,4 +29,9 @@ public class ImpExchangeClient implements ExchangeClient {
   public CompletableFuture<Object> request(Object req) {
     return channel.request(req);
   }
+
+  @Override
+  public void destroy() {
+    channel.destroy();
+  }
 }

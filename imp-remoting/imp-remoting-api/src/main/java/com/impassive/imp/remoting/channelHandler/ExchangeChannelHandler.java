@@ -45,4 +45,9 @@ public class ExchangeChannelHandler implements ExchangeChannel {
     channel.send(req);
     return new DefaultCompletableFeature(channel, (Request) req);
   }
+
+  @Override
+  public void destroy() {
+    channel.destroy();
+  }
 }

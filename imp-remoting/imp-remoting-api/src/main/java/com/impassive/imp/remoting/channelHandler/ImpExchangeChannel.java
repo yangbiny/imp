@@ -32,4 +32,9 @@ public class ImpExchangeChannel implements ExchangeChannel {
     channel.send(req);
     return feature;
   }
+
+  @Override
+  public void destroy() {
+    channel.destroy();
+  }
 }

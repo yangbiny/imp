@@ -21,4 +21,9 @@ public class ExchangerServer implements ProtocolServer {
   public String getAddress() {
     return url.address();
   }
+
+  @Override
+  public void destroy() {
+    channelHandler.close(null);
+  }
 }

@@ -1,5 +1,6 @@
 package com.impassive.imp.remoting;
 
+import com.impassive.imp.Lifecycle;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -7,7 +8,7 @@ import java.util.concurrent.CompletableFuture;
  *
  * @author impassivey
  */
-public interface ExchangeClient {
+public interface ExchangeClient extends Lifecycle {
 
   /**
    * 发出请求

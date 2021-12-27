@@ -88,4 +88,11 @@ public class NettyClient extends AbstractClient {
   public InetSocketAddress getRemoteAddress() {
     return getChannel().getRemoteAddress();
   }
+
+  @Override
+  public void destroy() {
+    if (channel.isOpen()) {
+      channel.close();
+    }
+  }
 }

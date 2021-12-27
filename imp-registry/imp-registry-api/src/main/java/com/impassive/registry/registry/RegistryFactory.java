@@ -1,5 +1,6 @@
 package com.impassive.registry.registry;
 
+import com.impassive.imp.Lifecycle;
 import com.impassive.imp.common.Url;
 
 /**
@@ -7,7 +8,7 @@ import com.impassive.imp.common.Url;
  *
  * @author impassivey
  */
-public interface RegistryFactory {
+public interface RegistryFactory extends Lifecycle {
 
   /**
    * 根据URL生成对应的 注册工厂

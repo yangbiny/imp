@@ -31,13 +31,15 @@ public class ImpProtocol implements Protocol {
 
   private final ExchangeHandlerAdapter exchangeHandler = new ExchangeHandlerAdapter();
 
+  private RegistryFactory registryFactory;
+
   @Override
   public <T> void export(Invoker<T> invoker) {
     doExport(invoker);
   }
 
   @Override
-  public   <T> void unExport(Invoker<T> invoker){
+  public <T> void unExport(Invoker<T> invoker) {
     doUnExport(invoker);
   }
 
@@ -82,8 +84,6 @@ public class ImpProtocol implements Protocol {
   private <T> void doUnExport(Invoker<T> invoker) {
     InvokerWrapper<T> invokerWrapper = (InvokerWrapper<T>) invoker;
     Url url = invokerWrapper.getUrl();
-    final RegistryFactory registryFactory =
-        AbstractRegistryFactory.getRegistryFactory(url.getRegistryType());
     final Registry registry = registryFactory.getRegistry(url);
     registry.unRegistry(url);
   }
@@ -109,9 +109,18 @@ public class ImpProtocol implements Protocol {
     if (!url.getRegister()) {
       return;
     }
-    final RegistryFactory registryFactory =
-        AbstractRegistryFactory.getRegistryFactory(url.getRegistryType());
+    if (this.registryFactory == null) {
+      this.registryFactory = AbstractRegistryFactory.getRegistryFactory(url.getRegistryType());
+    }
     final Registry registry = registryFactory.getRegistry(url);
     registry.registry(url);
+  }
+
+  @Override
+  public void destroy() {
+    registryFactory.destroy();
+    for (ProtocolServer value : PROTOCOL_SERVER_MAP.values()) {
+      value.destroy();
+    }
   }
 }

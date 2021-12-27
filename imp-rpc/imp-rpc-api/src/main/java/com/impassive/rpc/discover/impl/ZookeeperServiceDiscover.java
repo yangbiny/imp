@@ -1,12 +1,12 @@
 package com.impassive.rpc.discover.impl;
 
+import com.impassive.imp.common.DiscoverService;
 import com.impassive.imp.common.RegistryType;
 import com.impassive.imp.common.Url;
 import com.impassive.imp.exception.common.ImpCommonException;
 import com.impassive.imp.util.json.JsonTools;
 import com.impassive.registry.ZookeeperUtils;
 import com.impassive.rpc.discover.AbstractServiceDiscovery;
-import com.impassive.imp.common.DiscoverService;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -14,10 +14,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.ZooKeeper;
 
+@Slf4j
 public class ZookeeperServiceDiscover extends AbstractServiceDiscovery {
 
   private static final Map<String, ZooKeeper> zooKeeperClientMap = new HashMap<>();
@@ -84,6 +86,17 @@ public class ZookeeperServiceDiscover extends AbstractServiceDiscovery {
   @Override
   public RegistryType registryType() {
     return RegistryType.ZOOKEEPER;
+  }
+
+  @Override
+  public void destroy() {
+    for (ZooKeeper value : zooKeeperClientMap.values()) {
+      try {
+        value.close();
+      } catch (InterruptedException e) {
+        log.error("close zk has error ", e);
+      }
+    }
   }
 
   final static private class Watcher implements org.apache.zookeeper.Watcher {

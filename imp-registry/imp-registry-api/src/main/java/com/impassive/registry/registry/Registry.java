@@ -1,11 +1,12 @@
 package com.impassive.registry.registry;
 
+import com.impassive.imp.Lifecycle;
 import com.impassive.imp.common.Url;
 
 /**
  * @author impassivey
  */
-public interface Registry {
+public interface Registry extends Lifecycle {
 
   /**
    * 服务注册。把url的信息，经过封装后，注册到注册中心

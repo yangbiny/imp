@@ -1,5 +1,6 @@
 package com.impassive.rpc.protocol;
 
+import com.impassive.imp.Lifecycle;
 import com.impassive.imp.common.Url;
 import com.impassive.rpc.invoker.Invoker;
 
@@ -8,7 +9,7 @@ import com.impassive.rpc.invoker.Invoker;
  *
  * @author impassivey
  */
-public interface Protocol {
+public interface Protocol extends Lifecycle {
 
   /**
    * 服务暴露的逻辑。会将invoke中的信息组装成 url 的方式，写入到注册中心

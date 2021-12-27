@@ -43,4 +43,9 @@ public abstract class AbstractProxyInvoker<T> implements Invoker<T> {
     impResult.setResult(object);
     return impResult;
   }
+
+  @Override
+  public void destroy() {
+
+  }
 }

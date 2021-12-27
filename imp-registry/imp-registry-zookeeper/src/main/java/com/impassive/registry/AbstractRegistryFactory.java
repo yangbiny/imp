@@ -9,7 +9,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 import javax.annotation.Nullable;
 
-/** @author impassivey */
+/**
+ * @author impassivey
+ */
 public abstract class AbstractRegistryFactory implements RegistryFactory {
 
   private static final Map<String, Registry> REGISTRY_MAP = new ConcurrentHashMap<>();
@@ -36,9 +38,17 @@ public abstract class AbstractRegistryFactory implements RegistryFactory {
         throw new IllegalArgumentException(
             "can not find registryFactory of type : " + registryType.name());
       }
+      REGISTRY_FACTORY_MAP.put(registryType, factory);
       return factory;
     } finally {
       LOCK.unlock();
+    }
+  }
+
+  @Override
+  public void destroy() {
+    for (Registry value : REGISTRY_MAP.values()) {
+      value.destroy();
     }
   }
 

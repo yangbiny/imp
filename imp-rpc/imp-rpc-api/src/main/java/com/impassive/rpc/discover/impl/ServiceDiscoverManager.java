@@ -77,4 +77,10 @@ public class ServiceDiscoverManager implements ServiceDiscover {
     }
   }
 
+  @Override
+  public void destroy() {
+    for (ServiceDiscover value : discoverMap.values()) {
+      value.destroy();
+    }
+  }
 }

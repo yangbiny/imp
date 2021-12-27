@@ -8,7 +8,9 @@ import java.net.InetSocketAddress;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-/** @author impassivey */
+/**
+ * @author impassivey
+ */
 public class NettyChannel extends AbstractChannel {
 
   private static final Map<Channel, NettyChannel> CHANNEL_MAP = new ConcurrentHashMap<>();
@@ -54,4 +56,10 @@ public class NettyChannel extends AbstractChannel {
     channel.writeAndFlush(object);
   }
 
+  @Override
+  public void destroy() {
+    if (channel.isOpen()) {
+      channel.close();
+    }
+  }
 }

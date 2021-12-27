@@ -53,6 +53,11 @@ public abstract class AbstractInvoker<T> implements Invoker<T> {
     return impResult;
   }
 
+  @Override
+  public void destroy() {
+
+  }
+
   /**
    * 执行方法调用
    *

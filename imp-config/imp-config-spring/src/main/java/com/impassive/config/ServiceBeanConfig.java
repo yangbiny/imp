@@ -30,6 +30,6 @@ public class ServiceBeanConfig<T> extends ServiceConfig<T> implements Applicatio
 
   @Override
   public void destroy() throws Exception {
-    this.unExport();
+    super.doDestroy();
   }
 }

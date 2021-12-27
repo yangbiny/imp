@@ -125,4 +125,10 @@ public class ServiceConfig<T> extends BaseConfig {
     url.setRegister(registryConfig.getRegister());
     return new InvokerWrapper<>(invoker, url);
   }
+
+  protected void doDestroy() {
+    this.unExport();
+    PROTOCOL.destroy();
+    this.invokerWrapper.destroy();
+  }
 }

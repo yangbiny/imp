@@ -36,6 +36,11 @@ public class InvokerWrapper<T> implements Invoker<T> {
       final Invoker<T> next = lastInvoker;
       lastInvoker = new Invoker<T>() {
         @Override
+        public void destroy() {
+          invoker.destroy();
+        }
+
+        @Override
         public Class<T> getInterfaceClass() {
           return invoker.getInterfaceClass();
         }
@@ -47,5 +52,10 @@ public class InvokerWrapper<T> implements Invoker<T> {
       };
     }
     return lastInvoker.invoke(invocation);
+  }
+
+  @Override
+  public void destroy() {
+    invoker.destroy();
   }
 }

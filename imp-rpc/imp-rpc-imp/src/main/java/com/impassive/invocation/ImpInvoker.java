@@ -1,10 +1,11 @@
 package com.impassive.invocation;
 
 import com.impassive.imp.common.Url;
+import com.impassive.imp.exception.common.ImpCommonException;
 import com.impassive.imp.remoting.ExchangeClient;
-import com.impassive.rpc.invocation.Invocation;
-import com.impassive.rpc.RpcResponse;
 import com.impassive.result.AbstractInvoker;
+import com.impassive.rpc.RpcResponse;
+import com.impassive.rpc.invocation.Invocation;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
@@ -47,8 +48,17 @@ public class ImpInvoker<T> extends AbstractInvoker<T> {
       RpcResponse o = (RpcResponse) submit.get();
       return o.getResult();
     } catch (InterruptedException | ExecutionException exception) {
-      exception.printStackTrace();
+      log.error("get result has error ", exception);
+      throw new ImpCommonException("get result has error : ", exception);
     }
-    return null;
+  }
+
+  @Override
+  public void destroy() {
+    super.destroy();
+    for (ExchangeClient exchangeClient : exchangeClients) {
+      exchangeClient.destroy();
+    }
+    THREAD_POOL_EXECUTOR.shutdown();
   }
 }
