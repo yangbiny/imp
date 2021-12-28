@@ -52,6 +52,7 @@ public class ConsumerConfig<T> extends BaseConfig {
     Url url = new Url();
     url.setHost(protocolConfig.getHost());
     url.setPort(protocolConfig.getPort());
+    url.setUseEndPoint(protocolConfig.getUseEndpoint());
     url.setGroupName(this.groupName);
     url.setClassType(this.classType);
     url.setApplicationName(applicationConfig.getApplicationName());

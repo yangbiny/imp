@@ -10,9 +10,10 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class SpringMain {
 
   public static void main(String[] args) throws Exception {
-    ApplicationContext applicationContext = new ClassPathXmlApplicationContext("application.xml");
+    ApplicationContext provider = new ClassPathXmlApplicationContext("application_provider.xml");
+    ApplicationContext consumer = new ClassPathXmlApplicationContext("application_consumer.xml");
 
-    Consumer bean = applicationContext.getBean(Consumer.class);
+    Consumer bean = consumer.getBean(Consumer.class);
     bean.start();
   }
 }

@@ -12,14 +12,14 @@ import org.springframework.context.annotation.Configuration;
  * @author impassivey
  */
 @Configuration
-public class Provider {
+public class ProviderConfig {
 
   @Bean
-  public ServiceBeanConfig<TestRpc> setUp(TestRpc testRpc) {
+  public ServiceBeanConfig<TestRpc> setUp(TestRpc defaultTestRpc) {
     ServiceBeanConfig<TestRpc> serviceConfig = new ServiceBeanConfig<>();
     serviceConfig.setGroupName("test-a");
     serviceConfig.setInterface(TestRpc.class);
-    serviceConfig.setReference(testRpc);
+    serviceConfig.setReference(defaultTestRpc);
     return serviceConfig;
   }
 

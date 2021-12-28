@@ -19,7 +19,6 @@ public class StartMain {
           Provider provider = new Provider(countDownLatch, finish);
           try {
             provider.start();
-            System.out.println("xx");
           } catch (Exception e) {
             e.printStackTrace();
           }
