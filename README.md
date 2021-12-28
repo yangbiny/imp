@@ -23,9 +23,6 @@ Imp是一个使用 Java 实现的 RPC框架，目前支持 Netty进行网络交�
 imp://{providerIp}:{providerPort}/{interfaceName}/?groupName={groupName}
 
 # TODO
-1. 支持服务负载均衡
-2. 支持监控
-3. 服务调用失败重试
-4. 跨进程参数传递
-5. Filter机制
-6. 支持点对点
+1. 限流
+2. 扩展点
+3. Mesh架构
