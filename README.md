@@ -12,7 +12,7 @@ Imp是一个使用 Java 实现的 RPC框架，目前支持 Netty进行网络交�
 <dependency>
   <groupId>com.impassive</groupId>
   <artifactId>imp-all</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.2</version>
 </dependency>
 ```
 # 注册中心
@@ -26,3 +26,6 @@ imp://{providerIp}:{providerPort}/{interfaceName}/?groupName={groupName}
 1. 限流
 2. 扩展点
 3. Mesh架构
+4. 注册中心结构改变
+4.1 provider
+4.2 consumer
