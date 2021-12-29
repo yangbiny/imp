@@ -34,7 +34,7 @@ public class ZookeeperServiceDiscover extends AbstractServiceDiscovery {
     if (zooKeeper == null) {
       throw new ImpCommonException("can not find zookeeper client : " + address);
     }
-    String path = ZookeeperUtils.buildPath(url);
+    String path = ZookeeperUtils.buildProvidePath(url);
     byte[] dataByte;
     try {
       dataByte = zooKeeper.getData(path, false, null);

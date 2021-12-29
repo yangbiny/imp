@@ -31,6 +31,23 @@ public abstract class AbstractRegistry implements Registry {
     doUnRegistry(url);
   }
 
+  @Override
+  public void destroy() {
+
+  }
+
+  @Override
+  public void subscribe(Url url) {
+    doSubscribe(url);
+  }
+
+  @Override
+  public void unSubscribe(Url url) {
+
+  }
+
+  protected abstract void doSubscribe(Url url);
+
   /**
    * 写入数据到注册中心的具体方式
    *

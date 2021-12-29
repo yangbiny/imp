@@ -41,10 +41,15 @@ public class ZookeeperRegistry extends AbstractRegistry {
   }
 
   @Override
+  protected void doSubscribe(Url url) {
+
+  }
+
+  @Override
   protected void doRegister(Url url) {
     try {
-      final String path = ZookeeperUtils.buildPath(url);
-      final String data = ZookeeperUtils.buildData(url);
+      final String path = ZookeeperUtils.buildProvidePath(url);
+      final String data = ZookeeperUtils.buildProviderData(url);
       createPath(path);
       saveData(path, data, false);
     } catch (KeeperException | InterruptedException e) {
@@ -54,8 +59,8 @@ public class ZookeeperRegistry extends AbstractRegistry {
 
   @Override
   protected void doUnRegistry(Url url) {
-    final String path = ZookeeperUtils.buildPath(url);
-    final String data = ZookeeperUtils.buildData(url);
+    final String path = ZookeeperUtils.buildProvidePath(url);
+    final String data = ZookeeperUtils.buildProviderData(url);
     try {
       byte[] existData = zooKeeperClient.getData(path, false, null);
       if (existData.length <= 0) {

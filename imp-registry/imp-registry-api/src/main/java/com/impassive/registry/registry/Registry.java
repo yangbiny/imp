@@ -21,4 +21,18 @@ public interface Registry extends Lifecycle {
    * @param url url的信息
    */
   void unRegistry(Url url);
+
+  /**
+   * 订阅服务
+   *
+   * @param url URL的信息
+   */
+  void subscribe(Url url);
+
+  /**
+   * 取消订阅服务
+   *
+   * @param url URL的信息
+   */
+  void unSubscribe(Url url);
 }

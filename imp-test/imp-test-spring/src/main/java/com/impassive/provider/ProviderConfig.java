@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
 public class ProviderConfig {
 
   @Bean
-  public ServiceBeanConfig<TestRpc> setUp(TestRpc defaultTestRpc) {
+  public ServiceBeanConfig<TestRpc> serviceConfig(TestRpc defaultTestRpc) {
     ServiceBeanConfig<TestRpc> serviceConfig = new ServiceBeanConfig<>();
     serviceConfig.setGroupName("test-a");
     serviceConfig.setInterface(TestRpc.class);
