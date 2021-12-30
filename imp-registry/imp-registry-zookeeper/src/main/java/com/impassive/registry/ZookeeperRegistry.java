@@ -42,25 +42,42 @@ public class ZookeeperRegistry extends AbstractRegistry {
 
   @Override
   protected void doSubscribe(Url url) {
-
+    final String path = ZookeeperUtils.buildConsumerPath(url);
+    final String data = ZookeeperUtils.buildConsumerData(url);
+    createPathAndSaveData(path, data);
   }
 
   @Override
   protected void doRegister(Url url) {
-    try {
-      final String path = ZookeeperUtils.buildProvidePath(url);
-      final String data = ZookeeperUtils.buildProviderData(url);
-      createPath(path);
-      saveData(path, data, false);
-    } catch (KeeperException | InterruptedException e) {
-      throw new RuntimeException("zookeeper registry error ", e);
-    }
+    final String path = ZookeeperUtils.buildProvidePath(url);
+    final String data = ZookeeperUtils.buildProviderData(url);
+    createPathAndSaveData(path, data);
+  }
+
+  @Override
+  protected void doUnSubscribe(Url url) {
+    final String path = ZookeeperUtils.buildConsumerPath(url);
+    final String data = ZookeeperUtils.buildConsumerData(url);
+    removeData(path, data);
   }
 
   @Override
   protected void doUnRegistry(Url url) {
     final String path = ZookeeperUtils.buildProvidePath(url);
     final String data = ZookeeperUtils.buildProviderData(url);
+    removeData(path, data);
+  }
+
+  private void createPathAndSaveData(String path, String data) {
+    try {
+      createPath(path);
+      saveData(path, data, false);
+    } catch (InterruptedException | KeeperException e) {
+      throw new RuntimeException("zookeeper has exception ", e);
+    }
+  }
+
+  private void removeData(String path, String data) {
     try {
       byte[] existData = zooKeeperClient.getData(path, false, null);
       if (existData.length <= 0) {
@@ -72,7 +89,6 @@ public class ZookeeperRegistry extends AbstractRegistry {
     } catch (KeeperException | InterruptedException e) {
       throw new RuntimeException("zookeeper un registry error ", e);
     }
-
   }
 
   private void createPath(String path) throws InterruptedException, KeeperException {

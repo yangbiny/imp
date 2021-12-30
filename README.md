@@ -18,9 +18,9 @@ Imp是一个使用 Java 实现的 RPC框架，目前支持 Netty进行网络交�
 # 注册中心
 ## 存储路径
 
-/imp/{applicationName}/{groupName}/{interfaceName}
+/imp/{groupName}/{interfaceName}
 ## 存储内容
-imp://{providerIp}:{providerPort}/{interfaceName}/?groupName={groupName}
+imp://{providerIp}:{providerPort}/{interfaceName}/?groupName={groupName}&applicationName={applicationName}
 
 # TODO
 1. 限流

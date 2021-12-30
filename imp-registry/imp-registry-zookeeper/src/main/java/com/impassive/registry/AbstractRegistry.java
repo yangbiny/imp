@@ -43,10 +43,12 @@ public abstract class AbstractRegistry implements Registry {
 
   @Override
   public void unSubscribe(Url url) {
-
+    doUnSubscribe(url);
   }
 
   protected abstract void doSubscribe(Url url);
+
+  protected abstract void doUnSubscribe(Url url);
 
   /**
    * 写入数据到注册中心的具体方式

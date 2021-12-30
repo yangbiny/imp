@@ -66,6 +66,11 @@ public class ImpProtocol implements Protocol {
       DiscoverService discoverService = RoutingDiscoverAdapter.discoverAndRouting(url);
       url.discoverService(discoverService);
     }
+    if (this.registryFactory == null) {
+      this.registryFactory = AbstractRegistryFactory.getRegistryFactory(url.getRegistryType());
+    }
+    Registry registry = registryFactory.getRegistry(url);
+    registry.subscribe(url);
     // 是直接使用即可
     return new ImpExchangeClient(
         new NettyClient(url, new DecodeChannelHandler(new HeaderExchangeHandler(exchangeHandler))));

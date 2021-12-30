@@ -12,14 +12,14 @@ public class ZookeeperUtils {
         url.getHost(),
         url.getPort(),
         url.getInterfaceName(),
-        url.getGroupName());
+        url.getGroupName(),
+        url.getApplicationName());
   }
 
   public static String buildProvidePath(Url url) {
     return String.format(
         ZookeeperConstant.PROVIDER_ZK_PATH,
         url.getProtocol(),
-        url.getApplicationName(),
         url.getGroupName(),
         url.getInterfaceName());
   }
@@ -38,7 +38,6 @@ public class ZookeeperUtils {
     return String.format(
         ZookeeperConstant.CONSUMER_ZK_PATH,
         url.getProtocol(),
-        url.getApplicationName(),
         url.getGroupName(),
         url.getInterfaceName());
   }
