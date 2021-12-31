@@ -27,6 +27,8 @@ public class NettyClient extends AbstractClient {
 
   private volatile Channel channel;
 
+  private NioEventLoopGroup group;
+
   public NettyClient(Url url, ChannelHandler channelHandler) {
     super(url, channelHandler);
   }
@@ -35,8 +37,9 @@ public class NettyClient extends AbstractClient {
   protected void doOpen(Url url) {
     bootstrap = new Bootstrap();
     NettyClientHandler nettyClientHandler = new NettyClientHandler(channelHandler, url);
+    group = new NioEventLoopGroup();
     bootstrap
-        .group(new NioEventLoopGroup())
+        .group(group)
         .option(ChannelOption.SO_KEEPALIVE, true)
         .channel(NioSocketChannel.class)
         .handler(
@@ -91,8 +94,7 @@ public class NettyClient extends AbstractClient {
 
   @Override
   public void destroy() {
-    if (channel.isOpen()) {
-      channel.close();
-    }
+    channel.close();
+    group.shutdownGracefully();
   }
 }

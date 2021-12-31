@@ -47,6 +47,13 @@ public class ConsumerConfig<T> extends BaseConfig {
     return createProxy(refer);
   }
 
+  public void unRefer(){
+    if (url == null){
+      return;
+    }
+    PROTOCOL.unRefer(url);
+  }
+
   private void init() {
     checkParam();
     Url url = new Url();

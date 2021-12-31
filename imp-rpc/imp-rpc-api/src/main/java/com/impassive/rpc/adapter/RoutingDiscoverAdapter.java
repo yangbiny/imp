@@ -1,8 +1,8 @@
 package com.impassive.rpc.adapter;
 
+import com.impassive.imp.common.DiscoverService;
 import com.impassive.imp.common.Url;
 import com.impassive.imp.exception.common.ImpCommonException;
-import com.impassive.imp.common.DiscoverService;
 import com.impassive.rpc.discover.impl.ServiceDiscoverManager;
 import com.impassive.rpc.routing.impl.ServiceRoutingManager;
 import java.util.List;
@@ -28,5 +28,9 @@ public class RoutingDiscoverAdapter {
       throw new ImpCommonException("no instance can be use " + url);
     }
     return routing;
+  }
+
+  public static void close() {
+    SERVICE_DISCOVER_MANAGER.destroy();
   }
 }

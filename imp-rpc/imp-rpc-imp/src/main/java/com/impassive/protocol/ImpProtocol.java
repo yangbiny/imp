@@ -1,5 +1,6 @@
 package com.impassive.protocol;
 
+import com.google.common.collect.Lists;
 import com.impassive.imp.common.DiscoverService;
 import com.impassive.imp.common.Url;
 import com.impassive.imp.remoting.ExchangeClient;
@@ -17,9 +18,13 @@ import com.impassive.rpc.invoker.Invoker;
 import com.impassive.rpc.invoker.InvokerWrapper;
 import com.impassive.rpc.protocol.Protocol;
 import com.impassive.rpc.protocol.ProtocolServer;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 
 /**
  * @author impassivey
@@ -32,6 +37,8 @@ public class ImpProtocol implements Protocol {
   private final ExchangeHandlerAdapter exchangeHandler = new ExchangeHandlerAdapter();
 
   private RegistryFactory registryFactory;
+
+  private static final Map<String, List<ExchangeClient>> clientMap = new HashMap<>();
 
   @Override
   public <T> void export(Invoker<T> invoker) {
@@ -49,13 +56,24 @@ public class ImpProtocol implements Protocol {
     return doRefer(interfaceClass, url);
   }
 
+  @Override
+  public void unRefer(Url url) {
+    Registry registry = registryFactory.getRegistry(url);
+    registry.unSubscribe(url);
+  }
+
   private <T> Invoker<T> doRefer(Class<T> interfaceClass, Url url) {
     return new ImpInvoker<>(interfaceClass, getClients(url), url);
   }
 
-  private ExchangeClient[] getClients(Url url) {
-    ExchangeClient[] clients = new ExchangeClient[1];
-    clients[0] = initClient(url);
+  private List<ExchangeClient> getClients(Url url) {
+    String address = url.address();
+    List<ExchangeClient> exchangeClients = clientMap.get(address);
+    if (CollectionUtils.isNotEmpty(exchangeClients)) {
+      return exchangeClients;
+    }
+    List<ExchangeClient> clients = Lists.newArrayList(initClient(url));
+    clientMap.put(address, clients);
     return clients;
   }
 
@@ -126,6 +144,19 @@ public class ImpProtocol implements Protocol {
     registryFactory.destroy();
     for (ProtocolServer value : PROTOCOL_SERVER_MAP.values()) {
       value.destroy();
+    }
+
+    RoutingDiscoverAdapter.close();
+
+    for (Entry<String, List<ExchangeClient>> stringListEntry : clientMap.entrySet()) {
+      List<ExchangeClient> value = stringListEntry.getValue();
+      if (CollectionUtils.isEmpty(value)) {
+        continue;
+      }
+      for (ExchangeClient exchangeClient : value) {
+        exchangeClient.destroy();
+      }
+
     }
   }
 }

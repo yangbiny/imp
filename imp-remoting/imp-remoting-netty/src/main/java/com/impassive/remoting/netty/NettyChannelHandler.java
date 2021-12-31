@@ -62,8 +62,8 @@ public class NettyChannelHandler extends AbstractServer {
   @Override
   public void close(Channel channel) {
     if (bootstrap != null) {
-      boss.shutdownGracefully().syncUninterruptibly();
-      worker.shutdownGracefully().syncUninterruptibly();
+      boss.shutdownGracefully();
+      worker.shutdownGracefully();
     }
   }
 }

@@ -34,4 +34,6 @@ public interface Protocol extends Lifecycle {
    * @param <T> 代理对象的类型
    */
   <T> Invoker<T> refer(Class<T> interfaceClass, Url url);
+
+  void unRefer(Url url);
 }

@@ -1,7 +1,6 @@
 package com.impassive;
 
 import com.impassive.consumer.Consumer;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
@@ -10,10 +9,16 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class SpringMain {
 
   public static void main(String[] args) throws Exception {
-    ApplicationContext provider = new ClassPathXmlApplicationContext("application_provider.xml");
-    ApplicationContext consumer = new ClassPathXmlApplicationContext("application_consumer.xml");
-
+    ClassPathXmlApplicationContext provider = new ClassPathXmlApplicationContext(
+        "application_provider.xml");
+    ClassPathXmlApplicationContext consumer = new ClassPathXmlApplicationContext(
+        "application_consumer.xml");
+    provider.registerShutdownHook();
+    consumer.registerShutdownHook();
     Consumer bean = consumer.getBean(Consumer.class);
     bean.start();
+
+    provider.close();
+    consumer.close();
   }
 }

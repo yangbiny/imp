@@ -43,6 +43,6 @@ public class ConsumerBeanConfig<T> extends ConsumerConfig<T> implements
 
   @Override
   public void destroy() throws Exception {
-
+    super.unRefer();
   }
 }

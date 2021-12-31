@@ -6,6 +6,7 @@ import com.impassive.imp.remoting.ExchangeClient;
 import com.impassive.result.AbstractInvoker;
 import com.impassive.rpc.RpcResponse;
 import com.impassive.rpc.invocation.Invocation;
+import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
@@ -14,6 +15,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 
 /**
  * @author impassivey
@@ -25,13 +27,13 @@ public class ImpInvoker<T> extends AbstractInvoker<T> {
       new ThreadPoolExecutor(
           10, 10, 10, TimeUnit.MINUTES, new ArrayBlockingQueue<>(1000), r -> new Thread(r));
 
-  private final ExchangeClient[] exchangeClients;
+  private final List<ExchangeClient> exchangeClients;
 
   private Url url;
 
-  public ImpInvoker(Class<T> interfaceClass, ExchangeClient[] clients, Url url) {
+  public ImpInvoker(Class<T> interfaceClass, List<ExchangeClient> clients, Url url) {
     super(interfaceClass);
-    if (clients == null || clients.length == 0) {
+    if (CollectionUtils.isEmpty(clients)) {
       log.error("client is empty");
       throw new IllegalArgumentException("client is empty");
     }
@@ -41,7 +43,7 @@ public class ImpInvoker<T> extends AbstractInvoker<T> {
 
   @Override
   protected Object doInvoke(Invocation invocation) {
-    ExchangeClient exchangeClient = exchangeClients[0];
+    ExchangeClient exchangeClient = exchangeClients.get(0);
     CompletableFuture<Object> request = exchangeClient.request(invocation);
     Future<Object> submit = THREAD_POOL_EXECUTOR.submit((Callable<Object>) request::get);
     try {
