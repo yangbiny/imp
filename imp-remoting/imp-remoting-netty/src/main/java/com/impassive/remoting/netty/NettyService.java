@@ -11,13 +11,15 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 
 /**
  * @author impassivey
  */
 @Slf4j
-public class NettyChannelHandler extends AbstractServer {
+public class NettyService extends AbstractServer {
 
   private ServerBootstrap bootstrap;
 
@@ -25,7 +27,9 @@ public class NettyChannelHandler extends AbstractServer {
 
   private NioEventLoopGroup worker;
 
-  public NettyChannelHandler(Url url, ChannelHandler handler) {
+  private List<Channel> channels;
+
+  public NettyService(Url url, ChannelHandler handler) {
     super(url, handler);
   }
 
@@ -35,6 +39,7 @@ public class NettyChannelHandler extends AbstractServer {
     boss = new NioEventLoopGroup();
     worker = new NioEventLoopGroup();
     NettyServiceHandler nettyServiceHandler = new NettyServiceHandler(handler, url);
+    channels = nettyServiceHandler.getChannels();
     bootstrap
         .group(boss, worker)
         .channel(NioServerSocketChannel.class)
@@ -63,6 +68,10 @@ public class NettyChannelHandler extends AbstractServer {
 
   @Override
   public void close(Channel channel) {
+    if (CollectionUtils.isNotEmpty(channels)) {
+      channels.forEach(Channel::destroy);
+    }
+
     if (bootstrap != null) {
       worker.shutdownGracefully();
       boss.shutdownGracefully();

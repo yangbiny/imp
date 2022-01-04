@@ -2,7 +2,7 @@ package com.impassive.protocol;
 
 import com.impassive.imp.common.Url;
 import com.impassive.imp.remoting.ChannelHandler;
-import com.impassive.remoting.netty.NettyChannelHandler;
+import com.impassive.remoting.netty.NettyService;
 import com.impassive.rpc.protocol.ProtocolServer;
 
 /** @author impassivey */
@@ -12,7 +12,7 @@ public class ExchangerServer implements ProtocolServer {
 
   private final ChannelHandler channelHandler;
 
-  public ExchangerServer(Url url, NettyChannelHandler channelHandler) {
+  public ExchangerServer(Url url, NettyService channelHandler) {
     this.url = url;
     this.channelHandler = channelHandler;
   }

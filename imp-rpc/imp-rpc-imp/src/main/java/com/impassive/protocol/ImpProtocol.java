@@ -11,7 +11,7 @@ import com.impassive.invocation.ImpInvoker;
 import com.impassive.registry.AbstractRegistryFactory;
 import com.impassive.registry.registry.Registry;
 import com.impassive.registry.registry.RegistryFactory;
-import com.impassive.remoting.netty.NettyChannelHandler;
+import com.impassive.remoting.netty.NettyService;
 import com.impassive.remoting.netty.NettyClient;
 import com.impassive.rpc.adapter.RoutingDiscoverAdapter;
 import com.impassive.rpc.invoker.Invoker;
@@ -117,8 +117,8 @@ public class ImpProtocol implements Protocol {
     if (protocolServer != null) {
       return;
     }
-    final NettyChannelHandler channelHandler =
-        new NettyChannelHandler(
+    final NettyService channelHandler =
+        new NettyService(
             url, new DecodeChannelHandler(new HeaderExchangeHandler(exchangeHandler)));
     if (PROTOCOL_SERVER_MAP.get(addressKey) != null) {
       return;

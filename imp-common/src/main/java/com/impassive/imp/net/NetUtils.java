@@ -2,7 +2,9 @@ package com.impassive.imp.net;
 
 import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.NetworkInterface;
+import java.net.SocketAddress;
 import java.net.SocketException;
 import java.util.Enumeration;
 import lombok.extern.slf4j.Slf4j;
@@ -36,5 +38,14 @@ public class NetUtils {
       }
     }
     throw new IllegalStateException("while get LocalAddress Error");
+  }
+
+  public static String socketAddressToStr(SocketAddress socketAddress) {
+    if (!(socketAddress instanceof InetSocketAddress)) {
+      return null;
+    }
+    String hostAddress = ((InetSocketAddress) socketAddress).getAddress().getHostAddress();
+    int port = ((InetSocketAddress) socketAddress).getPort();
+    return String.format("%s:%s", hostAddress, port);
   }
 }
