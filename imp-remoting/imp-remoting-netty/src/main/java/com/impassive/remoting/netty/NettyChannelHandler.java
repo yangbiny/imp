@@ -11,10 +11,12 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author impassivey
  */
+@Slf4j
 public class NettyChannelHandler extends AbstractServer {
 
   private ServerBootstrap bootstrap;
@@ -62,8 +64,9 @@ public class NettyChannelHandler extends AbstractServer {
   @Override
   public void close(Channel channel) {
     if (bootstrap != null) {
-      boss.shutdownGracefully();
       worker.shutdownGracefully();
+      boss.shutdownGracefully();
+      log.info("close netty service");
     }
   }
 }

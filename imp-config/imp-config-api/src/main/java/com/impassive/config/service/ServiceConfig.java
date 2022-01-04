@@ -1,6 +1,7 @@
 package com.impassive.config.service;
 
 import com.impassive.config.BaseConfig;
+import com.impassive.imp.common.LimiterInfo;
 import com.impassive.imp.common.Url;
 import com.impassive.protocol.ImpProtocol;
 import com.impassive.proxy.JdkProxyFactory;
@@ -123,6 +124,7 @@ public class ServiceConfig<T> extends BaseConfig {
     url.setRegistryPort(registryConfig.getRegistryPort());
     url.setRegistryType(registryConfig.getRegistryType());
     url.setRegister(registryConfig.getRegister());
+    url.setLimiterInfo(new LimiterInfo(limiterConfig));
     return new InvokerWrapper<>(invoker, url);
   }
 

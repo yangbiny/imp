@@ -1,6 +1,8 @@
 package com.impassive.config;
 
 import com.impassive.config.client.ConsumerConfig;
+import com.impassive.config.utils.BeanUtils;
+import com.impassive.imp.util.limiter.LimiterConfig;
 import com.impassive.registry.config.ApplicationConfig;
 import com.impassive.registry.config.ProtocolConfig;
 import com.impassive.registry.config.RegistryConfig;
@@ -39,6 +41,8 @@ public class ConsumerBeanConfig<T> extends ConsumerConfig<T> implements
     this.setApplicationConfig(applicationContext.getBean(ApplicationConfig.class));
     this.setProtocolConfig(applicationContext.getBean(ProtocolConfig.class));
     this.setRegistryConfig(applicationContext.getBean(RegistryConfig.class));
+    this.setLimiterConfig(
+        BeanUtils.getBeanWithDefaultValue(applicationContext,LimiterConfig.class,null));
   }
 
   @Override

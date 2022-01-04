@@ -58,8 +58,6 @@ public class NettyChannel extends AbstractChannel {
 
   @Override
   public void destroy() {
-    if (channel.isOpen()) {
-      channel.close();
-    }
+    channel.close();
   }
 }

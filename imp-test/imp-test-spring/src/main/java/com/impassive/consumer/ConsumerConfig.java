@@ -3,6 +3,7 @@ package com.impassive.consumer;
 
 import com.impassive.TestRpc;
 import com.impassive.config.ConsumerBeanConfig;
+import com.impassive.imp.util.limiter.LimiterConfig;
 import com.impassive.registry.config.ApplicationConfig;
 import com.impassive.registry.config.ProtocolConfig;
 import com.impassive.registry.config.RegistryConfig;
@@ -13,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 public class ConsumerConfig {
 
   @Bean
-  public ConsumerBeanConfig<TestRpc> testRpc(){
+  public ConsumerBeanConfig<TestRpc> testRpc() {
     ConsumerBeanConfig<TestRpc> testRpcConsumerBeanConfig = new ConsumerBeanConfig<>();
     testRpcConsumerBeanConfig.setClassType(TestRpc.class);
     testRpcConsumerBeanConfig.setGroupName("test-a");
@@ -43,6 +44,11 @@ public class ConsumerConfig {
     ApplicationConfig applicationConfig = new ApplicationConfig();
     applicationConfig.setApplicationName("test");
     return applicationConfig;
+  }
+
+  @Bean
+  public LimiterConfig limiterConfig() {
+    return null;
   }
 
 }

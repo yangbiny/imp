@@ -1,5 +1,6 @@
 package com.impassive.config;
 
+import com.impassive.imp.util.limiter.LimiterConfig;
 import com.impassive.registry.config.ApplicationConfig;
 import com.impassive.registry.config.ProtocolConfig;
 import com.impassive.registry.config.RegistryConfig;
@@ -17,6 +18,8 @@ public class BaseConfig {
 
   protected ApplicationConfig applicationConfig;
 
+  protected LimiterConfig limiterConfig;
+
   public void setProtocolConfig(ProtocolConfig protocol) {
     this.protocolConfig = protocol;
   }
@@ -27,5 +30,9 @@ public class BaseConfig {
 
   public void setRegistryConfig(RegistryConfig registryConfig) {
     this.registryConfig = registryConfig;
+  }
+
+  public void setLimiterConfig(LimiterConfig limiterConfig) {
+    this.limiterConfig = limiterConfig;
   }
 }

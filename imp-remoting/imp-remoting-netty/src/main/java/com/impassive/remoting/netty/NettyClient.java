@@ -96,5 +96,6 @@ public class NettyClient extends AbstractClient {
   public void destroy() {
     channel.close();
     group.shutdownGracefully();
+    log.info("close netty client");
   }
 }

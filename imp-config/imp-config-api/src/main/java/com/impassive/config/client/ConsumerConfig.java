@@ -1,6 +1,7 @@
 package com.impassive.config.client;
 
 import com.impassive.config.BaseConfig;
+import com.impassive.imp.common.LimiterInfo;
 import com.impassive.imp.common.Url;
 import com.impassive.protocol.ImpProtocol;
 import com.impassive.proxy.JdkProxyFactory;
@@ -47,8 +48,8 @@ public class ConsumerConfig<T> extends BaseConfig {
     return createProxy(refer);
   }
 
-  public void unRefer(){
-    if (url == null){
+  public void unRefer() {
+    if (url == null) {
       return;
     }
     PROTOCOL.unRefer(url);
@@ -69,6 +70,7 @@ public class ConsumerConfig<T> extends BaseConfig {
     url.setRegistryPort(registryConfig.getRegistryPort());
     url.setRegistryType(registryConfig.getRegistryType());
     url.setRegister(registryConfig.getRegister());
+    url.setLimiterInfo(new LimiterInfo(limiterConfig));
     this.url = url;
   }
 
