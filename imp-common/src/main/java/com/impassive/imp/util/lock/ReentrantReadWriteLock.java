@@ -4,11 +4,15 @@ import java.util.concurrent.TimeUnit;
 
 public class ReentrantReadWriteLock implements ReadWriteLock {
 
-  private ReadLock readLock;
+  private final ReadLock readLock;
 
 
-  private WriteLock writeLock;
+  private final WriteLock writeLock;
 
+  public ReentrantReadWriteLock() {
+    this.readLock = new ReadLock();
+    this.writeLock = new WriteLock();
+  }
 
   @Override
   public Lock readLock() {
