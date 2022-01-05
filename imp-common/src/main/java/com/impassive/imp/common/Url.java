@@ -1,6 +1,6 @@
 package com.impassive.imp.common;
 
-import com.impassive.imp.util.limiter.LimiterConfig;
+import java.util.Map;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
@@ -41,6 +41,11 @@ public class Url {
   private ServiceRoutingType serviceRoutingType;
 
   private LimiterInfo limiterInfo;
+
+  /**
+   * 会用于做自适应的值
+   */
+  private Map<String, Object> param;
 
   public String buildRegistryKey(String formatTpl) {
     return String.format(
