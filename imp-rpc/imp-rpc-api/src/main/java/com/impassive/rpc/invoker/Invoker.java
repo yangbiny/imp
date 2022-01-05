@@ -2,11 +2,12 @@ package com.impassive.rpc.invoker;
 
 
 import com.impassive.imp.Lifecycle;
+import com.impassive.imp.Node;
 import com.impassive.rpc.invocation.Invocation;
 import com.impassive.rpc.result.Result;
 
 /** @author impassivey */
-public interface Invoker<T> extends Lifecycle {
+public interface Invoker<T> extends Node {
 
   /**
    * 返回当前对象的接口的类型

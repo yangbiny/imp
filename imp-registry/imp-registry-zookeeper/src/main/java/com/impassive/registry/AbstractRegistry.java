@@ -1,12 +1,13 @@
 package com.impassive.registry;
 
+import com.impassive.imp.Node;
 import com.impassive.imp.common.Url;
 import com.impassive.registry.registry.Registry;
 
 /**
  * @author impassivey
  */
-public abstract class AbstractRegistry implements Registry {
+public abstract class AbstractRegistry implements Registry, Node {
 
   protected Url url;
 
@@ -44,6 +45,11 @@ public abstract class AbstractRegistry implements Registry {
   @Override
   public void unSubscribe(Url url) {
     doUnSubscribe(url);
+  }
+
+  @Override
+  public Url getUrl() {
+    return url;
   }
 
   protected abstract void doSubscribe(Url url);

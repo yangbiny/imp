@@ -29,7 +29,7 @@ public class ImpInvoker<T> extends AbstractInvoker<T> {
 
   private final List<ExchangeClient> exchangeClients;
 
-  private Url url;
+  private final Url url;
 
   public ImpInvoker(Class<T> interfaceClass, List<ExchangeClient> clients, Url url) {
     super(interfaceClass);
@@ -62,5 +62,10 @@ public class ImpInvoker<T> extends AbstractInvoker<T> {
       exchangeClient.destroy();
     }
     THREAD_POOL_EXECUTOR.shutdown();
+  }
+
+  @Override
+  public Url getUrl() {
+    return url;
   }
 }
