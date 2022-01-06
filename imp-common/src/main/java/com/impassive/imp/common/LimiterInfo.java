@@ -11,9 +11,9 @@ public class LimiterInfo {
 
   private Long permits;
 
-  private Integer time;
+  private Integer period;
 
-  private TimeUnit timeUnit;
+  private TimeUnit periodUnit;
 
   public LimiterInfo(LimiterConfig limiterConfig) {
     if (limiterConfig == null) {
@@ -22,7 +22,7 @@ public class LimiterInfo {
     }
     this.enable = limiterConfig.getEnable();
     this.permits = limiterConfig.getPermits();
-    this.time = limiterConfig.getTime();
-    this.timeUnit = limiterConfig.getTimeUnit();
+    this.period = limiterConfig.getPeriod();
+    this.periodUnit = limiterConfig.getPeriodUnit();
   }
 }

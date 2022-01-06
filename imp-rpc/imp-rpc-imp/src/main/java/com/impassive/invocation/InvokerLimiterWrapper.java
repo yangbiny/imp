@@ -25,7 +25,7 @@ public class InvokerLimiterWrapper<T> implements Invoker<T> {
 
   private RateLimiter buildRateLimiter(Url url) {
     LimiterInfo limiterInfo = url.getLimiterInfo();
-    return null;
+    return new RateLimiter(limiterInfo);
   }
 
   @Override

@@ -10,8 +10,8 @@ public class LimiterConfig {
 
   private Long permits = 1L;
 
-  private Integer time = 1;
+  private Integer period = 1;
 
-  private TimeUnit timeUnit = TimeUnit.SECONDS;
+  private TimeUnit periodUnit = TimeUnit.SECONDS;
 
 }
