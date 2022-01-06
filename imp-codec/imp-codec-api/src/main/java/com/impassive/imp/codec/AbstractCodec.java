@@ -1,4 +1,4 @@
-package com.impassive.imp.remoting.codec;
+package com.impassive.imp.codec;
 
 import com.impassive.imp.util.json.JsonTools;
 

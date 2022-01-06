@@ -1,14 +1,5 @@
-package com.impassive.remoting.netty.codec;
+package com.impassive.imp.codec;
 
-import com.impassive.rpc.invocation.Invocation;
-import com.impassive.rpc.request.Request;
-import com.impassive.imp.remoting.codec.AbstractCodec;
-import com.impassive.imp.remoting.codec.CodecRequest;
-import com.impassive.imp.remoting.codec.CodecResult;
-import com.impassive.imp.util.json.JsonTools;
-import com.impassive.rpc.RpcInvocation;
-import com.impassive.rpc.RpcResponse;
-import io.netty.buffer.ByteBuf;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;

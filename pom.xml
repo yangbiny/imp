@@ -16,6 +16,7 @@
     <module>imp-rpc</module>
     <module>imp-all</module>
     <module>imp-config</module>
+    <module>imp-codec</module>
   </modules>
 
   <properties>

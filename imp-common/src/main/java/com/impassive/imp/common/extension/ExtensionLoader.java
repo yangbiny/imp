@@ -22,4 +22,10 @@ public class ExtensionLoader<T> {
     EXTENSION_LOADER_MAP.putIfAbsent(tClass, extensionLoader);
     return extensionLoader;
   }
+
+  public T getInstance() {
+    return null;
+  }
+
+
 }

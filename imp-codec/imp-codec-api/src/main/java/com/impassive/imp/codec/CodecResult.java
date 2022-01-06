@@ -1,4 +1,4 @@
-package com.impassive.imp.remoting.codec;
+package com.impassive.imp.codec;
 
 import java.io.Serializable;
 import lombok.AllArgsConstructor;

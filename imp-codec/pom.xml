@@ -1,32 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
-    <artifactId>imp-remoting</artifactId>
+    <artifactId>imp</artifactId>
     <groupId>com.impassive</groupId>
     <version>1.0.2</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>imp-remoting-netty</artifactId>
+  <artifactId>imp-codec</artifactId>
+  <packaging>pom</packaging>
+
+  <name>imp-codec</name>
+  <modules>
+    <module>imp-codec-api</module>
+    <module>imp-codec-fastjson</module>
+  </modules>
 
   <properties>
-    <maven.compiler.source>8</maven.compiler.source>
-    <maven.compiler.target>8</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>com.impassive</groupId>
-      <artifactId>imp-remoting-api</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.impassive</groupId>
-      <artifactId>imp-codec-fastjson</artifactId>
+      <artifactId>imp-common</artifactId>
       <version>${project.version}</version>
     </dependency>
   </dependencies>
+
 
 </project>
