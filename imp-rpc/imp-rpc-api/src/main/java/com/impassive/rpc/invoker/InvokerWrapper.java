@@ -36,6 +36,11 @@ public class InvokerWrapper<T> implements Invoker<T> {
       final Invoker<T> next = lastInvoker;
       lastInvoker = new Invoker<T>() {
         @Override
+        public Url getUrl() {
+          return invoker.getUrl();
+        }
+
+        @Override
         public void destroy() {
           invoker.destroy();
         }

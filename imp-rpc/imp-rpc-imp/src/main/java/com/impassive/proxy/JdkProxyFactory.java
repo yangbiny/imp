@@ -1,5 +1,6 @@
 package com.impassive.proxy;
 
+import com.impassive.imp.common.Url;
 import com.impassive.result.AbstractProxyInvoker;
 import com.impassive.rpc.invoker.Invoker;
 import java.lang.reflect.Method;
@@ -11,6 +12,11 @@ public class JdkProxyFactory extends AbstractProxyFactory {
   @Override
   public <T> Invoker<T> doGetInvoker(T ref, Class<T> classType) {
     return new AbstractProxyInvoker<T>(ref, classType) {
+
+      @Override
+      public Url getUrl() {
+        return null;
+      }
 
       @Override
       protected Object doInvoke(
