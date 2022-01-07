@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class ImpCodec extends AbstractCodec {
 
   @Override
-  public void encode(ByteBuf out, Object message) {
+  public void doEncode(ByteBuf out, Object message) {
     boolean isRequest = message instanceof Invocation;
     out.writeBoolean(isRequest);
     if (isRequest) {
@@ -31,7 +31,7 @@ public class ImpCodec extends AbstractCodec {
   }
 
   @Override
-  public Object decode(ByteBuf in) {
+  public Object doDecode(ByteBuf in) {
     boolean isRequest = in.readBoolean();
     int all = in.readInt();
     if (in.readableBytes() < all) {

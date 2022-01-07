@@ -13,7 +13,7 @@ public class ExtensionLoader<T> {
     this.type = type;
   }
 
-  public static ExtensionLoader getExtensionLoader(Class<?> tClass) {
+  public static <T> ExtensionLoader<T> getExtensionLoader(Class<T> tClass) {
     ExtensionLoader extensionLoader = EXTENSION_LOADER_MAP.get(tClass);
     if (extensionLoader != null) {
       return extensionLoader;
@@ -21,5 +21,14 @@ public class ExtensionLoader<T> {
     extensionLoader = new ExtensionLoader<>(tClass);
     EXTENSION_LOADER_MAP.putIfAbsent(tClass, extensionLoader);
     return extensionLoader;
+  }
+
+  public T getValue() {
+    try {
+      return type.newInstance();
+    } catch (InstantiationException | IllegalAccessException e) {
+      e.printStackTrace();
+    }
+    return null;
   }
 }

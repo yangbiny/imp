@@ -1,7 +1,8 @@
 package com.impassive.remoting.netty.codec;
 
-import com.impassive.rpc.request.Request;
+import com.impassive.imp.common.extension.ExtensionLoader;
 import com.impassive.imp.remoting.codec.Codec;
+import com.impassive.rpc.request.Request;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
@@ -11,7 +12,7 @@ import io.netty.handler.codec.MessageToByteEncoder;
  */
 public class EncoderRequest extends MessageToByteEncoder<Request> {
 
-  private final Codec codec = new ImpCodec();
+  private final Codec codec = ExtensionLoader.getExtensionLoader(Codec.class).getValue();
 
   @Override
   protected void encode(
