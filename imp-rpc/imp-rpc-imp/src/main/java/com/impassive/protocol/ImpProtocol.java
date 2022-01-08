@@ -3,16 +3,16 @@ package com.impassive.protocol;
 import com.google.common.collect.Lists;
 import com.impassive.imp.common.DiscoverService;
 import com.impassive.imp.common.Url;
+import com.impassive.imp.common.extension.ExtensionLoader;
 import com.impassive.imp.remoting.ExchangeClient;
 import com.impassive.imp.remoting.channelHandler.DecodeChannelHandler;
 import com.impassive.imp.remoting.channelHandler.HeaderExchangeHandler;
 import com.impassive.imp.remoting.channelHandler.ImpExchangeClient;
 import com.impassive.invocation.ImpInvoker;
-import com.impassive.registry.AbstractRegistryFactory;
 import com.impassive.registry.registry.Registry;
 import com.impassive.registry.registry.RegistryFactory;
-import com.impassive.remoting.netty.NettyService;
 import com.impassive.remoting.netty.NettyClient;
+import com.impassive.remoting.netty.NettyService;
 import com.impassive.rpc.adapter.RoutingDiscoverAdapter;
 import com.impassive.rpc.invoker.Invoker;
 import com.impassive.rpc.invoker.InvokerWrapper;
@@ -36,7 +36,8 @@ public class ImpProtocol implements Protocol {
 
   private final ExchangeHandlerAdapter exchangeHandler = new ExchangeHandlerAdapter();
 
-  private RegistryFactory registryFactory;
+  private final RegistryFactory registryFactory = ExtensionLoader.getExtensionLoader(
+      RegistryFactory.class).getDefaultValue();
 
   private static final Map<String, List<ExchangeClient>> clientMap = new HashMap<>();
 
@@ -84,9 +85,6 @@ public class ImpProtocol implements Protocol {
       DiscoverService discoverService = RoutingDiscoverAdapter.discoverAndRouting(url);
       url.discoverService(discoverService);
     }
-    if (this.registryFactory == null) {
-      this.registryFactory = AbstractRegistryFactory.getRegistryFactory(url.getRegistryType());
-    }
     Registry registry = registryFactory.getRegistry(url);
     registry.subscribe(url);
     // 是直接使用即可
@@ -131,9 +129,6 @@ public class ImpProtocol implements Protocol {
     final Url url = invokerWrapper.getUrl();
     if (!url.getRegister()) {
       return;
-    }
-    if (this.registryFactory == null) {
-      this.registryFactory = AbstractRegistryFactory.getRegistryFactory(url.getRegistryType());
     }
     final Registry registry = registryFactory.getRegistry(url);
     registry.registry(url);

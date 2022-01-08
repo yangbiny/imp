@@ -1,5 +1,6 @@
 package com.impassive.remoting.netty.codec;
 
+import com.impassive.imp.common.extension.ExtensionLoader;
 import com.impassive.imp.remoting.codec.Codec;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -9,7 +10,7 @@ import java.util.List;
 /** @author impassivey */
 public class DecodeRequest extends ByteToMessageDecoder {
 
-  private final Codec codec = new ImpCodec();
+  private final Codec codec = ExtensionLoader.getExtensionLoader(Codec.class).getDefaultValue();
 
   @Override
   protected void decode(

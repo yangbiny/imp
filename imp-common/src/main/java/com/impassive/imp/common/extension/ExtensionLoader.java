@@ -23,7 +23,7 @@ public class ExtensionLoader<T> {
     return extensionLoader;
   }
 
-  public T getValue() {
+  public T getDefaultValue() {
     try {
       return type.newInstance();
     } catch (InstantiationException | IllegalAccessException e) {
