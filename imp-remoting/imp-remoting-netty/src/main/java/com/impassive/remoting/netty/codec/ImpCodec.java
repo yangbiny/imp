@@ -1,5 +1,6 @@
 package com.impassive.remoting.netty.codec;
 
+import com.impassive.imp.common.extension.Activity;
 import com.impassive.rpc.invocation.Invocation;
 import com.impassive.rpc.request.Request;
 import com.impassive.imp.remoting.codec.AbstractCodec;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 /**
  * @author impassivey
  */
+@Activity
 public class ImpCodec extends AbstractCodec {
 
   @Override

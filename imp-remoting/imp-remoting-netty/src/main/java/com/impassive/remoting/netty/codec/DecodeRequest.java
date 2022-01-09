@@ -10,7 +10,7 @@ import java.util.List;
 /** @author impassivey */
 public class DecodeRequest extends ByteToMessageDecoder {
 
-  private final Codec codec = ExtensionLoader.getExtensionLoader(Codec.class).getDefaultValue();
+  private final Codec codec = ExtensionLoader.getExtensionLoader(Codec.class).getDefaultExtension();
 
   @Override
   protected void decode(

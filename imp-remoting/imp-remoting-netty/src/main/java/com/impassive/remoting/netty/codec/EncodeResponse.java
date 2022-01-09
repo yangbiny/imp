@@ -12,7 +12,7 @@ import io.netty.handler.codec.MessageToByteEncoder;
  */
 public class EncodeResponse extends MessageToByteEncoder<Result> {
 
-  private final Codec codec = ExtensionLoader.getExtensionLoader(Codec.class).getDefaultValue();
+  private final Codec codec = ExtensionLoader.getExtensionLoader(Codec.class).getDefaultExtension();
 
   @Override
   protected void encode(ChannelHandlerContext channelHandlerContext, Result result,

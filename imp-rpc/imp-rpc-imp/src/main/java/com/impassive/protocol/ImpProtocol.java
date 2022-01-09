@@ -37,7 +37,7 @@ public class ImpProtocol implements Protocol {
   private final ExchangeHandlerAdapter exchangeHandler = new ExchangeHandlerAdapter();
 
   private final RegistryFactory registryFactory = ExtensionLoader.getExtensionLoader(
-      RegistryFactory.class).getDefaultValue();
+      RegistryFactory.class).getDefaultExtension();
 
   private static final Map<String, List<ExchangeClient>> clientMap = new HashMap<>();
 

@@ -25,12 +25,19 @@ public class ClassUtils {
    * @return 类
    */
   public static List<ClassInfo> buildClass(@NotNull ClassType classType) {
+    return buildClassInfoList(classType.getPath());
+  }
+
+  public static List<ClassInfo> buildClassInfoList(String path) {
+    if (StringUtils.isEmpty(path)) {
+      return Collections.emptyList();
+    }
     Enumeration<URL> resources;
     try {
       resources = Thread.currentThread().getContextClassLoader()
-          .getResources("imp/" + classType.getPath());
+          .getResources("imp/" + path);
     } catch (IOException e) {
-      log.error("build class has exception : {}", classType);
+      log.error("build class has exception :  path = {}", path);
       throw new ImpCommonException("build class has exception : ", e);
     }
     if (!resources.hasMoreElements()) {

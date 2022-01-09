@@ -21,7 +21,12 @@ public enum ClassType {
   /**
    * 路由相关
    */
-  routing("routing");
+  routing("routing"),
+
+  /**
+   * 扩展点相关。由于每个扩展点的名字都不同，所以这里是空的
+   */
+  extension("");
 
   private final String path;
 

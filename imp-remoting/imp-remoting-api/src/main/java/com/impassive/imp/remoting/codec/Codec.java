@@ -1,8 +1,10 @@
 package com.impassive.imp.remoting.codec;
 
+import com.impassive.imp.common.extension.SPI;
 import io.netty.buffer.ByteBuf;
 
 /** @author impassivey */
+@SPI(name = "impCodec")
 public interface Codec {
 
   /**
