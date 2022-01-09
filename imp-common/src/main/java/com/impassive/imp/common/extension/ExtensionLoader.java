@@ -3,6 +3,7 @@ package com.impassive.imp.common.extension;
 import com.impassive.imp.common.ClassInfo;
 import com.impassive.imp.common.ClassUtils;
 import com.impassive.imp.exception.common.ImpCommonException;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,6 +78,26 @@ public class ExtensionLoader<T> {
   }
 
   private T injectWrapper(T instance) {
+    if (wrapperCache.isEmpty()) {
+      return instance;
+    }
+    for (ClassInfo classInfo : wrapperCache) {
+      instance = injectWrapper(instance, classInfo);
+    }
+    return instance;
+  }
+
+  @SuppressWarnings("unchecked")
+  private T injectWrapper(T instance, ClassInfo classInfo) {
+    Constructor<?> constructor;
+    try {
+      constructor = classInfo.getClassPath().getConstructor(type);
+      instance = (T) constructor.newInstance(instance);
+    } catch (InstantiationException | InvocationTargetException | IllegalAccessException e) {
+      throw new ImpCommonException("execute constructor has error : ", e);
+    } catch (NoSuchMethodException e) {
+      throw new ImpCommonException("can not find no arg constructor of type " + classInfo);
+    }
     return instance;
   }
 
