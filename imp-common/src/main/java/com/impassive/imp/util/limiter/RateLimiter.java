@@ -85,7 +85,7 @@ public class RateLimiter implements Limiter {
       if (limiterInfo.getPeriodUnit() == TimeUnit.NANOSECONDS) {
         return limiterInfo.getPeriod();
       }
-      return 0;
+      return 1;
     }
   }
 }

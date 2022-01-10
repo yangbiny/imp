@@ -64,7 +64,8 @@ public class ImpProtocol implements Protocol {
   }
 
   private <T> Invoker<T> doRefer(Class<T> interfaceClass, Url url) {
-    return new ImpInvoker<>(interfaceClass, getClients(url), url);
+    ImpInvoker<T> impInvoker = new ImpInvoker<>(interfaceClass, getClients(url), url);
+    return ExtensionLoader.getExtensionLoader(Invoker.class).wrapper(impInvoker);
   }
 
   private List<ExchangeClient> getClients(Url url) {
