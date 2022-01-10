@@ -7,6 +7,7 @@ import com.impassive.imp.util.limiter.LimiterConfig;
 import com.impassive.registry.config.ApplicationConfig;
 import com.impassive.registry.config.ProtocolConfig;
 import com.impassive.registry.config.RegistryConfig;
+import java.util.concurrent.TimeUnit;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -48,7 +49,12 @@ public class ConsumerConfig {
 
   @Bean
   public LimiterConfig limiterConfig() {
-    return null;
+    LimiterConfig limiterConfig = new LimiterConfig();
+    limiterConfig.setEnable(true);
+    limiterConfig.setPeriod(1);
+    limiterConfig.setPeriodUnit(TimeUnit.SECONDS);
+    limiterConfig.setPermits(1L);
+    return limiterConfig;
   }
 
 }

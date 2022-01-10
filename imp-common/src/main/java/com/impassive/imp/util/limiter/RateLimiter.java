@@ -37,9 +37,9 @@ public class RateLimiter implements Limiter {
     if (nowCycle == state.cycle && state.currentPermits >= acq) {
       State newState = new State(state.limiterInfo);
       boolean result = compareAndSwap(state, newState);
-      return result ? 0 : -1;
+      return result ? 0 : 1000000000;
     }
-    return -1;
+    return 1000000000;
   }
 
   private long calculateCycle(State state, long spendNanos) {

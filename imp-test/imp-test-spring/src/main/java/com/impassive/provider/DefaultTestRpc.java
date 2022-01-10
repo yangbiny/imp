@@ -3,7 +3,6 @@ package com.impassive.provider;
 import com.impassive.Param;
 import com.impassive.Result;
 import com.impassive.TestRpc;
-import com.impassive.rpc.context.RpcContext;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -16,9 +15,7 @@ public class DefaultTestRpc implements TestRpc {
 
   @Override
   public String test(String arg) {
-    RpcContext rpcContext = RpcContext.rpcContextInstance();
-    System.out.println("context : " + rpcContext.getInvocation());
-    return arg;
+    return arg + " " + System.currentTimeMillis();
   }
 
   @Override
