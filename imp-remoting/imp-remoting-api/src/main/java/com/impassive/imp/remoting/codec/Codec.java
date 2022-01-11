@@ -1,5 +1,6 @@
 package com.impassive.imp.remoting.codec;
 
+import com.impassive.imp.common.extension.Adaptive;
 import com.impassive.imp.common.extension.SPI;
 import io.netty.buffer.ByteBuf;
 
@@ -13,6 +14,7 @@ public interface Codec {
    * @param out 写入的对象
    * @param message 需要写入的对象
    */
+  @Adaptive
   void encode(ByteBuf out, Object message);
 
   /**
@@ -22,5 +24,6 @@ public interface Codec {
    * @return 转换后的对象
    * @throws Exception 如果解析失败会直接抛出异常
    */
+  @Adaptive
   Object decode(ByteBuf in) throws Exception;
 }
