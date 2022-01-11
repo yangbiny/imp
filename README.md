@@ -22,10 +22,7 @@ Imp是一个使用 Java 实现的 RPC框架，目前支持 Netty进行网络交�
 ## 存储内容
 imp://{providerIp}:{providerPort}/{interfaceName}/?groupName={groupName}&applicationName={applicationName}
 
-# TODO
-1. 限流
-2. 扩展点
-3. Mesh架构
-4. 注册中心结构改变
-4.1 provider
-4.2 consumer
+# 扩展点
+支持自动加载扩展点。需要在resource 下的 imp 文件夹中添加一个和接口全路径名相同的文件。添加到文件中对应的类会进行自动加载。
+
+会根据SPI注解中配置的名称自动加载相关的类型。对于自适应类型的数据，会根据参数自动选择
