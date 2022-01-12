@@ -4,8 +4,7 @@ import com.impassive.imp.common.Url;
 import com.impassive.imp.exception.net.ImpNettyException;
 import com.impassive.imp.remoting.ChannelHandler;
 import com.impassive.imp.remoting.channel.AbstractClient;
-import com.impassive.remoting.netty.codec.DecodeRequest;
-import com.impassive.remoting.netty.codec.EncoderRequest;
+import com.impassive.remoting.netty.adapter.CodecAdapter;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -23,6 +22,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class NettyClient extends AbstractClient {
 
+  private final CodecAdapter codecAdapter;
+
   private volatile Bootstrap bootstrap;
 
   private volatile Channel channel;
@@ -31,6 +32,7 @@ public class NettyClient extends AbstractClient {
 
   public NettyClient(Url url, ChannelHandler channelHandler) {
     super(url, channelHandler);
+    codecAdapter = new CodecAdapter(url);
   }
 
   @Override
@@ -48,8 +50,8 @@ public class NettyClient extends AbstractClient {
               protected void initChannel(NioSocketChannel nioSocketChannel) {
                 nioSocketChannel
                     .pipeline()
-                    .addLast("encoder", new EncoderRequest())
-                    .addLast("decoder", new DecodeRequest())
+                    .addLast("encoder", codecAdapter.getEncode())
+                    .addLast("decoder", codecAdapter.getDecode())
                     .addLast("handler", nettyClientHandler);
               }
             });

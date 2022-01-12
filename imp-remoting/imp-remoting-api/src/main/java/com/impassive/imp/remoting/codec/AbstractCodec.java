@@ -1,5 +1,6 @@
 package com.impassive.imp.remoting.codec;
 
+import com.impassive.imp.common.Url;
 import com.impassive.imp.util.json.JsonTools;
 import io.netty.buffer.ByteBuf;
 
@@ -20,12 +21,12 @@ public abstract class AbstractCodec implements Codec {
   }
 
   @Override
-  public void encode(ByteBuf out, Object message) {
+  public void encode(Url url, ByteBuf out, Object message) {
     doEncode(out, message);
   }
 
   @Override
-  public Object decode(ByteBuf in) {
+  public Object decode(Url url, ByteBuf in) {
     return doDecode(in);
   }
 }

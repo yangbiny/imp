@@ -4,8 +4,7 @@ import com.impassive.imp.common.Url;
 import com.impassive.imp.remoting.Channel;
 import com.impassive.imp.remoting.ChannelHandler;
 import com.impassive.imp.remoting.channel.AbstractServer;
-import com.impassive.remoting.netty.codec.DecodeRequest;
-import com.impassive.remoting.netty.codec.EncodeResponse;
+import com.impassive.remoting.netty.adapter.CodecAdapter;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -21,6 +20,8 @@ import org.apache.commons.collections4.CollectionUtils;
 @Slf4j
 public class NettyService extends AbstractServer {
 
+  private final CodecAdapter codecAdapter;
+
   private ServerBootstrap bootstrap;
 
   private NioEventLoopGroup boss;
@@ -31,6 +32,7 @@ public class NettyService extends AbstractServer {
 
   public NettyService(Url url, ChannelHandler handler) {
     super(url, handler);
+    codecAdapter = new CodecAdapter(url);
   }
 
   @Override
@@ -47,8 +49,8 @@ public class NettyService extends AbstractServer {
             new ChannelInitializer<SocketChannel>() {
               @Override
               protected void initChannel(SocketChannel socketChannel) throws Exception {
-                socketChannel.pipeline().addLast("decode", new DecodeRequest());
-                socketChannel.pipeline().addLast("encode", new EncodeResponse());
+                socketChannel.pipeline().addLast("decode", codecAdapter.getDecode());
+                socketChannel.pipeline().addLast("encode", codecAdapter.getEncode());
                 socketChannel.pipeline().addLast(nettyServiceHandler);
               }
             })
