@@ -1,7 +1,9 @@
 package com.impassive.imp.common;
 
 import java.util.Map;
+import javax.annotation.Nullable;
 import lombok.Data;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -66,5 +68,13 @@ public class Url {
   public void discoverService(DiscoverService discoverService) {
     this.host = discoverService.getHost();
     this.port = discoverService.getPort();
+  }
+
+  @Nullable
+  public String getParam(String key) {
+    if (MapUtils.isEmpty(param)) {
+      return null;
+    }
+    return (String) param.get(key);
   }
 }

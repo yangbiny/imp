@@ -59,6 +59,10 @@ public class ExtensionLoader<T> {
     }
     String extensionName = StringUtils.isEmpty(spi.name()) ? spi.value() : spi.name();
 
+    return buildExtensionByName(extensionName);
+  }
+
+  private T buildExtensionByName(String extensionName) {
     if (instanceMap.containsKey(extensionName)) {
       return instanceMap.get(extensionName);
     }
@@ -74,6 +78,14 @@ public class ExtensionLoader<T> {
     instanceMap.putIfAbsent(extensionName, finalInstance);
     return finalInstance;
   }
+
+  public T getExtensionByName(String extensionName) {
+    if (StringUtils.isEmpty(extensionName)) {
+      throw new ImpCommonException("extension can not be null");
+    }
+    return buildExtensionByName(extensionName);
+  }
+
 
   private void buildClass() {
     List<ClassInfo> classInfoList = ClassUtils.buildClassInfoList(type.getName());

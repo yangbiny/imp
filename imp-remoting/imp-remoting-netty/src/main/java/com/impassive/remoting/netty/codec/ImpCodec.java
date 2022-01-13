@@ -1,5 +1,6 @@
 package com.impassive.remoting.netty.codec;
 
+import com.impassive.imp.common.Url;
 import com.impassive.imp.common.extension.Activity;
 import com.impassive.rpc.invocation.Invocation;
 import com.impassive.rpc.request.Request;
@@ -22,30 +23,30 @@ import java.util.stream.Collectors;
 public class ImpCodec extends AbstractCodec {
 
   @Override
-  public void doEncode(ByteBuf out, Object message) {
+  public void doEncode(Url url, ByteBuf out, Object message) {
     boolean isRequest = message instanceof Invocation;
     out.writeBoolean(isRequest);
     if (isRequest) {
-      encodeRequest(out, message);
+      encodeRequest(url, out, message);
       return;
     }
-    encodeResponse(out, message);
+    encodeResponse(url, out, message);
   }
 
   @Override
-  public Object doDecode(ByteBuf in) {
+  public Object doDecode(Url url, ByteBuf in) {
     boolean isRequest = in.readBoolean();
     int all = in.readInt();
     if (in.readableBytes() < all) {
       return null;
     }
     if (isRequest) {
-      return decodeRequest(in);
+      return decodeRequest(url, in);
     }
-    return decodeResponse(in);
+    return decodeResponse(url, in);
   }
 
-  private RpcInvocation decodeRequest(ByteBuf in) {
+  private RpcInvocation decodeRequest(Url url, ByteBuf in) {
     int length = in.readInt();
     byte[] bytes = new byte[length];
     in.readBytes(bytes, 0, length);
@@ -91,27 +92,20 @@ public class ImpCodec extends AbstractCodec {
     return rpcInvocation;
   }
 
-  private void encodeRequest(ByteBuf out, Object message) {
+  private void encodeRequest(Url url, ByteBuf out, Object message) {
     Invocation invocation = (Invocation) message;
 
-    final String methodName = invocation.getMethodName();
-    final byte[] methodNameBytes = methodName.getBytes(StandardCharsets.UTF_8);
+    final byte[] methodNameBytes = serialize(url, invocation.getMethodName());
 
     final Object[] params = invocation.getParams();
-    final List<Object> paramList = Arrays.asList(params);
-    List<CodecRequest> collect = paramList.stream().map(this::convertToRequestParam)
-        .collect(Collectors.toList());
-    final String paramStr = JsonTools.writeToJson(collect);
-    final byte[] paramStrBytes = paramStr.getBytes(StandardCharsets.UTF_8);
+    List<CodecRequest> collect = Arrays.stream(params).map(this::convertToRequestParam).collect(Collectors.toList());
+    final byte[] paramStrBytes = serialize(url, collect);
 
-    final String serviceName = invocation.getServiceName();
-    final byte[] serviceNameBytes = serviceName.getBytes(StandardCharsets.UTF_8);
+    final byte[] serviceNameBytes = serialize(url, invocation.getServiceName());
 
     final Class<?>[] argumentTypes = invocation.argumentsType();
-    final List<String> classes =
-        Arrays.stream(argumentTypes).map(Class::getName).collect(Collectors.toList());
-    final String argumentTypesStr = JsonTools.writeToJson(classes);
-    final byte[] argumentTypesStrBytes = argumentTypesStr.getBytes(StandardCharsets.UTF_8);
+    final List<String> classes = Arrays.stream(argumentTypes).map(Class::getName).collect(Collectors.toList());
+    final byte[] argumentTypesStrBytes = serialize(url, classes);
 
     int all =
         methodNameBytes.length
@@ -136,7 +130,7 @@ public class ImpCodec extends AbstractCodec {
 
   // response相关
 
-  private void encodeResponse(ByteBuf out, Object message) {
+  private void encodeResponse(Url url, ByteBuf out, Object message) {
     RpcResponse rpcResponse = (RpcResponse) message;
     Object resultValue = rpcResponse.getResult();
     Class<?> classType = null;
@@ -145,8 +139,7 @@ public class ImpCodec extends AbstractCodec {
     }
     String resultJson = JsonTools.writeToJson(resultValue);
     CodecResult result = new CodecResult(rpcResponse.getRequestId(), classType, resultJson);
-    String responseJson = JsonTools.writeToJson(result);
-    byte[] bytes = responseJson.getBytes(StandardCharsets.UTF_8);
+    byte[] bytes = serialize(url, result);
     // 继续数据的总长度
     out.writeInt(bytes.length);
 
@@ -154,7 +147,7 @@ public class ImpCodec extends AbstractCodec {
     write(out, bytes);
   }
 
-  private Object decodeResponse(ByteBuf in) {
+  private Object decodeResponse(Url url, ByteBuf in) {
     int length = in.readInt();
     byte[] bytes = new byte[length];
     in.readBytes(bytes, 0, length);
