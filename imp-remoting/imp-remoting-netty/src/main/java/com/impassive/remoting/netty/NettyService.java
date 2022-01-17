@@ -20,8 +20,6 @@ import org.apache.commons.collections4.CollectionUtils;
 @Slf4j
 public class NettyService extends AbstractServer {
 
-  private final CodecAdapter codecAdapter;
-
   private ServerBootstrap bootstrap;
 
   private NioEventLoopGroup boss;
@@ -32,7 +30,6 @@ public class NettyService extends AbstractServer {
 
   public NettyService(Url url, ChannelHandler handler) {
     super(url, handler);
-    codecAdapter = new CodecAdapter(url);
   }
 
   @Override
@@ -47,6 +44,9 @@ public class NettyService extends AbstractServer {
         .channel(NioServerSocketChannel.class)
         .childHandler(
             new ChannelInitializer<SocketChannel>() {
+
+              private final CodecAdapter codecAdapter = new CodecAdapter(url);
+
               @Override
               protected void initChannel(SocketChannel socketChannel) throws Exception {
                 socketChannel.pipeline().addLast("decode", codecAdapter.getDecode());

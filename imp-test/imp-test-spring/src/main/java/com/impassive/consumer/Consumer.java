@@ -20,10 +20,10 @@ public class Consumer implements InitializingBean {
   private TestRpc defaultTestRpc;
 
   public void start() {
+    final String test = defaultTestRpc.test("test : ");
+    System.out.println(test);
     for (int i = 0; i < 100; i++) {
       threadPoolExecutor.submit(() -> {
-        final String test = defaultTestRpc.test("test : ");
-        System.out.println(test);
       });
     }
   }

@@ -22,8 +22,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class NettyClient extends AbstractClient {
 
-  private final CodecAdapter codecAdapter;
-
   private volatile Bootstrap bootstrap;
 
   private volatile Channel channel;
@@ -32,7 +30,7 @@ public class NettyClient extends AbstractClient {
 
   public NettyClient(Url url, ChannelHandler channelHandler) {
     super(url, channelHandler);
-    codecAdapter = new CodecAdapter(url);
+
   }
 
   @Override
@@ -46,6 +44,9 @@ public class NettyClient extends AbstractClient {
         .channel(NioSocketChannel.class)
         .handler(
             new ChannelInitializer<NioSocketChannel>() {
+
+              private final CodecAdapter codecAdapter = new CodecAdapter(url);
+
               @Override
               protected void initChannel(NioSocketChannel nioSocketChannel) {
                 nioSocketChannel
