@@ -15,7 +15,7 @@ public abstract class AbstractCodec implements Codec {
 
   protected abstract void doEncode(Url url, ByteBuf out, Object message);
 
-  protected abstract Object doDecode(Url url,ByteBuf in);
+  protected abstract Object doDecode(Url url, ByteBuf in);
 
   protected CodecRequest convertToRequestParam(Object object) {
     if (object == null) {
@@ -26,12 +26,12 @@ public abstract class AbstractCodec implements Codec {
 
   @Override
   public void encode(Url url, ByteBuf out, Object message) {
-    doEncode(out, message);
+    doEncode(url, out, message);
   }
 
   @Override
   public Object decode(Url url, ByteBuf in) {
-    return doDecode(in);
+    return doDecode(url, in);
   }
 
   protected byte[] serialize(Url url, Object object) {

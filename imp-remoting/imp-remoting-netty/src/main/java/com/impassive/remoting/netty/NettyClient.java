@@ -69,7 +69,7 @@ public class NettyClient extends AbstractClient {
         log.info("channel active status : {}", this.channel.isActive());
       } else if (future.cause() != null) {
         log.error("connect has error : ", future.cause());
-        throw new ImpNettyException("connect has error", future.cause());
+        throw new ImpNettyException("connect has error : " + connectAddress, future.cause());
       } else {
         log.error("failed connect to service : {}", connectAddress);
         throw new ImpNettyException("failed connect to service");
