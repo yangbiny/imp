@@ -2,6 +2,7 @@ package com.impassive.remoting.netty.codec;
 
 import com.impassive.imp.common.Url;
 import com.impassive.imp.common.extension.Activity;
+import com.impassive.imp.remoting.ChannelBuffer;
 import com.impassive.rpc.invocation.Invocation;
 import com.impassive.rpc.request.Request;
 import com.impassive.imp.remoting.codec.AbstractCodec;
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
 public class ImpCodec extends AbstractCodec {
 
   @Override
-  public void doEncode(Url url, ByteBuf out, Object message) {
+  public void doEncode(Url url, ChannelBuffer out, Object message) {
     boolean isRequest = message instanceof Invocation;
     out.writeBoolean(isRequest);
     if (isRequest) {
@@ -34,7 +35,7 @@ public class ImpCodec extends AbstractCodec {
   }
 
   @Override
-  public Object doDecode(Url url, ByteBuf in) {
+  public Object doDecode(Url url, ChannelBuffer in) {
     boolean isRequest = in.readBoolean();
     int all = in.readInt();
     if (in.readableBytes() < all) {
@@ -46,7 +47,7 @@ public class ImpCodec extends AbstractCodec {
     return decodeResponse(url, in);
   }
 
-  private RpcInvocation decodeRequest(Url url, ByteBuf in) {
+  private RpcInvocation decodeRequest(Url url, ChannelBuffer in) {
     int length = in.readInt();
     byte[] bytes = new byte[length];
     in.readBytes(bytes, 0, length);
@@ -92,7 +93,7 @@ public class ImpCodec extends AbstractCodec {
     return rpcInvocation;
   }
 
-  private void encodeRequest(Url url, ByteBuf out, Object message) {
+  private void encodeRequest(Url url, ChannelBuffer out, Object message) {
     Invocation invocation = (Invocation) message;
 
     final byte[] methodNameBytes = serialize(url, invocation.getMethodName());
@@ -130,7 +131,7 @@ public class ImpCodec extends AbstractCodec {
 
   // response相关
 
-  private void encodeResponse(Url url, ByteBuf out, Object message) {
+  private void encodeResponse(Url url, ChannelBuffer out, Object message) {
     RpcResponse rpcResponse = (RpcResponse) message;
     Object resultValue = rpcResponse.getResult();
     Class<?> classType = null;
@@ -147,7 +148,7 @@ public class ImpCodec extends AbstractCodec {
     write(out, bytes);
   }
 
-  private Object decodeResponse(Url url, ByteBuf in) {
+  private Object decodeResponse(Url url, ChannelBuffer in) {
     int length = in.readInt();
     byte[] bytes = new byte[length];
     in.readBytes(bytes, 0, length);
@@ -162,7 +163,7 @@ public class ImpCodec extends AbstractCodec {
     return rpcResponse;
   }
 
-  private void write(ByteBuf out, byte[] bytes) {
+  private void write(ChannelBuffer out, byte[] bytes) {
     out.writeInt(bytes.length);
     out.writeBytes(bytes);
   }
