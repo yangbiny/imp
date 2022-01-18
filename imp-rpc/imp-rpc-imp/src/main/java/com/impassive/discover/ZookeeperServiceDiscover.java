@@ -1,4 +1,4 @@
-package com.impassive.rpc.discover.impl;
+package com.impassive.discover;
 
 import com.impassive.imp.common.DiscoverService;
 import com.impassive.imp.common.RegistryType;

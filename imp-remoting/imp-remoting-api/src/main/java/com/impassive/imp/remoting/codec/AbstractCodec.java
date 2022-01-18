@@ -6,7 +6,6 @@ import com.impassive.imp.common.extension.ExtensionLoader;
 import com.impassive.imp.remoting.ChannelBuffer;
 import com.impassive.imp.remoting.Codec;
 import com.impassive.imp.util.json.JsonTools;
-import io.netty.buffer.ByteBuf;
 
 /**
  * @author impassivey
