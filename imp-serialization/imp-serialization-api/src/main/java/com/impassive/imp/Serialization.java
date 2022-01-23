@@ -17,7 +17,7 @@ public interface Serialization {
   /**
    * 反序列化。将给定的字节数组转换成对应的类型。
    *
-   * <p>如果给定的自己额数组为空，则返回null</p>
+   * <p>如果给定的字节数组为空，则返回null</p>
    *
    * @param bytes 需要转换的直接数组
    * @param tClass 目标类型

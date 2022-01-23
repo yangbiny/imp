@@ -9,6 +9,7 @@ import com.impassive.rpc.invoker.Invoker;
 import com.impassive.rpc.invoker.InvokerWrapper;
 import com.impassive.rpc.protocol.Protocol;
 import com.impassive.rpc.proxy.ProxyFactory;
+import java.util.HashMap;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 
@@ -125,6 +126,9 @@ public class ServiceConfig<T> extends BaseConfig {
     url.setRegistryType(registryConfig.getRegistryType());
     url.setRegister(registryConfig.getRegister());
     url.setLimiterInfo(new LimiterInfo(limiterConfig));
+    HashMap<String, Object> param = new HashMap<>();
+    param.put("serialize","json");
+    url.setParam(param);
     return new InvokerWrapper<>(invoker, url);
   }
 

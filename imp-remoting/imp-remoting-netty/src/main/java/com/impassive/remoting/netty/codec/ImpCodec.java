@@ -3,16 +3,14 @@ package com.impassive.remoting.netty.codec;
 import com.impassive.imp.common.Url;
 import com.impassive.imp.common.extension.Activity;
 import com.impassive.imp.remoting.ChannelBuffer;
-import com.impassive.rpc.invocation.Invocation;
-import com.impassive.rpc.request.Request;
 import com.impassive.imp.remoting.codec.AbstractCodec;
 import com.impassive.imp.remoting.codec.CodecRequest;
 import com.impassive.imp.remoting.codec.CodecResult;
 import com.impassive.imp.util.json.JsonTools;
 import com.impassive.rpc.RpcInvocation;
 import com.impassive.rpc.RpcResponse;
-import io.netty.buffer.ByteBuf;
-import java.nio.charset.StandardCharsets;
+import com.impassive.rpc.invocation.Invocation;
+import com.impassive.rpc.request.Request;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,25 +49,22 @@ public class ImpCodec extends AbstractCodec {
     int length = in.readInt();
     byte[] bytes = new byte[length];
     in.readBytes(bytes, 0, length);
-    String serviceName = new String(bytes);
+    String serviceName = deserialize(url, bytes, String.class);
 
     length = in.readInt();
     bytes = new byte[length];
     in.readBytes(bytes, 0, length);
-    String methodName = new String(bytes);
+    String methodName = deserialize(url, bytes, String.class);
 
     length = in.readInt();
     bytes = new byte[length];
     in.readBytes(bytes, 0, length);
-    String argumentTypes = new String(bytes);
-
-    List<Class> classes = JsonTools.readFromJsonList(argumentTypes, Class.class);
+    List<Class> classes = deserialize(url, bytes, List.class);
 
     length = in.readInt();
     bytes = new byte[length];
     in.readBytes(bytes, 0, length);
-    String paramStr = new String(bytes);
-    List<CodecRequest> codecRequests = JsonTools.readFromJsonList(paramStr, CodecRequest.class);
+    List<CodecRequest> codecRequests = deserialize(url, bytes, List.class);
     Class<?>[] paramType = new Class[codecRequests.size()];
     Object[] param = new Object[codecRequests.size()];
     int index = 0;
@@ -99,13 +94,15 @@ public class ImpCodec extends AbstractCodec {
     final byte[] methodNameBytes = serialize(url, invocation.getMethodName());
 
     final Object[] params = invocation.getParams();
-    List<CodecRequest> collect = Arrays.stream(params).map(this::convertToRequestParam).collect(Collectors.toList());
+    List<CodecRequest> collect = Arrays.stream(params).map(this::convertToRequestParam)
+        .collect(Collectors.toList());
     final byte[] paramStrBytes = serialize(url, collect);
 
     final byte[] serviceNameBytes = serialize(url, invocation.getServiceName());
 
     final Class<?>[] argumentTypes = invocation.argumentsType();
-    final List<String> classes = Arrays.stream(argumentTypes).map(Class::getName).collect(Collectors.toList());
+    final List<String> classes = Arrays.stream(argumentTypes).map(Class::getName)
+        .collect(Collectors.toList());
     final byte[] argumentTypesStrBytes = serialize(url, classes);
 
     int all =
@@ -152,8 +149,7 @@ public class ImpCodec extends AbstractCodec {
     int length = in.readInt();
     byte[] bytes = new byte[length];
     in.readBytes(bytes, 0, length);
-    String responseJson = new String(bytes);
-    CodecResult codecResult = JsonTools.readFromJson(responseJson, CodecResult.class);
+    CodecResult codecResult = deserialize(url, bytes, CodecResult.class);
     Long requestId = codecResult.getRequestId();
     Class<?> classType = codecResult.getClassType();
     Object resultObject = JsonTools.readFromJson(codecResult.getValue(), classType);
