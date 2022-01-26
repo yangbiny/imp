@@ -23,21 +23,26 @@ public class NetUtils {
       log.error("get network has error:", e);
       throw new RuntimeException("get network error", e);
     }
-    while (interfaces.hasMoreElements()) {
-      NetworkInterface ip = interfaces.nextElement();
-      final Enumeration<InetAddress> addresses = ip.getInetAddresses();
-      while (addresses.hasMoreElements()) {
-        final InetAddress inetAddress = addresses.nextElement();
-        if (!(inetAddress instanceof Inet4Address) || inetAddress.isLoopbackAddress()) {
+    try {
+
+      while (interfaces.hasMoreElements()) {
+        NetworkInterface ip = interfaces.nextElement();
+        if (ip.isLoopback() || ip.isVirtual() || !ip.isUp()) {
           continue;
         }
-        if (!inetAddress.isSiteLocalAddress()) {
-          continue;
+        final Enumeration<InetAddress> addresses = ip.getInetAddresses();
+        while (addresses.hasMoreElements()) {
+          final InetAddress inetAddress = addresses.nextElement();
+          if (!(inetAddress instanceof Inet4Address)) {
+            continue;
+          }
+          return inetAddress.getHostAddress();
         }
-        return inetAddress.getHostAddress();
       }
+      throw new IllegalStateException("while get LocalAddress Error");
+    } catch (Exception e) {
+      throw new IllegalStateException("while get LocalAddress Error");
     }
-    throw new IllegalStateException("while get LocalAddress Error");
   }
 
   public static String socketAddressToStr(SocketAddress socketAddress) {
