@@ -6,6 +6,7 @@ import com.impassive.imp.common.extension.ExtensionLoader;
 import com.impassive.imp.remoting.ChannelBuffer;
 import com.impassive.imp.remoting.Codec;
 import com.impassive.imp.util.json.JsonTools;
+import java.util.List;
 
 /**
  * @author impassivey
@@ -45,5 +46,11 @@ public abstract class AbstractCodec implements Codec {
     Serialization serialization = ExtensionLoader.getExtensionLoader(Serialization.class)
         .getExtensionByName(url.getParam(SERIALIZE_KEY));
     return serialization.deserialization(bytes, classInfo);
+  }
+
+  protected <T> List<T> deserializeList(Url url, byte[] bytes, Class<T> classInfo) {
+    Serialization serialization = ExtensionLoader.getExtensionLoader(Serialization.class)
+        .getExtensionByName(url.getParam(SERIALIZE_KEY));
+    return serialization.deserializationList(bytes, classInfo);
   }
 }

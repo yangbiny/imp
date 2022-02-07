@@ -1,5 +1,6 @@
 package com.impassive.imp;
 
+import java.util.List;
 import javax.annotation.Nullable;
 
 public interface Serialization {
@@ -26,5 +27,18 @@ public interface Serialization {
    */
   @Nullable
   <T> T deserialization(byte[] bytes, Class<T> tClass);
+
+  /**
+   * 反序列化。将给定的字节数组转换成对应的类型。
+   *
+   * <p>如果给定的字节数组为空，则返回null</p>
+   *
+   * @param bytes 需要转换的直接数组
+   * @param tClass 目标类型
+   * @param <T> 类型
+   * @return 反序列化结果
+   */
+  @Nullable
+  <T> List<T> deserializationList(byte[] bytes, Class<T> tClass);
 
 }

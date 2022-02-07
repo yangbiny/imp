@@ -4,6 +4,9 @@ import com.impassive.imp.Serialization;
 import com.impassive.imp.common.extension.Activity;
 import com.impassive.imp.util.json.JsonTools;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 
 @Activity
@@ -24,5 +27,14 @@ public class JsonSerialization implements Serialization {
       return null;
     }
     return JsonTools.readFromJson(new String(bytes), tClass);
+  }
+
+  @Nullable
+  @Override
+  public <T> List<T> deserializationList(byte[] bytes, Class<T> tClass) {
+    if (bytes.length == 0) {
+      return Collections.emptyList();
+    }
+    return JsonTools.readFromJsonList(new String(bytes), tClass);
   }
 }

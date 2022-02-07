@@ -59,12 +59,12 @@ public class ImpCodec extends AbstractCodec {
     length = in.readInt();
     bytes = new byte[length];
     in.readBytes(bytes, 0, length);
-    List<Class> classes = deserialize(url, bytes, List.class);
+    List<Class> classes = deserializeList(url, bytes, Class.class);
 
     length = in.readInt();
     bytes = new byte[length];
     in.readBytes(bytes, 0, length);
-    List<CodecRequest> codecRequests = deserialize(url, bytes, List.class);
+    List<CodecRequest> codecRequests = deserializeList(url, bytes, CodecRequest.class);
     Class<?>[] paramType = new Class[codecRequests.size()];
     Object[] param = new Object[codecRequests.size()];
     int index = 0;
