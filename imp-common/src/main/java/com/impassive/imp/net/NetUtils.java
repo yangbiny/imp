@@ -8,6 +8,7 @@ import java.net.SocketAddress;
 import java.net.SocketException;
 import java.util.Enumeration;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author impassivey
@@ -28,6 +29,9 @@ public class NetUtils {
       while (interfaces.hasMoreElements()) {
         NetworkInterface ip = interfaces.nextElement();
         if (ip.isLoopback() || ip.isVirtual() || !ip.isUp()) {
+          continue;
+        }
+        if (StringUtils.startsWith(ip.getName(),"utun")){
           continue;
         }
         final Enumeration<InetAddress> addresses = ip.getInetAddresses();

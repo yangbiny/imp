@@ -33,6 +33,8 @@ public class ProtocolConfig {
   }
 
   public void changeHost() {
-    this.host = NetUtils.getAddress();
+    if (StringUtils.isEmpty(host)) {
+      this.host = NetUtils.getAddress();
+    }
   }
 }

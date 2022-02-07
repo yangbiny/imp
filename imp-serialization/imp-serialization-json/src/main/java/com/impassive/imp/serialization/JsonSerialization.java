@@ -1,10 +1,12 @@
 package com.impassive.imp.serialization;
 
 import com.impassive.imp.Serialization;
+import com.impassive.imp.common.extension.Activity;
 import com.impassive.imp.util.json.JsonTools;
 import java.nio.charset.StandardCharsets;
 import javax.annotation.Nullable;
 
+@Activity
 public class JsonSerialization implements Serialization {
 
   @Override

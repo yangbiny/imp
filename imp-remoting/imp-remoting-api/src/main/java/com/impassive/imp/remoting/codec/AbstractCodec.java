@@ -41,9 +41,9 @@ public abstract class AbstractCodec implements Codec {
     return serialization.serialization(object);
   }
 
-  protected <T> T deserialize(Url url, byte[] bytes,Class<T> classInfo) {
+  protected <T> T deserialize(Url url, byte[] bytes, Class<T> classInfo) {
     Serialization serialization = ExtensionLoader.getExtensionLoader(Serialization.class)
         .getExtensionByName(url.getParam(SERIALIZE_KEY));
-    return serialization.deserialization(bytes,classInfo);
+    return serialization.deserialization(bytes, classInfo);
   }
 }

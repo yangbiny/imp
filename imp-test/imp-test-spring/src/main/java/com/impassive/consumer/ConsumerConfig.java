@@ -34,7 +34,7 @@ public class ConsumerConfig {
   @Bean
   public ProtocolConfig protocolConfig() {
     ProtocolConfig protocolConfig = new ProtocolConfig();
-    protocolConfig.setUseEndpoint(false);
+    protocolConfig.setUseEndpoint(true);
     protocolConfig.setHost("127.0.0.1");
     protocolConfig.setPort(11222);
     return protocolConfig;
