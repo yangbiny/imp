@@ -1,6 +1,5 @@
 package com.impassive.remoting.netty.codec;
 
-import com.alibaba.fastjson.util.ParameterizedTypeImpl;
 import com.impassive.imp.common.Url;
 import com.impassive.imp.common.extension.Activity;
 import com.impassive.imp.remoting.ChannelBuffer;
@@ -12,7 +11,6 @@ import com.impassive.rpc.RpcInvocation;
 import com.impassive.rpc.RpcResponse;
 import com.impassive.rpc.invocation.Invocation;
 import com.impassive.rpc.request.Request;
-import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,7 +45,6 @@ public class ImpCodec extends AbstractCodec {
     return decodeResponse(url, in);
   }
 
-  @SuppressWarnings("unchecked")
   private RpcInvocation decodeRequest(Url url, ChannelBuffer in) {
     int length = in.readInt();
     byte[] bytes = new byte[length];
@@ -62,7 +59,7 @@ public class ImpCodec extends AbstractCodec {
     length = in.readInt();
     bytes = new byte[length];
     in.readBytes(bytes, 0, length);
-    List<Class> classes = deserializeList(url, bytes, Class.class);
+    @SuppressWarnings("rawtypes") List<Class> classes = deserializeList(url, bytes, Class.class);
 
     length = in.readInt();
     bytes = new byte[length];
@@ -104,7 +101,7 @@ public class ImpCodec extends AbstractCodec {
     final byte[] serviceNameBytes = serialize(url, invocation.getServiceName());
 
     final Class<?>[] argumentTypes = invocation.argumentsType();
-    final List<Class> classes = Arrays.stream(argumentTypes).collect(Collectors.toList());
+    final List<Class<?>> classes = Arrays.stream(argumentTypes).collect(Collectors.toList());
     final byte[] argumentTypesStrBytes = serialize(url, classes);
 
     int all =
