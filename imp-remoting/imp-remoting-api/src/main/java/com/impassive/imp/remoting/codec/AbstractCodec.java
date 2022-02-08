@@ -1,11 +1,13 @@
 package com.impassive.imp.remoting.codec;
 
+import com.alibaba.fastjson.util.ParameterizedTypeImpl;
 import com.impassive.imp.Serialization;
 import com.impassive.imp.common.Url;
 import com.impassive.imp.common.extension.ExtensionLoader;
 import com.impassive.imp.remoting.ChannelBuffer;
 import com.impassive.imp.remoting.Codec;
 import com.impassive.imp.util.json.JsonTools;
+import java.lang.reflect.Type;
 import java.util.List;
 
 /**
@@ -51,6 +53,8 @@ public abstract class AbstractCodec implements Codec {
   protected <T> List<T> deserializeList(Url url, byte[] bytes, Class<T> classInfo) {
     Serialization serialization = ExtensionLoader.getExtensionLoader(Serialization.class)
         .getExtensionByName(url.getParam(SERIALIZE_KEY));
-    return serialization.deserializationList(bytes, classInfo);
+    Type classInfoType = new ParameterizedTypeImpl(new Type[]{classInfo}, null, List.class);
+    return serialization.deserialization(bytes, classInfoType);
   }
+
 }
