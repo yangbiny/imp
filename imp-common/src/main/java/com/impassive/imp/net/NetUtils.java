@@ -28,10 +28,7 @@ public class NetUtils {
 
       while (interfaces.hasMoreElements()) {
         NetworkInterface ip = interfaces.nextElement();
-        if (ip.isLoopback() || ip.isVirtual() || !ip.isUp()) {
-          continue;
-        }
-        if (StringUtils.startsWith(ip.getName(),"utun")){
+        if (ip.isLoopback() || ip.isVirtual() || !ip.isUp() || ip.isPointToPoint()) {
           continue;
         }
         final Enumeration<InetAddress> addresses = ip.getInetAddresses();
