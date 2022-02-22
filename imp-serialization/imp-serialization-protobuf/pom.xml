@@ -4,26 +4,29 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
-    <artifactId>imp</artifactId>
+    <artifactId>imp-serialization</artifactId>
     <groupId>com.impassive</groupId>
     <version>1.0.2</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>imp-serialization</artifactId>
-  <packaging>pom</packaging>
+  <artifactId>imp-serialization-protobuf</artifactId>
 
-  <name>imp-serialization</name>
-  <modules>
-    <module>imp-serialization-api</module>
-    <module>imp-serialization-json</module>
-    <module>imp-serialization-protobuf</module>
-  </modules>
+  <name>imp-serialization-protobuf</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 
 </project>
