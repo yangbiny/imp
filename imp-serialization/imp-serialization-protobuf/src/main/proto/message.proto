@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package serialization;
+
+option java_package = "com.impassive.imp.serialization";
+option java_outer_classname = "Message";
+
+message MessageType{
+
+  string msg = 1;
+
+}
