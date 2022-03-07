@@ -127,7 +127,7 @@ public class ServiceConfig<T> extends BaseConfig {
     url.setRegister(registryConfig.getRegister());
     url.setLimiterInfo(new LimiterInfo(limiterConfig));
     HashMap<String, Object> param = new HashMap<>();
-    param.put("serialize","json");
+    param.put("serialize", applicationConfig.getSerialization());
     url.setParam(param);
     return new InvokerWrapper<>(invoker, url);
   }

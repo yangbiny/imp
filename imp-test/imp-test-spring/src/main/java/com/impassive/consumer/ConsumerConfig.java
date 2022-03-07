@@ -44,6 +44,7 @@ public class ConsumerConfig {
   public ApplicationConfig applicationConfig() {
     ApplicationConfig applicationConfig = new ApplicationConfig();
     applicationConfig.setApplicationName("test");
+    applicationConfig.setSerialization("proto3");
     return applicationConfig;
   }
 

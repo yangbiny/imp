@@ -9,11 +9,17 @@ import com.impassive.imp.remoting.Codec;
 import com.impassive.imp.util.json.JsonTools;
 import java.lang.reflect.Type;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author impassivey
  */
+@Slf4j
 public abstract class AbstractCodec implements Codec {
+
+  //private final Logger log = LoggerFactory.getLogger(AbstractCodec.class);
 
   private static final String SERIALIZE_KEY = "serialize";
 
@@ -30,12 +36,22 @@ public abstract class AbstractCodec implements Codec {
 
   @Override
   public void encode(Url url, ChannelBuffer out, Object message) {
-    doEncode(url, out, message);
+    try {
+      doEncode(url, out, message);
+    } catch (Exception e) {
+      log.error("encode has error : ", e);
+      throw new RuntimeException(e);
+    }
   }
 
   @Override
   public Object decode(Url url, ChannelBuffer in) {
-    return doDecode(url, in);
+    try {
+      return doDecode(url, in);
+    } catch (Exception e) {
+      log.error("decode has error : ", e);
+      throw new RuntimeException(e);
+    }
   }
 
   protected byte[] serialize(Url url, Object object) {

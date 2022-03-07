@@ -5,7 +5,7 @@ package serialization;
 option java_package = "com.impassive.imp.serialization";
 option java_outer_classname = "Message";
 
-message MessageType{
+message MessageValue{
 
   string msg = 1;
 

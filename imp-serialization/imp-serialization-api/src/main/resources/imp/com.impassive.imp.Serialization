@@ -1,1 +1,2 @@
 json=com.impassive.imp.serialization.JsonSerialization
+proto3=com.impassive.imp.serialization.ProtoSerialization

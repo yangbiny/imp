@@ -32,6 +32,11 @@
       <artifactId>imp-serialization-json</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.impassive</groupId>
+      <artifactId>imp-serialization-protobuf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
 
 </project>
