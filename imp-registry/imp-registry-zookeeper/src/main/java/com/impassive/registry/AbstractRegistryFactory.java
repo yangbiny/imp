@@ -16,7 +16,7 @@ public abstract class AbstractRegistryFactory implements RegistryFactory {
 
   private static final Map<String, Registry> REGISTRY_MAP = new ConcurrentHashMap<>();
 
-  private static final String REGISTRY_KEY_TPL = "%s_%s_%s";
+  private static final String REGISTRY_KEY_TPL = "%s_%s_%s_%s";
 
   private static final ReentrantLock LOCK = new ReentrantLock();
 

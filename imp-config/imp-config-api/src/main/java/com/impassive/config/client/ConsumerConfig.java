@@ -70,7 +70,7 @@ public class ConsumerConfig<T> extends BaseConfig {
     url.setRegistryIp(registryConfig.registryIp());
     url.setRegistryPort(registryConfig.getRegistryPort());
     url.setRegistryType(registryConfig.getRegistryType());
-    url.setRegister(registryConfig.getRegister());
+    url.setRegister(false);
     url.setLimiterInfo(new LimiterInfo(limiterConfig));
     HashMap<String, Object> param = new HashMap<>();
     param.put("serialize", applicationConfig.getSerialization());

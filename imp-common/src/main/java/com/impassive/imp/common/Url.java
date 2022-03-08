@@ -51,7 +51,12 @@ public class Url {
 
   public String buildRegistryKey(String formatTpl) {
     return String.format(
-        formatTpl, this.registryType.name().toLowerCase(), this.registryIp, this.registryPort);
+        formatTpl,
+        register ? "provider" : "consumer",
+        this.registryType.name().toLowerCase(),
+        this.registryIp,
+        this.registryPort
+    );
   }
 
   public String address() {

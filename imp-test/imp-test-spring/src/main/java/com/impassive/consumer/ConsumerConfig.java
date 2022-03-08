@@ -27,7 +27,7 @@ public class ConsumerConfig {
     RegistryConfig registryConfig = new RegistryConfig();
     registryConfig.setRegistryAddress("impassive.com:2181");
     registryConfig.setRegistryType("zookeeper");
-    registryConfig.setRegister(true);
+    registryConfig.setRegister(false);
     return registryConfig;
   }
 
