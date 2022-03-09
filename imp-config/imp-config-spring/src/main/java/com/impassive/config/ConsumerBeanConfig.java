@@ -42,11 +42,11 @@ public class ConsumerBeanConfig<T> extends ConsumerConfig<T> implements
     this.setProtocolConfig(applicationContext.getBean(ProtocolConfig.class));
     this.setRegistryConfig(applicationContext.getBean(RegistryConfig.class));
     this.setLimiterConfig(
-        BeanUtils.getBeanWithDefaultValue(applicationContext,LimiterConfig.class,null));
+        BeanUtils.getBeanWithDefaultValue(applicationContext, LimiterConfig.class, null));
   }
 
   @Override
-  public void destroy() throws Exception {
-    super.unRefer();
+  public void destroy() {
+    super.doDestroy();
   }
 }

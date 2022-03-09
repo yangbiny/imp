@@ -49,7 +49,7 @@ public class ConsumerConfig<T> extends BaseConfig {
     return createProxy(refer);
   }
 
-  public void unRefer() {
+  public void doDestroy() {
     if (url == null) {
       return;
     }

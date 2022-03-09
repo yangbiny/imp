@@ -87,6 +87,7 @@ public class ZookeeperRegistry extends AbstractRegistry {
       dataList.remove(data);
       saveData(path, JsonTools.writeToJson(dataList), true);
     } catch (KeeperException | InterruptedException e) {
+      log.error("zookeeper un register has error : ", e);
       throw new RuntimeException("zookeeper un registry error ", e);
     }
   }

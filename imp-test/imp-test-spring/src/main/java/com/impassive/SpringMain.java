@@ -22,5 +22,8 @@ public class SpringMain {
 
     provider.close();
     consumer.close();
+
+    System.out.println(provider.isActive());
+    System.out.println(consumer.isActive());
   }
 }

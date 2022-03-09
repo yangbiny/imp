@@ -61,6 +61,7 @@ public class ImpProtocol implements Protocol {
   public void unRefer(Url url) {
     Registry registry = registryFactory.getRegistry(url);
     registry.unSubscribe(url);
+    registry.destroy();
   }
 
   private <T> Invoker<T> doRefer(Class<T> interfaceClass, Url url) {
@@ -108,6 +109,7 @@ public class ImpProtocol implements Protocol {
     Url url = invokerWrapper.getUrl();
     final Registry registry = registryFactory.getRegistry(url);
     registry.unRegistry(url);
+    registry.destroy();
   }
 
   private void openService(Url url) {
@@ -137,13 +139,10 @@ public class ImpProtocol implements Protocol {
 
   @Override
   public void destroy() {
-    registryFactory.destroy();
-    for (ProtocolServer value : PROTOCOL_SERVER_MAP.values()) {
-      value.destroy();
-    }
-
     RoutingDiscoverAdapter.close();
-
+    for (Entry<String, ProtocolServer> serverEntry : PROTOCOL_SERVER_MAP.entrySet()) {
+      serverEntry.getValue().destroy();
+    }
     for (Entry<String, List<ExchangeClient>> stringListEntry : clientMap.entrySet()) {
       List<ExchangeClient> value = stringListEntry.getValue();
       if (CollectionUtils.isEmpty(value)) {
