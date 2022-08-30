@@ -6,6 +6,5 @@ public class NetUtilsTest {
 
   @Test
   public void getAddress() {
-    System.out.println(NetUtils.getAddress());
   }
 }
