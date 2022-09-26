@@ -5,8 +5,6 @@ import com.impassive.imp.common.DiscoverService;
 import com.impassive.imp.common.Url;
 import com.impassive.imp.common.extension.ExtensionLoader;
 import com.impassive.imp.remoting.ExchangeClient;
-import com.impassive.imp.remoting.channelHandler.DecodeChannelHandler;
-import com.impassive.imp.remoting.channelHandler.HeaderExchangeHandler;
 import com.impassive.imp.remoting.channelHandler.ImpExchangeClient;
 import com.impassive.invocation.ImpInvoker;
 import com.impassive.registry.registry.Registry;
@@ -90,8 +88,7 @@ public class ImpProtocol implements Protocol {
     Registry registry = registryFactory.getRegistry(url);
     registry.subscribe(url);
     // 是直接使用即可
-    return new ImpExchangeClient(
-        new NettyClient(url, new DecodeChannelHandler(new HeaderExchangeHandler(exchangeHandler))));
+    return new ImpExchangeClient(new NettyClient(url, exchangeHandler));
   }
 
   private <T> void doExport(Invoker<T> invoker) {
@@ -118,9 +115,7 @@ public class ImpProtocol implements Protocol {
     if (protocolServer != null) {
       return;
     }
-    final NettyService channelHandler =
-        new NettyService(
-            url, new DecodeChannelHandler(new HeaderExchangeHandler(exchangeHandler)));
+    final NettyService channelHandler = new NettyService(url, exchangeHandler);
     if (PROTOCOL_SERVER_MAP.get(addressKey) != null) {
       return;
     }

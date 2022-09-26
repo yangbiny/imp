@@ -82,6 +82,12 @@ public class NettyServiceHandler extends ChannelDuplexHandler {
     CHANNEL_MAP.put(NetUtils.socketAddressToStr(ctx.channel().remoteAddress()), channel);
   }
 
+  @Override
+  public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise)
+      throws Exception {
+    super.write(ctx, msg, promise);
+  }
+
   public List<Channel> getChannels() {
     return new ArrayList<>(CHANNEL_MAP.values());
   }

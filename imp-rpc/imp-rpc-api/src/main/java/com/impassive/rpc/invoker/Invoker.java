@@ -1,12 +1,12 @@
 package com.impassive.rpc.invoker;
 
-
-import com.impassive.imp.Lifecycle;
 import com.impassive.imp.Node;
 import com.impassive.rpc.invocation.Invocation;
 import com.impassive.rpc.result.Result;
 
-/** @author impassivey */
+/**
+ * @author impassivey
+ */
 public interface Invoker<T> extends Node {
 
   /**
